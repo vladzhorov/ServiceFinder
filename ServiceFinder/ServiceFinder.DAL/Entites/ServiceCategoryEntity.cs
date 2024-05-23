@@ -1,6 +1,8 @@
-﻿namespace ServiceFinder.DAL.Entites
+﻿using ServiceFinder.DAL.Interceptors.Interfaces;
+
+namespace ServiceFinder.DAL.Entites
 {
-    public class ServiceCategoryEntity
+    public class ServiceCategoryEntity : ISoftDeleteEntity, IAuditableEntity
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

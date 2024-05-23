@@ -1,6 +1,8 @@
-﻿namespace ServiceFinder.DAL.Entites
+﻿using ServiceFinder.DAL.Interceptors.Interfaces;
+
+namespace ServiceFinder.DAL.Entites
 {
-    public class ReviewEntity
+    public class ReviewEntity : ISoftDeleteEntity, IAuditableEntity
     {
         public Guid Id { get; set; }
         public Guid ServiceId { get; set; }
