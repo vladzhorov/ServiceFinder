@@ -11,6 +11,10 @@ namespace ServiceFinder.DAL
         public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration) : base(options)
         {
             _configuration = configuration;
+            if (Database.IsRelational())
+            {
+                Database.Migrate();
+            }
         }
 
         public DbSet<UserProfileEntity> UserProfile { get; set; }
@@ -27,20 +31,10 @@ namespace ServiceFinder.DAL
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<ServiceEntity>()
-                .HasOne(s => s.UserProfile)
-                .WithMany(p => p.Services)
-                .HasForeignKey(s => s.UserProfileID);
-
-            modelBuilder.Entity<ServiceEntity>()
-                .HasOne(s => s.Category)
-                .WithMany(c => c.Services)
-                .HasForeignKey(s => s.ServiceCategoryID);
-
-            modelBuilder.Entity<ReviewEntity>()
-                .HasOne(r => r.Service)
-                .WithMany(s => s.Reviews)
-                .HasForeignKey(r => r.ServiceId);
+            modelBuilder.Entity<UserProfileEntity>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<ServiceEntity>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<ServiceCategoryEntity>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<ReviewEntity>().HasQueryFilter(e => !e.IsDeleted);
         }
     }
 }

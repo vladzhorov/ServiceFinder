@@ -13,15 +13,14 @@ namespace ServiceFinder.DAL
         public static void AddDALDependencies(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<DatabaseOptions>(options => configuration.GetSection(nameof(DatabaseOptions)).Bind(options));
-            services.AddSingleton<UpdateAuditableInterceptor>();
-            services.AddSingleton<SoftDeleteInterceptor>();
+            services.AddScoped<UpdateAuditableInterceptor>();
+            services.AddScoped<SoftDeleteInterceptor>();
 
             services.AddDbContext<AppDbContext>((serviceProvider, options) =>
             {
                 var dbOptions = serviceProvider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
 
-                options.UseNpgsql(dbOptions.ConnectionString,
-                    b => b.MigrationsAssembly("ServiceFinder.DAL"))
+                options.UseNpgsql(dbOptions.ConnectionString)
                  .AddInterceptors(
                     serviceProvider.GetRequiredService<UpdateAuditableInterceptor>(),
                     serviceProvider.GetRequiredService<SoftDeleteInterceptor>());
