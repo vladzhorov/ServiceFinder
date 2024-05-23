@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using ServiceFinder.DAL.Entites;
+using ServiceFinder.DAL.Interceptors;
 
 namespace ServiceFinder.DAL
 {
@@ -24,9 +25,12 @@ namespace ServiceFinder.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                          .AddInterceptors(new UpdateAuditableInterceptor())
+                          .AddInterceptors(new SoftDeleteInterceptor());
             System.Diagnostics.Debug.WriteLine(_configuration);
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

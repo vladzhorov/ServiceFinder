@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using ServiceFinder.DAL.Interceptors;
 using ServiceFinder.DAL.Interfaces;
 using ServiceFinder.DAL.Repositories;
 
@@ -13,17 +12,12 @@ namespace ServiceFinder.DAL
         public static void AddDALDependencies(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<DatabaseOptions>(options => configuration.GetSection(nameof(DatabaseOptions)).Bind(options));
-            services.AddScoped<UpdateAuditableInterceptor>();
-            services.AddScoped<SoftDeleteInterceptor>();
 
             services.AddDbContext<AppDbContext>((serviceProvider, options) =>
             {
                 var dbOptions = serviceProvider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
 
-                options.UseNpgsql(dbOptions.ConnectionString)
-                 .AddInterceptors(
-                    serviceProvider.GetRequiredService<UpdateAuditableInterceptor>(),
-                    serviceProvider.GetRequiredService<SoftDeleteInterceptor>());
+                options.UseNpgsql(dbOptions.ConnectionString);
 
             });
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();
