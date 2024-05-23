@@ -21,18 +21,25 @@ namespace ServiceFinder.DAL.Interceptors
 
         private static void ApplySoftDelete(DbContext context)
         {
+            var utcNow = DateTime.UtcNow;
             var entities = context.ChangeTracker.Entries<ISoftDeleteEntity>().ToList();
 
             foreach (var entry in entities)
             {
                 if (entry.State == EntityState.Deleted)
                 {
-                    entry.State = EntityState.Modified;
-                    entry.CurrentValues[nameof(ISoftDeleteEntity.IsDeleted)] = true;
-                    entry.CurrentValues[nameof(IAuditableEntity.UpdatedAt)] = DateTime.UtcNow;
+                    if (entry.Entity is ISoftDeleteEntity softDeleteEntity)
+                    {
+                        softDeleteEntity.IsDeleted = true;
+                        entry.State = EntityState.Modified;
+
+                        if (entry.Entity is IAuditableEntity auditableEntity)
+                        {
+                            auditableEntity.UpdatedAt = utcNow;
+                        }
+                    }
                 }
             }
         }
     }
 }
-

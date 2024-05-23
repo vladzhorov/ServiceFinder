@@ -21,23 +21,27 @@ namespace ServiceFinder.DAL.Interceptors
 
         private static void UpdateAuditableEntities(DbContext context)
         {
-            DateTime utcNow = DateTime.UtcNow;
+            var utcNow = DateTime.UtcNow;
             var entities = context.ChangeTracker.Entries<IAuditableEntity>().ToList();
 
             foreach (var entry in entities)
             {
-                if (entry.State == EntityState.Added)
+                if (entry.Entity is IAuditableEntity entity)
                 {
-                    entry.CurrentValues[nameof(IAuditableEntity.CreatedAt)] = utcNow;
-                    entry.CurrentValues[nameof(IAuditableEntity.UpdatedAt)] = utcNow;
-                }
+                    if (entry.State == EntityState.Added)
+                    {
+                        entity.CreatedAt = utcNow;
+                        entity.UpdatedAt = utcNow;
+                    }
 
-                if (entry.State == EntityState.Modified)
-                {
-                    entry.CurrentValues[nameof(IAuditableEntity.UpdatedAt)] = utcNow;
+                    if (entry.State == EntityState.Modified)
+                    {
+                        entity.UpdatedAt = utcNow;
+                    }
+
+
                 }
             }
-
         }
     }
 }
