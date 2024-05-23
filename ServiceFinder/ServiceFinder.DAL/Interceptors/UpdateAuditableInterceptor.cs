@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using ServiceFinder.DAL.Entites;
+using ServiceFinder.DAL.Interceptors.Interfaces;
 
 namespace ServiceFinder.DAL.Interceptors
 {
@@ -22,23 +22,22 @@ namespace ServiceFinder.DAL.Interceptors
         private static void UpdateAuditableEntities(DbContext context)
         {
             DateTime utcNow = DateTime.UtcNow;
-            var entities = context.ChangeTracker.Entries()
-                .Where(e => e.Entity is UserProfileEntity || e.Entity is ServiceEntity || e.Entity is ServiceCategoryEntity || e.Entity is ReviewEntity)
-                .ToList();
+            var entities = context.ChangeTracker.Entries<IAuditableEntity>().ToList();
 
             foreach (var entry in entities)
             {
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Property("CreatedAt").CurrentValue = utcNow;
-                    entry.Property("UpdatedAt").CurrentValue = utcNow;
+                    entry.CurrentValues[nameof(IAuditableEntity.CreatedAt)] = utcNow;
+                    entry.CurrentValues[nameof(IAuditableEntity.UpdatedAt)] = utcNow;
                 }
 
                 if (entry.State == EntityState.Modified)
                 {
-                    entry.Property("UpdatedAt").CurrentValue = utcNow;
+                    entry.CurrentValues[nameof(IAuditableEntity.UpdatedAt)] = utcNow;
                 }
             }
+
         }
     }
 }

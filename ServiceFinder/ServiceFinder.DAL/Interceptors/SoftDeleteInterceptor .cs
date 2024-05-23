@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using ServiceFinder.DAL.Entites;
+using ServiceFinder.DAL.Interceptors.Interfaces;
 
 namespace ServiceFinder.DAL.Interceptors
 {
@@ -21,17 +21,15 @@ namespace ServiceFinder.DAL.Interceptors
 
         private static void ApplySoftDelete(DbContext context)
         {
-            var entities = context.ChangeTracker.Entries()
-                .Where(e => e.Entity is UserProfileEntity || e.Entity is ServiceEntity || e.Entity is ServiceCategoryEntity || e.Entity is ReviewEntity)
-                .ToList();
+            var entities = context.ChangeTracker.Entries<ISoftDeleteEntity>().ToList();
 
             foreach (var entry in entities)
             {
                 if (entry.State == EntityState.Deleted)
                 {
                     entry.State = EntityState.Modified;
-                    entry.Property("IsDeleted").CurrentValue = true;
-                    entry.Property("UpdatedAt").CurrentValue = DateTime.UtcNow;
+                    entry.CurrentValues[nameof(ISoftDeleteEntity.IsDeleted)] = true;
+                    entry.CurrentValues[nameof(IAuditableEntity.UpdatedAt)] = DateTime.UtcNow;
                 }
             }
         }
