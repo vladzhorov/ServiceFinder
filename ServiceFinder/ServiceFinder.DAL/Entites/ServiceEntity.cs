@@ -22,6 +22,4 @@ namespace ServiceFinder.DAL.Entites
         public bool IsDeleted { get; set; }
         public UserProfileEntity? UserProfile { get; set; }
     }
-
-
 }

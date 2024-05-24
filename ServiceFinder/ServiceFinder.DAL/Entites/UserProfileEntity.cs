@@ -14,6 +14,4 @@ namespace ServiceFinder.DAL.Entites
         public ICollection<ServiceEntity>? Services { get; set; }
         public ICollection<ReviewEntity>? Reviews { get; set; }
     }
-
-
 }

@@ -13,6 +13,4 @@ namespace ServiceFinder.DAL.Entites
         public bool IsDeleted { get; set; }
         public ServiceEntity? Service { get; set; }
     }
-
-
 }
