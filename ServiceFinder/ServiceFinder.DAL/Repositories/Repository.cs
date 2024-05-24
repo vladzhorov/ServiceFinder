@@ -13,12 +13,12 @@ namespace ServiceFinder.DAL.Repositories
             _dbContext = dbContext;
         }
 
-        public virtual Task<List<T>> GetAllAsync(CancellationToken cancellationToken = default)
+        public virtual Task<List<T>> GetAllAsync(CancellationToken cancellationToken)
         {
             return _dbContext.Set<T>().ToListAsync(cancellationToken);
         }
 
-        public virtual Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public virtual Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             return _dbContext.Set<T>().FindAsync(new object?[] { id, cancellationToken }, cancellationToken: cancellationToken).AsTask();
         }
