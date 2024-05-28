@@ -4,10 +4,11 @@ using ServiceFinder.DAL.Interfaces;
 
 namespace ServiceFinder.BLL.Services
 {
-    public class GenericService<TEntity, TModel> : IGenericService<TEntity, TModel> where TEntity : class
+    public class GenericService<TEntity, TModel> : IGenericService<TModel> where TEntity : class
     {
         protected readonly IRepository<TEntity> _repository;
         protected readonly IMapper _mapper;
+
         public GenericService(IRepository<TEntity> repository, IMapper mapper)
         {
             _repository = repository;
@@ -16,7 +17,7 @@ namespace ServiceFinder.BLL.Services
 
         public async virtual Task<TModel> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var entity = await _repository.GetByIdAsync(id, CancellationToken.None);
+            var entity = await _repository.GetByIdAsync(id, cancellationToken);
             var model = _mapper.Map<TModel>(entity);
             return model;
         }
@@ -38,6 +39,10 @@ namespace ServiceFinder.BLL.Services
         public async virtual Task DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var entity = await _repository.GetByIdAsync(id, cancellationToken);
+            if (entity == null)
+            {
+                throw new KeyNotFoundException($"Entity with id {id} not found.");
+            }
             await _repository.DeleteAsync(entity, cancellationToken);
         }
 
