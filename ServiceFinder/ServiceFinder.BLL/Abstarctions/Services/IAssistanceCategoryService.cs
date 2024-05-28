@@ -1,10 +1,9 @@
 ﻿using ServiceFinder.BLL.Abstractions.Services;
 using ServiceFinder.BLL.Models;
-using ServiceFinder.DAL.Entites;
 
 namespace ServiceFinder.BLL.Abstarctions.Services
 {
-    public interface IAssistanceCategoryService : IGenericService<ServiceCategoryEntity, ServiceCategory>
+    public interface IAssistanceCategoryService : IGenericService<ServiceCategory>
     {
     }
 }
