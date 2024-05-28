@@ -1,4 +1,5 @@
-﻿namespace ServiceFinder.BLL.Models
+﻿
+namespace ServiceFinder.BLL.Models
 {
     public class Service
     {
@@ -15,7 +16,6 @@
         public ICollection<Review>? Reviews { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public bool IsDeleted { get; set; }
         public UserProfile? UserProfile { get; set; }
     }
 }

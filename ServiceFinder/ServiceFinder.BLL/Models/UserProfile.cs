@@ -8,7 +8,6 @@
         public float Rating { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public bool IsDeleted { get; set; }
         public ICollection<Service>? Services { get; set; }
         public ICollection<Review>? Reviews { get; set; }
     }
