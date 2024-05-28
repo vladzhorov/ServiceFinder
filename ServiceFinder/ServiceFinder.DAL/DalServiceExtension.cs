@@ -21,8 +21,8 @@ namespace ServiceFinder.DAL
 
             });
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();
-            services.AddScoped<IServiceRepository, ServiceRepository>();
-            services.AddScoped<IServiceCategoryRepository, ServiceCategoryRepository>();
+            services.AddScoped<IAssistanceRepository, AssistanceRepository>();
+            services.AddScoped<IAssistanceCategoryRepository, AssistanceCategoryRepository>();
             services.AddScoped<IReviewRepository, ReviewRepository>();
         }
     }

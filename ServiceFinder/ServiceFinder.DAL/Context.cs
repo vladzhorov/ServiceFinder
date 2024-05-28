@@ -20,8 +20,8 @@ namespace ServiceFinder.DAL
 
         public DbSet<UserProfileEntity> UserProfile { get; set; }
         public DbSet<ReviewEntity> Reviews { get; set; }
-        public DbSet<ServiceEntity> Services { get; set; }
-        public DbSet<ServiceCategoryEntity> ServiceCategories { get; set; }
+        public DbSet<AssistanceEntity> Assistances { get; set; }
+        public DbSet<AssistanceCategoryEntity> AssistanceCategories { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -36,8 +36,8 @@ namespace ServiceFinder.DAL
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<UserProfileEntity>().HasQueryFilter(e => !e.IsDeleted);
-            modelBuilder.Entity<ServiceEntity>().HasQueryFilter(e => !e.IsDeleted);
-            modelBuilder.Entity<ServiceCategoryEntity>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<AssistanceEntity>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<AssistanceCategoryEntity>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<ReviewEntity>().HasQueryFilter(e => !e.IsDeleted);
         }
     }

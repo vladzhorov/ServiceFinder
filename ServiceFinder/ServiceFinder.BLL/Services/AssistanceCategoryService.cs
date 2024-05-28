@@ -6,9 +6,9 @@ using ServiceFinder.DAL.Interfaces;
 
 namespace ServiceFinder.BLL.Services
 {
-    public class AssistanceCategoryService : GenericService<ServiceCategoryEntity, ServiceCategory>, IAssistanceCategoryService
+    public class AssistanceCategoryService : GenericService<AssistanceCategoryEntity, AssistanceCategory>, IAssistanceCategoryService
     {
-        public AssistanceCategoryService(IServiceCategoryRepository serviceCategoryRepository, IMapper mapper) : base(serviceCategoryRepository, mapper)
+        public AssistanceCategoryService(IAssistanceCategoryRepository serviceCategoryRepository, IMapper mapper) : base(serviceCategoryRepository, mapper)
         {
         }
     }

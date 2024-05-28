@@ -10,8 +10,8 @@ namespace ServiceFinder.BLL.Mapper
         {
             CreateMap<UserProfileEntity, UserProfile>().ReverseMap();
             CreateMap<ReviewEntity, Review>().ReverseMap();
-            CreateMap<ServiceEntity, Service>().ReverseMap();
-            CreateMap<ServiceCategoryEntity, ServiceCategory>().ReverseMap();
+            CreateMap<AssistanceEntity, Assistance>().ReverseMap();
+            CreateMap<AssistanceCategoryEntity, AssistanceCategory>().ReverseMap();
         }
     }
 }

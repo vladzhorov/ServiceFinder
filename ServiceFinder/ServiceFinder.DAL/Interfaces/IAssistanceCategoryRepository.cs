@@ -2,7 +2,7 @@
 
 namespace ServiceFinder.DAL.Interfaces
 {
-    public interface IServiceCategoryRepository : IRepository<ServiceCategoryEntity>
+    public interface IAssistanceCategoryRepository : IRepository<AssistanceCategoryEntity>
     {
     }
 }

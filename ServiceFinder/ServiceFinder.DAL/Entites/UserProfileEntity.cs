@@ -11,7 +11,7 @@ namespace ServiceFinder.DAL.Entites
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public bool IsDeleted { get; set; }
-        public ICollection<ServiceEntity>? Services { get; set; }
+        public ICollection<AssistanceEntity>? Assistances { get; set; }
         public ICollection<ReviewEntity>? Reviews { get; set; }
     }
 }

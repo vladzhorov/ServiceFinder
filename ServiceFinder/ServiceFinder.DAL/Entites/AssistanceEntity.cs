@@ -4,13 +4,13 @@ using ServiceFinder.DAL.Interceptors.Interfaces;
 
 namespace ServiceFinder.DAL.Entites
 {
-    public class ServiceEntity : ISoftDeleteEntity, IAuditableEntity
+    public class AssistanceEntity : ISoftDeleteEntity, IAuditableEntity
     {
         public Guid Id { get; set; }
         public Guid UserProfileId { get; set; }
-        public Guid ServiceCategoryId { get; set; }
+        public Guid AssistanceCategoryId { get; set; }
         public string? Title { get; set; }
-        public ServiceCategoryEntity? Category { get; set; }
+        public AssistanceCategoryEntity? Category { get; set; }
         public string? Description { get; set; }
         public decimal Price { get; set; }
         public TimeSpan Duration { get; set; }

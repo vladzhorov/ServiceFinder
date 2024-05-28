@@ -3,7 +3,7 @@ using ServiceFinder.BLL.Models;
 
 namespace ServiceFinder.BLL.Abstarctions.Services
 {
-    public interface IAssistanceCategoryService : IGenericService<ServiceCategory>
+    public interface IAssistanceCategoryService : IGenericService<AssistanceCategory>
     {
     }
 }
