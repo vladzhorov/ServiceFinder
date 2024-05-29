@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using ServiceFinder.API.DI;
 using ServiceFinder.API.ViewModels.AssistanceCategory;
 using ServiceFinder.BLL.Abstarctions.Services;
 using ServiceFinder.BLL.Models;
@@ -7,7 +8,7 @@ using ServiceFinder.BLL.Models;
 namespace ServiceFinder.API.Controller
 {
     [ApiController]
-    [Route("api/assistancesCategory")]
+    [Route(ApiRoutes.assistancesCategory)]
     public class AssistanceCategoryController : ControllerBase
     {
         private readonly IAssistanceCategoryService _AssistanceCategoryService;
@@ -45,8 +46,7 @@ namespace ServiceFinder.API.Controller
         public async Task<AssistanceCategoryViewModel> Update(Guid id, UpdateAssistanceCategoryViewModel viewModel, CancellationToken cancellationToken)
         {
             var modelToUpdate = _mapper.Map<AssistanceCategory>(viewModel);
-            modelToUpdate.Id = id;
-            var result = await _AssistanceCategoryService.UpdateAsync(modelToUpdate, cancellationToken);
+            var result = await _AssistanceCategoryService.UpdateAsync(id, modelToUpdate, cancellationToken);
             return _mapper.Map<AssistanceCategoryViewModel>(result);
         }
 
