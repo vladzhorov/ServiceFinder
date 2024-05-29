@@ -12,30 +12,16 @@ namespace ServiceFinder.API.Mapper
         public Mapping()
         {
             CreateMap<Assistance, AssistanceViewModel>().ReverseMap();
-            CreateMap<CreateAssistanceViewModel, Assistance>()
-                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
-                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
-            CreateMap<UpdateAssistanceViewModel, Assistance>()
-                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
-
+            CreateMap<CreateAssistanceViewModel, Assistance>();
+            CreateMap<UpdateAssistanceViewModel, Assistance>();
             CreateMap<AssistanceCategory, AssistanceCategoryViewModel>().ReverseMap();
-            CreateMap<CreateAssistanceCategoryViewModel, AssistanceCategory>()
-                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
-                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
-            CreateMap<UpdateAssistanceCategoryViewModel, AssistanceCategory>()
-                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
-
+            CreateMap<CreateAssistanceCategoryViewModel, AssistanceCategory>();
+            CreateMap<UpdateAssistanceCategoryViewModel, AssistanceCategory>();
             CreateMap<Review, ReviewViewModel>().ReverseMap();
-            CreateMap<CreateReviewViewModel, Review>()
-                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
-                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
-
+            CreateMap<CreateReviewViewModel, Review>();
             CreateMap<UserProfile, UserProfileViewModel>().ReverseMap();
-            CreateMap<CreateUserProfileViewModel, UserProfile>()
-                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
-                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
-            CreateMap<UpdateUserProfileViewModel, UserProfile>()
-                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
+            CreateMap<CreateUserProfileViewModel, UserProfile>();
+            CreateMap<UpdateUserProfileViewModel, UserProfile>();
         }
     }
 }
