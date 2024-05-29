@@ -29,9 +29,15 @@ namespace ServiceFinder.BLL.Services
             return _mapper.Map<TModel>(result);
         }
 
-        public async virtual Task<TModel> UpdateAsync(TModel model, CancellationToken cancellationToken)
+        public async virtual Task<TModel> UpdateAsync(Guid id, TModel model, CancellationToken cancellationToken)
         {
             var entity = _mapper.Map<TEntity>(model);
+            var propertyEntity = entity.GetType().GetProperty("Id");
+            if (propertyEntity == null)
+            {
+                throw new InvalidOperationException($"The entity type {entity.GetType().Name} does not have a property named 'Id'.");
+            }
+            propertyEntity.SetValue(entity, id);
             var result = await _repository.UpdateAsync(entity, cancellationToken);
             return _mapper.Map<TModel>(result);
         }
