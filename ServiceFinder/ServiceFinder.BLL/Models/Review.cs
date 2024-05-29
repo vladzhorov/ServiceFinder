@@ -1,8 +1,6 @@
-﻿using ServiceFinder.DAL.Interceptors.Interfaces;
-
-namespace ServiceFinder.DAL.Entites
+﻿namespace ServiceFinder.BLL.Models
 {
-    public class ReviewEntity : ISoftDeleteEntity, IAuditableEntity
+    public class Review
     {
         public Guid Id { get; set; }
         public Guid AssistanceId { get; set; }
@@ -10,7 +8,6 @@ namespace ServiceFinder.DAL.Entites
         public string? Comment { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public bool IsDeleted { get; set; }
-        public AssistanceEntity? Assistances { get; set; }
+        public Assistance? Assistance { get; set; }
     }
 }

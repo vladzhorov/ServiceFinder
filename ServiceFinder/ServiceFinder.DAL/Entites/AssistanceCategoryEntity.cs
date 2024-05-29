@@ -2,7 +2,7 @@
 
 namespace ServiceFinder.DAL.Entites
 {
-    public class ServiceCategoryEntity : ISoftDeleteEntity, IAuditableEntity
+    public class AssistanceCategoryEntity : ISoftDeleteEntity, IAuditableEntity
     {
         public Guid Id { get; set; }
         public string? Name { get; set; }
@@ -10,6 +10,6 @@ namespace ServiceFinder.DAL.Entites
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public bool IsDeleted { get; set; }
-        public ICollection<ServiceEntity>? Services { get; set; }
+        public ICollection<AssistanceEntity>? Assistances { get; set; }
     }
 }
