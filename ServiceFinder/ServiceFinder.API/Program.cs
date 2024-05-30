@@ -15,6 +15,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateAssistanceViewModelVa
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(typeof(Mapping));
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddBLLDependencies(builder.Configuration);
 
 var app = builder.Build();
