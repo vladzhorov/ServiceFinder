@@ -8,30 +8,30 @@ using ServiceFinder.BLL.Models;
 namespace ServiceFinder.API.Controller
 {
     [ApiController]
-    [Route(ApiRoutes.reviews)]
+    [Route(ApiRoutes.Reviews)]
     public class ReviewController : ControllerBase
     {
         private readonly IReviewService _reviewService;
         private readonly IMapper _mapper;
 
-        public ReviewController(IMapper mapper, IReviewService ReviewService)
+        public ReviewController(IMapper mapper, IReviewService reviewService)
         {
             _mapper = mapper;
-            _reviewService = ReviewService;
+            _reviewService = reviewService;
         }
 
         [HttpGet]
         public async Task<List<ReviewViewModel>> GetAll(CancellationToken cancellationToken)
         {
-            var Reviews = await _reviewService.GetAllAsync(cancellationToken);
-            return _mapper.Map<List<ReviewViewModel>>(Reviews);
+            var reviews = await _reviewService.GetAllAsync(cancellationToken);
+            return _mapper.Map<List<ReviewViewModel>>(reviews);
         }
 
         [HttpGet("{id}")]
         public async Task<ReviewViewModel> GetById(Guid id, CancellationToken cancellationToken)
         {
-            var Review = await _reviewService.GetByIdAsync(id, cancellationToken);
-            return _mapper.Map<ReviewViewModel>(Review);
+            var review = await _reviewService.GetByIdAsync(id, cancellationToken);
+            return _mapper.Map<ReviewViewModel>(review);
         }
 
         [HttpPost]

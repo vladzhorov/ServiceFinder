@@ -8,30 +8,30 @@ using ServiceFinder.BLL.Models;
 namespace ServiceFinder.API.Controller
 {
     [ApiController]
-    [Route(ApiRoutes.usersProfile)]
+    [Route(ApiRoutes.UsersProfile)]
     public class UserProfileController : ControllerBase
     {
         private readonly IUserProfileService _userProfileService;
         private readonly IMapper _mapper;
 
-        public UserProfileController(IMapper mapper, IUserProfileService UserProfileService)
+        public UserProfileController(IMapper mapper, IUserProfileService userProfileService)
         {
             _mapper = mapper;
-            _userProfileService = UserProfileService;
+            _userProfileService = userProfileService;
         }
 
         [HttpGet]
         public async Task<List<UserProfileViewModel>> GetAll(CancellationToken cancellationToken)
         {
-            var UsersProfile = await _userProfileService.GetAllAsync(cancellationToken);
-            return _mapper.Map<List<UserProfileViewModel>>(UsersProfile);
+            var usersProfile = await _userProfileService.GetAllAsync(cancellationToken);
+            return _mapper.Map<List<UserProfileViewModel>>(usersProfile);
         }
 
         [HttpGet("{id}")]
         public async Task<UserProfileViewModel> GetById(Guid id, CancellationToken cancellationToken)
         {
-            var UserProfile = await _userProfileService.GetByIdAsync(id, cancellationToken);
-            return _mapper.Map<UserProfileViewModel>(UserProfile);
+            var userProfile = await _userProfileService.GetByIdAsync(id, cancellationToken);
+            return _mapper.Map<UserProfileViewModel>(userProfile);
         }
 
         [HttpPost]

@@ -8,30 +8,30 @@ using ServiceFinder.BLL.Models;
 namespace ServiceFinder.API.Controller
 {
     [ApiController]
-    [Route(ApiRoutes.assistances)]
+    [Route(ApiRoutes.Assistances)]
     public class AssistanceController : ControllerBase
     {
         private readonly IAssistanceService _assistanceService;
         private readonly IMapper _mapper;
 
-        public AssistanceController(IMapper mapper, IAssistanceService AssistanceService)
+        public AssistanceController(IMapper mapper, IAssistanceService assistanceService)
         {
             _mapper = mapper;
-            _assistanceService = AssistanceService;
+            _assistanceService = assistanceService;
         }
 
         [HttpGet]
         public async Task<List<AssistanceViewModel>> GetAll(CancellationToken cancellationToken)
         {
-            var Assistances = await _assistanceService.GetAllAsync(cancellationToken);
-            return _mapper.Map<List<AssistanceViewModel>>(Assistances);
+            var assistances = await _assistanceService.GetAllAsync(cancellationToken);
+            return _mapper.Map<List<AssistanceViewModel>>(assistances);
         }
 
         [HttpGet("{id}")]
         public async Task<AssistanceViewModel> GetById(Guid id, CancellationToken cancellationToken)
         {
-            var Assistance = await _assistanceService.GetByIdAsync(id, cancellationToken);
-            return _mapper.Map<AssistanceViewModel>(Assistance);
+            var assistance = await _assistanceService.GetByIdAsync(id, cancellationToken);
+            return _mapper.Map<AssistanceViewModel>(assistance);
         }
 
         [HttpPost]
