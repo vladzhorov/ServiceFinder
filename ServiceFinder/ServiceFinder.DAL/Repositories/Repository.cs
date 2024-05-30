@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ServiceFinder.DAL.Entites;
 using ServiceFinder.DAL.Interfaces;
 using System.Linq.Expressions;
 
 namespace ServiceFinder.DAL.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         protected readonly AppDbContext _dbContext;
         protected DbSet<T> Query => _dbContext.Set<T>();

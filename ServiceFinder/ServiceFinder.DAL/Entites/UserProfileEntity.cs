@@ -2,9 +2,8 @@
 
 namespace ServiceFinder.DAL.Entites
 {
-    public class UserProfileEntity : ISoftDeleteEntity, IAuditableEntity
+    public class UserProfileEntity : BaseEntity, ISoftDeleteEntity, IAuditableEntity
     {
-        public Guid Id { get; set; }
         public string? PhotoURL { get; set; }
         public string? PhoneNumber { get; set; }
         public float Rating { get; set; }

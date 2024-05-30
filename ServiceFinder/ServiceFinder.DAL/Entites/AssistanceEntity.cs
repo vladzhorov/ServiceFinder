@@ -4,9 +4,9 @@ using ServiceFinder.DAL.Interceptors.Interfaces;
 
 namespace ServiceFinder.DAL.Entites
 {
-    public class AssistanceEntity : ISoftDeleteEntity, IAuditableEntity
+    public class AssistanceEntity : BaseEntity, ISoftDeleteEntity, IAuditableEntity
     {
-        public Guid Id { get; set; }
+
         public Guid UserProfileId { get; set; }
         public Guid AssistanceCategoryId { get; set; }
         public string? Title { get; set; }
