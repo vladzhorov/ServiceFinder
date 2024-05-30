@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using ServiceFinder.BLL.Abstractions.Services;
+using ServiceFinder.DAL.Entites;
 using ServiceFinder.DAL.Interfaces;
 
 namespace ServiceFinder.BLL.Services
 {
-    public class GenericService<TEntity, TModel> : IGenericService<TModel> where TEntity : IBaseEntity
+    public class GenericService<TEntity, TModel> : IGenericService<TModel> where TEntity : BaseEntity
     {
         protected readonly IRepository<TEntity> _repository;
         protected readonly IMapper _mapper;

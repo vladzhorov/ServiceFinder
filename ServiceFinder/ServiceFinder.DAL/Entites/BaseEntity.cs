@@ -1,8 +1,6 @@
-﻿using ServiceFinder.DAL.Interfaces;
-
-namespace ServiceFinder.DAL.Entites
+﻿namespace ServiceFinder.DAL.Entites
 {
-    public class BaseEntity : IBaseEntity
+    public class BaseEntity
     {
         public Guid Id { get; set; }
     }
