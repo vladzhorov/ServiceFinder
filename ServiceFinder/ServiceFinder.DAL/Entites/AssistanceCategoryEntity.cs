@@ -2,9 +2,8 @@
 
 namespace ServiceFinder.DAL.Entites
 {
-    public class AssistanceCategoryEntity : ISoftDeleteEntity, IAuditableEntity
+    public class AssistanceCategoryEntity : BaseEntity, ISoftDeleteEntity, IAuditableEntity
     {
-        public Guid Id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public DateTime CreatedAt { get; set; }

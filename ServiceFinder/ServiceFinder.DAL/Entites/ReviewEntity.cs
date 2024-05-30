@@ -2,9 +2,8 @@
 
 namespace ServiceFinder.DAL.Entites
 {
-    public class ReviewEntity : ISoftDeleteEntity, IAuditableEntity
+    public class ReviewEntity : BaseEntity, ISoftDeleteEntity, IAuditableEntity
     {
-        public Guid Id { get; set; }
         public Guid AssistanceId { get; set; }
         public float Rating { get; set; }
         public string? Comment { get; set; }

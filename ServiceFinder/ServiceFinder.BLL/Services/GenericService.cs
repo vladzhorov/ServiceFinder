@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using ServiceFinder.BLL.Abstractions.Services;
+using ServiceFinder.DAL.Entites;
 using ServiceFinder.DAL.Interfaces;
 
 namespace ServiceFinder.BLL.Services
 {
-    public class GenericService<TEntity, TModel> : IGenericService<TModel> where TEntity : class
+    public class GenericService<TEntity, TModel> : IGenericService<TModel> where TEntity : BaseEntity
     {
         protected readonly IRepository<TEntity> _repository;
         protected readonly IMapper _mapper;
@@ -29,9 +30,10 @@ namespace ServiceFinder.BLL.Services
             return _mapper.Map<TModel>(result);
         }
 
-        public async virtual Task<TModel> UpdateAsync(TModel model, CancellationToken cancellationToken)
+        public async virtual Task<TModel> UpdateAsync(Guid id, TModel model, CancellationToken cancellationToken)
         {
             var entity = _mapper.Map<TEntity>(model);
+            entity.Id = id;
             var result = await _repository.UpdateAsync(entity, cancellationToken);
             return _mapper.Map<TModel>(result);
         }

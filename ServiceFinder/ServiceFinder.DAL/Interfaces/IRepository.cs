@@ -1,6 +1,8 @@
-﻿namespace ServiceFinder.DAL.Interfaces
+﻿using ServiceFinder.DAL.Entites;
+
+namespace ServiceFinder.DAL.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> where T : BaseEntity
     {
         Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task<List<T>> GetAllAsync(CancellationToken cancellationToken);
