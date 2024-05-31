@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using ServiceFinder.API.DI;
+using ServiceFinder.API.Constants;
 using ServiceFinder.API.ViewModels.Review;
 
 namespace ServiceFinder.API.Validators.Review
@@ -9,7 +9,7 @@ namespace ServiceFinder.API.Validators.Review
         public CreateReviewViewModelValidator()
         {
             RuleFor(model => model.AssistanceId).NotEmpty();
-            RuleFor(model => model.Rating).InclusiveBetween(ConstraintValues.MinimumRating, ConstraintValues.MaximumRating);
+            RuleFor(model => model.Rating).InclusiveBetween(ValidationConstants.MinimumRating, ValidationConstants.MaximumRating);
             RuleFor(model => model.Comment).NotEmpty();
         }
     }

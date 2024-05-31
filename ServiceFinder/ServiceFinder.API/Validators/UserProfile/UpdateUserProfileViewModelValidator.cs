@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using ServiceFinder.API.DI;
+using ServiceFinder.API.Constants;
 using ServiceFinder.API.ViewModels.UserProfile;
 
 namespace ServiceFinder.API.Validators.UserProfile
@@ -9,7 +9,7 @@ namespace ServiceFinder.API.Validators.UserProfile
         public UpdateUserProfileViewModelValidator()
         {
             RuleFor(model => model.PhotoURL).NotEmpty();
-            RuleFor(model => model.PhoneNumber).NotEmpty().Matches(ConstraintValues.PhoneNumberPattern);
+            RuleFor(model => model.PhoneNumber).NotEmpty().Matches(ValidationConstants.PhoneNumberPattern);
         }
     }
 }
