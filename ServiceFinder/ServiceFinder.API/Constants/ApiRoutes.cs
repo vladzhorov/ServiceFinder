@@ -1,4 +1,4 @@
-﻿namespace ServiceFinder.API.DI
+﻿namespace ServiceFinder.API.Constants
 {
     public class ApiRoutes
     {

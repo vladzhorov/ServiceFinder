@@ -1,6 +1,6 @@
-﻿namespace ServiceFinder.API.DI
+﻿namespace ServiceFinder.API.Constants
 {
-    public class ConstraintValues
+    public static class ValidationConstants
     {
         public const int MaximumTitleLength = 100;
         public const int MaximumNameLength = 50;
