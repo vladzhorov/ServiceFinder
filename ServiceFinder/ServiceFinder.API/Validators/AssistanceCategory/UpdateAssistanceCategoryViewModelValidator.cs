@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using ServiceFinder.API.DI;
 using ServiceFinder.API.ViewModels.AssistanceCategory;
 
 namespace ServiceFinder.API.Validators.AssistanceCategory
@@ -7,7 +8,7 @@ namespace ServiceFinder.API.Validators.AssistanceCategory
     {
         public UpdateAssistanceCategoryViewModelValidator()
         {
-            RuleFor(model => model.Name).NotEmpty().MaximumLength(50);
+            RuleFor(model => model.Name).NotEmpty().MaximumLength(ConstraintValues.MaximumNameLength);
             RuleFor(model => model.Description).NotEmpty();
         }
     }
