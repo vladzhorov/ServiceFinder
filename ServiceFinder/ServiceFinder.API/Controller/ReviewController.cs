@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using ServiceFinder.API.DI;
+using ServiceFinder.API.Constants;
 using ServiceFinder.API.ViewModels.Review;
 using ServiceFinder.BLL.Abstarctions.Services;
 using ServiceFinder.BLL.Models;
@@ -13,9 +14,13 @@ namespace ServiceFinder.API.Controller
     {
         private readonly IReviewService _reviewService;
         private readonly IMapper _mapper;
+        private readonly IValidator<CreateReviewViewModel> _createReviewViewModelValidator;
 
-        public ReviewController(IMapper mapper, IReviewService reviewService)
+        public ReviewController(IValidator<CreateReviewViewModel> createReviewViewModelValidator,
+            IMapper mapper,
+            IReviewService reviewService)
         {
+            _createReviewViewModelValidator = createReviewViewModelValidator;
             _mapper = mapper;
             _reviewService = reviewService;
         }
@@ -37,6 +42,7 @@ namespace ServiceFinder.API.Controller
         [HttpPost]
         public async Task<ReviewViewModel> Create(CreateReviewViewModel viewModel, CancellationToken cancellationToken)
         {
+            await _createReviewViewModelValidator.ValidateAndThrowAsync(viewModel, cancellationToken);
             var review = _mapper.Map<Review>(viewModel);
             var result = await _reviewService.CreateAsync(review, cancellationToken);
             return _mapper.Map<ReviewViewModel>(result);

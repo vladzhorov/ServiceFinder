@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using ServiceFinder.API.DI;
+using ServiceFinder.API.Constants;
 using ServiceFinder.API.ViewModels.Assistance;
 using ServiceFinder.BLL.Abstarctions.Services;
 using ServiceFinder.BLL.Models;
@@ -13,9 +14,15 @@ namespace ServiceFinder.API.Controller
     {
         private readonly IAssistanceService _assistanceService;
         private readonly IMapper _mapper;
-
-        public AssistanceController(IMapper mapper, IAssistanceService assistanceService)
+        private readonly IValidator<CreateAssistanceViewModel> _createAssistanceViewModelValidator;
+        private readonly IValidator<UpdateAssistanceViewModel> _updateAssistanceViewModelValidator;
+        public AssistanceController(IValidator<UpdateAssistanceViewModel> updateAssistanceViewModelValidator,
+            IValidator<CreateAssistanceViewModel> createAssistanceViewModelValidator,
+            IMapper mapper,
+            IAssistanceService assistanceService)
         {
+            _createAssistanceViewModelValidator = createAssistanceViewModelValidator;
+            _updateAssistanceViewModelValidator = updateAssistanceViewModelValidator;
             _mapper = mapper;
             _assistanceService = assistanceService;
         }
@@ -37,6 +44,7 @@ namespace ServiceFinder.API.Controller
         [HttpPost]
         public async Task<AssistanceViewModel> Create(CreateAssistanceViewModel viewModel, CancellationToken cancellationToken)
         {
+            await _createAssistanceViewModelValidator.ValidateAndThrowAsync(viewModel, cancellationToken);
             var assistance = _mapper.Map<Assistance>(viewModel);
             var result = await _assistanceService.CreateAsync(assistance, cancellationToken);
             return _mapper.Map<AssistanceViewModel>(result);
@@ -45,6 +53,7 @@ namespace ServiceFinder.API.Controller
         [HttpPut("{id}")]
         public async Task<AssistanceViewModel> Update(Guid id, UpdateAssistanceViewModel viewModel, CancellationToken cancellationToken)
         {
+            await _updateAssistanceViewModelValidator.ValidateAndThrowAsync(viewModel, cancellationToken);
             var modelToUpdate = _mapper.Map<Assistance>(viewModel);
             var result = await _assistanceService.UpdateAsync(id, modelToUpdate, cancellationToken);
             return _mapper.Map<AssistanceViewModel>(result);

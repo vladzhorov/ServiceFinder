@@ -1,5 +1,7 @@
+using FluentValidation;
 using Microsoft.OpenApi.Models;
 using ServiceFinder.API.Mapper;
+using ServiceFinder.API.Validators.Assistance;
 using ServiceFinder.BLL;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,9 +11,11 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateAssistanceViewModelValidator>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(typeof(Mapping));
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddBLLDependencies(builder.Configuration);
 
 var app = builder.Build();
