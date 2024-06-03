@@ -2,7 +2,6 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using ServiceFinder.API.Constants;
-using ServiceFinder.API.Exceptions;
 using ServiceFinder.API.ViewModels.Review;
 using ServiceFinder.BLL.Abstarctions.Services;
 using ServiceFinder.BLL.Models;
@@ -43,11 +42,7 @@ namespace ServiceFinder.API.Controller
         [HttpPost]
         public async Task<ReviewViewModel> Create(CreateReviewViewModel viewModel, CancellationToken cancellationToken)
         {
-            var validationResult = await _createReviewViewModelValidator.ValidateAsync(viewModel, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                throw new FluentValidatorException(string.Join(", ", validationResult.Errors));
-            }
+            await _createReviewViewModelValidator.ValidateAndThrowAsync(viewModel, cancellationToken);
             var review = _mapper.Map<Review>(viewModel);
             var result = await _reviewService.CreateAsync(review, cancellationToken);
             return _mapper.Map<ReviewViewModel>(result);

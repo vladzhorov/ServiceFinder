@@ -2,7 +2,6 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using ServiceFinder.API.Constants;
-using ServiceFinder.API.Exceptions;
 using ServiceFinder.API.ViewModels.Assistance;
 using ServiceFinder.BLL.Abstarctions.Services;
 using ServiceFinder.BLL.Models;
@@ -45,11 +44,7 @@ namespace ServiceFinder.API.Controller
         [HttpPost]
         public async Task<AssistanceViewModel> Create(CreateAssistanceViewModel viewModel, CancellationToken cancellationToken)
         {
-            var validationResult = await _createAssistanceViewModelValidator.ValidateAsync(viewModel, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                throw new FluentValidatorException(string.Join(", ", validationResult.Errors));
-            }
+            await _createAssistanceViewModelValidator.ValidateAndThrowAsync(viewModel, cancellationToken);
             var assistance = _mapper.Map<Assistance>(viewModel);
             var result = await _assistanceService.CreateAsync(assistance, cancellationToken);
             return _mapper.Map<AssistanceViewModel>(result);
@@ -58,11 +53,7 @@ namespace ServiceFinder.API.Controller
         [HttpPut("{id}")]
         public async Task<AssistanceViewModel> Update(Guid id, UpdateAssistanceViewModel viewModel, CancellationToken cancellationToken)
         {
-            var validationResult = await _updateAssistanceViewModelValidator.ValidateAsync(viewModel, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                throw new FluentValidatorException(string.Join(", ", validationResult.Errors));
-            }
+            await _updateAssistanceViewModelValidator.ValidateAndThrowAsync(viewModel, cancellationToken);
             var modelToUpdate = _mapper.Map<Assistance>(viewModel);
             var result = await _assistanceService.UpdateAsync(id, modelToUpdate, cancellationToken);
             return _mapper.Map<AssistanceViewModel>(result);
