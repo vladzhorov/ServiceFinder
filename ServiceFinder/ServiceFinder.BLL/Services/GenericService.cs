@@ -43,8 +43,11 @@ namespace ServiceFinder.BLL.Services
 
         public async virtual Task DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            if (!await CheckIfEntityExists(id, cancellationToken)) throw new ModelNotFoundException(id);
             var entity = await _repository.GetByIdAsync(id, cancellationToken);
+            if (entity == null)
+            {
+                throw new ModelNotFoundException(id);
+            }
             await _repository.DeleteAsync(entity, cancellationToken);
         }
 
