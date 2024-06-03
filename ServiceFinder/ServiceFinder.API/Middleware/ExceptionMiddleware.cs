@@ -58,10 +58,10 @@ namespace ServiceFinder.API.Middleware
             _logger.LogWarning(ex, $"Exception in query: {context?.Request.Path}");
         }
 
-        private void SetResponseParameters(HttpContext context, int statusCode)
+        private void SetResponseParameters(HttpContext context, int errorCode)
         {
             context.Response.ContentType = ApiConstants.JsonContentType;
-            context.Response.StatusCode = statusCode;
+            context.Response.StatusCode = errorCode;
         }
     }
 }
