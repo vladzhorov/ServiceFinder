@@ -46,7 +46,7 @@ namespace ServiceFinder.API.Controller
         [HttpPost]
         public async Task<AssistanceCategoryViewModel> Create(CreateAssistanceCategoryViewModel viewModel, CancellationToken cancellationToken)
         {
-            await _createAssistanceCategoryViewModelValidator.ValidateAsync(viewModel, cancellationToken);
+            await _createAssistanceCategoryViewModelValidator.ValidateAndThrowAsync(viewModel, cancellationToken);
             var assistance = _mapper.Map<AssistanceCategory>(viewModel);
             var result = await _assistanceCategoryService.CreateAsync(assistance, cancellationToken);
             return _mapper.Map<AssistanceCategoryViewModel>(result);
