@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ServiceFinder.BLL.Abstractions.Services;
+using ServiceFinder.BLL.Exceptions;
 using ServiceFinder.DAL.Entites;
 using ServiceFinder.DAL.Interfaces;
 
@@ -32,6 +33,7 @@ namespace ServiceFinder.BLL.Services
 
         public async virtual Task<TModel> UpdateAsync(Guid id, TModel model, CancellationToken cancellationToken)
         {
+            if (!await CheckIfEntityExists(id, cancellationToken)) throw new ModelNotFoundException(id);
             var entity = _mapper.Map<TEntity>(model);
             entity.Id = id;
             var result = await _repository.UpdateAsync(entity, cancellationToken);
@@ -40,6 +42,7 @@ namespace ServiceFinder.BLL.Services
 
         public async virtual Task DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
+            if (!await CheckIfEntityExists(id, cancellationToken)) throw new ModelNotFoundException(id);
             var entity = await _repository.GetByIdAsync(id, cancellationToken);
             if (entity == null)
             {
@@ -53,6 +56,14 @@ namespace ServiceFinder.BLL.Services
             var entities = await _repository.GetAllAsync(cancellationToken);
             var models = _mapper.Map<List<TModel>>(entities);
             return models;
+        }
+        protected async Task<bool> CheckIfEntityExists(Guid id, CancellationToken cancellationToken)
+        {
+            var entity = await _repository.GetByIdAsync(id, cancellationToken);
+
+            if (entity is null) return false;
+
+            return true;
         }
     }
 }
