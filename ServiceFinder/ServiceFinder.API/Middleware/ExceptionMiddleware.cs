@@ -1,4 +1,8 @@
-﻿using ServiceFinder.BLL.Exceptions;
+﻿using ServiceFinder.API.Constants;
+using ServiceFinder.API.Exceptions;
+using ServiceFinder.API.Validators;
+using ServiceFinder.BLL.Exceptions;
+using System.Text.Json;
 
 namespace ServiceFinder.API.Middleware
 {
@@ -7,6 +11,7 @@ namespace ServiceFinder.API.Middleware
         private readonly ILogger<ExceptionMiddleware> _logger;
         private readonly RequestDelegate _next;
         private readonly int _errorDefaultStatusCode = StatusCodes.Status500InternalServerError;
+
         public ExceptionMiddleware(ILogger<ExceptionMiddleware> logger, RequestDelegate next)
         {
             _logger = logger;
@@ -24,7 +29,7 @@ namespace ServiceFinder.API.Middleware
                 await HandleException(context, ex);
 
             }
-            catch (DomainException ex)
+            catch (FluentValidatorException ex)
             {
                 context.Response.StatusCode = ex.StatusCode;
                 await HandleException(context, ex);
@@ -36,12 +41,17 @@ namespace ServiceFinder.API.Middleware
             }
         }
 
-        private Task HandleException(HttpContext context, Exception ex)
+        private async Task HandleException(HttpContext context, Exception ex)
         {
             SetResponseParameters(context);
             LogException(context, ex);
-
-            return context.Response.WriteAsync($"{ex.Message}\nStatusCode:{context.Response.StatusCode}");
+            var errorViewModel = new ErrorViewModel
+            {
+                StatusCode = context.Response.StatusCode,
+                Message = ex.Message
+            };
+            var errorJson = JsonSerializer.Serialize(errorViewModel);
+            await context.Response.WriteAsync(errorJson);
         }
 
         private void LogException(HttpContext? context, Exception ex)
@@ -52,7 +62,7 @@ namespace ServiceFinder.API.Middleware
 
         private void SetResponseParameters(HttpContext context)
         {
-            context.Response.ContentType = "application/json";
+            context.Response.ContentType = ApiRoutes.ApplicationJson;
         }
     }
 }
