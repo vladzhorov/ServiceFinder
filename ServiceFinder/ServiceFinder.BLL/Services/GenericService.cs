@@ -33,7 +33,8 @@ namespace ServiceFinder.BLL.Services
 
         public async virtual Task<TModel> UpdateAsync(Guid id, TModel model, CancellationToken cancellationToken)
         {
-            if (!await CheckIfEntityExists(id, cancellationToken)) throw new ModelNotFoundException(id);
+            var checkIfEntityExists = await CheckIfEntityExists(id, cancellationToken);
+            if (!checkIfEntityExists) throw new ModelNotFoundException(id);
             var entity = _mapper.Map<TEntity>(model);
             entity.Id = id;
             var result = await _repository.UpdateAsync(entity, cancellationToken);
@@ -44,10 +45,6 @@ namespace ServiceFinder.BLL.Services
         {
             if (!await CheckIfEntityExists(id, cancellationToken)) throw new ModelNotFoundException(id);
             var entity = await _repository.GetByIdAsync(id, cancellationToken);
-            if (entity == null)
-            {
-                throw new KeyNotFoundException($"Entity with id {id} not found.");
-            }
             await _repository.DeleteAsync(entity, cancellationToken);
         }
 
