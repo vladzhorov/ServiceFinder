@@ -2,6 +2,6 @@
 {
     public class ApiConstants
     {
-        public const string ApplicationJson = "application/json";
+        public const string JsonContentType = "application/json";
     }
 }
