@@ -3,7 +3,7 @@
     public class ModelNotFoundException : Exception
     {
         public int StatusCode { get; } = 404;
-        public int ModelId { get; }
+        public Guid ModelId { get; }
 
         public ModelNotFoundException() { }
 
@@ -11,11 +11,11 @@
 
         public ModelNotFoundException(string message) : base(message) { }
 
-        public ModelNotFoundException(int modelId, string message) : base(message)
+        public ModelNotFoundException(Guid modelId, string message) : base(message)
         {
             ModelId = modelId;
         }
-        public ModelNotFoundException(int modelId) : base($"Model with Id={modelId} doesn't exist.")
+        public ModelNotFoundException(Guid modelId) : base($"Model with Id={modelId} doesn't exist.")
         {
             ModelId = modelId;
         }
