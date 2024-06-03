@@ -25,44 +25,29 @@ namespace ServiceFinder.API.Middleware
             }
             catch (ModelNotFoundException ex)
             {
-                context.Response.StatusCode = ex.StatusCode;
-                await HandleException(context, ex, ex.StatusCode);
-
+                await HandleException(context, ex, StatusCodes.Status404NotFound);
             }
             catch (ValidationException ex)
             {
-                await HandleValidationException(context, ex);
-
+                await HandleException(context, ex, StatusCodes.Status400BadRequest);
             }
             catch (Exception ex)
             {
-                context.Response.StatusCode = _errorDefaultStatusCode;
                 await HandleException(context, ex, _errorDefaultStatusCode);
             }
         }
-        private async Task HandleValidationException(HttpContext context, ValidationException ex)
+
+        private async Task HandleException(HttpContext context, Exception ex, int errorCode)
         {
-            SetResponseParameters(context, StatusCodes.Status400BadRequest);
+            SetResponseParameters(context, errorCode);
             LogException(context, ex);
 
             var errorViewModel = new ErrorViewModel
             {
-                StatusCode = StatusCodes.Status400BadRequest,
+                ErrorCode = errorCode,
                 Message = ex.Message
             };
 
-            var errorJson = JsonSerializer.Serialize(errorViewModel);
-            await context.Response.WriteAsync(errorJson);
-        }
-        private async Task HandleException(HttpContext context, Exception ex, int statusCode)
-        {
-            SetResponseParameters(context, statusCode);
-            LogException(context, ex);
-            var errorViewModel = new ErrorViewModel
-            {
-                StatusCode = statusCode,
-                Message = ex.Message
-            };
             var errorJson = JsonSerializer.Serialize(errorViewModel);
             await context.Response.WriteAsync(errorJson);
         }
@@ -75,7 +60,7 @@ namespace ServiceFinder.API.Middleware
 
         private void SetResponseParameters(HttpContext context, int statusCode)
         {
-            context.Response.ContentType = ApiConstants.ApplicationJson;
+            context.Response.ContentType = ApiConstants.JsonContentType;
             context.Response.StatusCode = statusCode;
         }
     }
