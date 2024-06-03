@@ -7,6 +7,5 @@
         public const string Assistances = Api + "/assistances";
         public const string Reviews = Api + "/reviews";
         public const string UsersProfile = Api + "/usersProfile";
-        public const string ApplicationJson = "application/json";
     }
 }
