@@ -2,6 +2,7 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using ServiceFinder.API.Constants;
+using ServiceFinder.API.Exceptions;
 using ServiceFinder.API.ViewModels.AssistanceCategory;
 using ServiceFinder.BLL.Abstarctions.Services;
 using ServiceFinder.BLL.Models;
@@ -46,7 +47,11 @@ namespace ServiceFinder.API.Controller
         [HttpPost]
         public async Task<AssistanceCategoryViewModel> Create(CreateAssistanceCategoryViewModel viewModel, CancellationToken cancellationToken)
         {
-            await _createAssistanceCategoryViewModelValidator.ValidateAndThrowAsync(viewModel, cancellationToken);
+            var validationResult = await _createAssistanceCategoryViewModelValidator.ValidateAsync(viewModel, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                throw new FluentValidatorException(string.Join(", ", validationResult.Errors));
+            }
             var assistance = _mapper.Map<AssistanceCategory>(viewModel);
             var result = await _assistanceCategoryService.CreateAsync(assistance, cancellationToken);
             return _mapper.Map<AssistanceCategoryViewModel>(result);
@@ -56,7 +61,11 @@ namespace ServiceFinder.API.Controller
         [HttpPut("{id}")]
         public async Task<AssistanceCategoryViewModel> Update(Guid id, UpdateAssistanceCategoryViewModel viewModel, CancellationToken cancellationToken)
         {
-            await _updateAssistanceCategoryViewModelValidator.ValidateAndThrowAsync(viewModel, cancellationToken);
+            var validationResult = await _updateAssistanceCategoryViewModelValidator.ValidateAsync(viewModel, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                throw new FluentValidatorException(string.Join(", ", validationResult.Errors));
+            }
             var modelToUpdate = _mapper.Map<AssistanceCategory>(viewModel);
             var result = await _assistanceCategoryService.UpdateAsync(id, modelToUpdate, cancellationToken);
             return _mapper.Map<AssistanceCategoryViewModel>(result);

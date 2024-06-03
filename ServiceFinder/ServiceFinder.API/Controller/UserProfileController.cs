@@ -2,6 +2,7 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using ServiceFinder.API.Constants;
+using ServiceFinder.API.Exceptions;
 using ServiceFinder.API.ViewModels.UserProfile;
 using ServiceFinder.BLL.Abstarctions.Services;
 using ServiceFinder.BLL.Models;
@@ -45,7 +46,11 @@ namespace ServiceFinder.API.Controller
         [HttpPost]
         public async Task<UserProfileViewModel> Create(CreateUserProfileViewModel viewModel, CancellationToken cancellationToken)
         {
-            await _createUserProfileViewModelValidator.ValidateAndThrowAsync(viewModel, cancellationToken);
+            var validationResult = await _createUserProfileViewModelValidator.ValidateAsync(viewModel, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                throw new FluentValidatorException(string.Join(", ", validationResult.Errors));
+            }
             var userProfile = _mapper.Map<UserProfile>(viewModel);
             var result = await _userProfileService.CreateAsync(userProfile, cancellationToken);
             return _mapper.Map<UserProfileViewModel>(result);
@@ -54,7 +59,11 @@ namespace ServiceFinder.API.Controller
         [HttpPut("{id}")]
         public async Task<UserProfileViewModel> Update(Guid id, UpdateUserProfileViewModel viewModel, CancellationToken cancellationToken)
         {
-            await _updateUserProfileViewModelValidator.ValidateAndThrowAsync(viewModel, cancellationToken);
+            var validationResult = await _updateUserProfileViewModelValidator.ValidateAsync(viewModel, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                throw new FluentValidatorException(string.Join(", ", validationResult.Errors));
+            }
             var modelToUpdate = _mapper.Map<UserProfile>(viewModel);
             var result = await _userProfileService.UpdateAsync(id, modelToUpdate, cancellationToken);
             return _mapper.Map<UserProfileViewModel>(result);
