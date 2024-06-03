@@ -1,8 +1,10 @@
-﻿namespace ServiceFinder.BLL.Exceptions
+﻿using Microsoft.AspNetCore.Http;
+
+namespace ServiceFinder.BLL.Exceptions
 {
     public class ModelNotFoundException : Exception
     {
-        public int StatusCode { get; } = 404;
+        public int StatusCode { get; } = StatusCodes.Status404NotFound;
         public Guid ModelId { get; }
 
         public ModelNotFoundException() { }
