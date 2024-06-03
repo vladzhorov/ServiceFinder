@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace ServiceFinder.API.Validators
+namespace ServiceFinder.API.ViewModels
 {
     public class ErrorViewModel
     {
