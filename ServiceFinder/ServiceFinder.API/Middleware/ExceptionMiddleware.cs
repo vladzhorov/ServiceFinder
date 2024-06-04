@@ -1,7 +1,6 @@
 ﻿using ServiceFinder.API.Constants;
 using ServiceFinder.API.ViewModels;
 using ServiceFinder.BLL.Exceptions;
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
 namespace ServiceFinder.API.Middleware
@@ -10,13 +9,13 @@ namespace ServiceFinder.API.Middleware
     {
         private readonly ILogger<ExceptionMiddleware> _logger;
         private readonly RequestDelegate _next;
-        private readonly int _errorDefaultStatusCode = StatusCodes.Status500InternalServerError;
 
         public ExceptionMiddleware(ILogger<ExceptionMiddleware> logger, RequestDelegate next)
         {
             _logger = logger;
             _next = next;
         }
+
         public async Task InvokeAsync(HttpContext context)
         {
             try
@@ -25,21 +24,21 @@ namespace ServiceFinder.API.Middleware
             }
             catch (ModelNotFoundException ex)
             {
-                await HandleException(context, ex, StatusCodes.Status404NotFound);
+                await HandleException(context, ex, ErrorConstants.ModelNotFoundError);
             }
-            catch (ValidationException ex)
+            catch (FluentValidation.ValidationException ex)
             {
-                await HandleException(context, ex, StatusCodes.Status400BadRequest);
+                await HandleException(context, ex, ErrorConstants.ValidationError);
             }
             catch (Exception ex)
             {
-                await HandleException(context, ex, _errorDefaultStatusCode);
+                await HandleException(context, ex, ErrorConstants.InternalServerError);
             }
         }
 
-        private async Task HandleException(HttpContext context, Exception ex, int errorCode)
+        private async Task HandleException(HttpContext context, Exception ex, string errorCode)
         {
-            SetResponseParameters(context, errorCode);
+            SetResponseParameters(context);
             LogException(context, ex);
 
             var errorViewModel = new ErrorViewModel
@@ -52,16 +51,15 @@ namespace ServiceFinder.API.Middleware
             await context.Response.WriteAsync(errorJson);
         }
 
-        private void LogException(HttpContext? context, Exception ex)
+        private void LogException(HttpContext context, Exception ex)
         {
             _logger.LogWarning(ex, $"{ex.Message}");
             _logger.LogWarning(ex, $"Exception in query: {context?.Request.Path}");
         }
 
-        private void SetResponseParameters(HttpContext context, int errorCode)
+        private void SetResponseParameters(HttpContext context)
         {
             context.Response.ContentType = ApiConstants.JsonContentType;
-            context.Response.StatusCode = errorCode;
         }
     }
 }
