@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.OpenApi.Models;
 using ServiceFinder.API.Mapper;
+using ServiceFinder.API.Middleware;
 using ServiceFinder.API.Validators.Assistance;
 using ServiceFinder.BLL;
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +33,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 
