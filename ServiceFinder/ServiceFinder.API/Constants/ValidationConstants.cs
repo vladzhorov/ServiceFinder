@@ -8,6 +8,6 @@
         public const int MaximumRating = 5;
         public const string PhoneNumberPattern = @"8\(0(29|44|33|25)\)\d{3}-\d{2}-\d{2}";
         public const decimal MinimumPrice = 0;
-        public const int MinimumMinutes = 0;
+        public const int MinimumDurationInMinutes = 0;
     }
 }
