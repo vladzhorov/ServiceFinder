@@ -13,7 +13,7 @@ namespace ServiceFinder.API.Validators.Assistance
             RuleFor(model => model.Title).NotEmpty().MaximumLength(ValidationConstants.MaximumTitleLength);
             RuleFor(model => model.Description).NotEmpty();
             RuleFor(x => x.Price).GreaterThan(ValidationConstants.MinimumPrice);
-            RuleFor(x => x.DurationInMinutes).GreaterThan(0);
+            RuleFor(x => x.DurationInMinutes).GreaterThan(ValidationConstants.MinimumMinutes);
             RuleFor(model => model.Location).NotEmpty();
         }
     }
