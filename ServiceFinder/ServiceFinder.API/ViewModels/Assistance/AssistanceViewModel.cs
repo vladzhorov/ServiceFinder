@@ -11,7 +11,7 @@ namespace ServiceFinder.API.ViewModels.Assistance
         public string? CategoryName { get; set; }
         public string? Description { get; set; }
         public decimal Price { get; set; }
-        public TimeSpan Duration { get; set; }
+        public int DurationInMinutes { get; set; }
         public float Rating { get; set; }
         public string? Location { get; set; }
         public ICollection<ReviewViewModel>? Reviews { get; set; }

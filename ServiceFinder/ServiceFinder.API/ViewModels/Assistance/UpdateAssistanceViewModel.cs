@@ -5,7 +5,7 @@
         public string? Title { get; set; }
         public string? Description { get; set; }
         public decimal Price { get; set; }
-        public TimeSpan Duration { get; set; }
+        public int DurationInMinutes { get; set; }
         public string? Location { get; set; }
     }
 }

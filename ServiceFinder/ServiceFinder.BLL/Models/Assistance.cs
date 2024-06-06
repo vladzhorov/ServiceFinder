@@ -5,12 +5,12 @@ namespace ServiceFinder.BLL.Models
     {
         public Guid Id { get; set; }
         public Guid UserProfileId { get; set; }
-        public Guid AssistancCategoryId { get; set; }
+        public Guid AssistanceCategoryId { get; set; }
         public string? Title { get; set; }
         public AssistanceCategory? Category { get; set; }
         public string? Description { get; set; }
         public decimal Price { get; set; }
-        public TimeSpan Duration { get; set; }
+        public int DurationInMinutes { get; set; }
         public float Rating { get; set; }
         public string? Location { get; set; }
         public ICollection<Review>? Reviews { get; set; }
