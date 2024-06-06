@@ -22,13 +22,13 @@ namespace ServiceFinder.BLL.Services
             _assistanceCategoryRepository = assistanceCategoryRepository;
         }
 
-        public async Task<bool> UserProfileExistsAsync(Guid userProfileId, CancellationToken cancellationToken)
+        public async Task<bool> IsUserProfileExistsAsync(Guid userProfileId, CancellationToken cancellationToken)
         {
             var userProfile = await _userProfileRepository.GetByIdAsync(userProfileId, cancellationToken);
             return userProfile != null;
         }
 
-        public async Task<bool> AssistanceCategoryExistsAsync(Guid assistanceCategoryId, CancellationToken cancellationToken)
+        public async Task<bool> IsAssistanceCategoryExistsAsync(Guid assistanceCategoryId, CancellationToken cancellationToken)
         {
             var assistanceCategory = await _assistanceCategoryRepository.GetByIdAsync(assistanceCategoryId, cancellationToken);
             return assistanceCategory != null;
@@ -36,12 +36,12 @@ namespace ServiceFinder.BLL.Services
 
         public override async Task<Assistance> CreateAsync(Assistance model, CancellationToken cancellationToken)
         {
-            if (!await UserProfileExistsAsync(model.UserProfileId, cancellationToken))
+            if (!await IsUserProfileExistsAsync(model.UserProfileId, cancellationToken))
             {
                 throw new ModelNotFoundException(model.UserProfileId);
             }
 
-            if (!await AssistanceCategoryExistsAsync(model.AssistanceCategoryId, cancellationToken))
+            if (!await IsAssistanceCategoryExistsAsync(model.AssistanceCategoryId, cancellationToken))
             {
                 throw new ModelNotFoundException(model.AssistanceCategoryId);
             }

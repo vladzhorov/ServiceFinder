@@ -22,13 +22,13 @@ namespace ServiceFinder.BLL.Services
             _userProfileRepository = userProfileRepository;
         }
 
-        public async Task<bool> AssistanceExistsAsync(Guid assistanceId, CancellationToken cancellationToken)
+        public async Task<bool> IsAssistanceExistsAsync(Guid assistanceId, CancellationToken cancellationToken)
         {
             var assistance = await _assistanceRepository.GetByIdAsync(assistanceId, cancellationToken);
             return assistance != null;
         }
 
-        public async Task<bool> UserProfileExistsAsync(Guid userProfileId, CancellationToken cancellationToken)
+        public async Task<bool> IsUserProfileExistsAsync(Guid userProfileId, CancellationToken cancellationToken)
         {
             var userProfile = await _userProfileRepository.GetByIdAsync(userProfileId, cancellationToken);
             return userProfile != null;
@@ -36,12 +36,12 @@ namespace ServiceFinder.BLL.Services
 
         public override async Task<Review> CreateAsync(Review model, CancellationToken cancellationToken)
         {
-            if (!await AssistanceExistsAsync(model.AssistanceId, cancellationToken))
+            if (!await IsAssistanceExistsAsync(model.AssistanceId, cancellationToken))
             {
                 throw new ModelNotFoundException(model.AssistanceId);
             }
 
-            if (!await UserProfileExistsAsync(model.UserProfileId, cancellationToken))
+            if (!await IsUserProfileExistsAsync(model.UserProfileId, cancellationToken))
             {
                 throw new ModelNotFoundException(model.UserProfileId);
             }
