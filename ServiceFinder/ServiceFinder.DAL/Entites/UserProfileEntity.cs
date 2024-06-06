@@ -10,7 +10,7 @@ namespace ServiceFinder.DAL.Entites
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public bool IsDeleted { get; set; }
-        public ICollection<AssistanceEntity>? Assistances { get; set; }
-        public ICollection<ReviewEntity>? Reviews { get; set; }
+        public ICollection<AssistanceEntity> Assistances { get; set; } = new List<AssistanceEntity>();
+        public ICollection<ReviewEntity> Reviews { get; set; } = new List<ReviewEntity>();
     }
 }
