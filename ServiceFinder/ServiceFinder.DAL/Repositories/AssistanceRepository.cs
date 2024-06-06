@@ -17,6 +17,7 @@ namespace ServiceFinder.DAL.Repositories
                 .Include(a => a.Reviews)
                 .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
         }
+
         public override async Task<List<AssistanceEntity>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await Query
@@ -25,6 +26,7 @@ namespace ServiceFinder.DAL.Repositories
                 .Include(a => a.Reviews)
                 .ToListAsync(cancellationToken);
         }
+
         public async override Task<AssistanceEntity> AddAsync(AssistanceEntity entity, CancellationToken cancellationToken)
         {
             await Query.AddAsync(entity, cancellationToken);
@@ -36,26 +38,18 @@ namespace ServiceFinder.DAL.Repositories
                 .Include(a => a.Reviews)
                 .FirstOrDefaultAsync(a => a.Id == entity.Id, cancellationToken) ?? entity;
         }
-
         public async override Task<AssistanceEntity> UpdateAsync(AssistanceEntity entity, CancellationToken cancellationToken)
         {
             var existingEntity = await Query.AsNoTracking()
-                .FirstOrDefaultAsync(a => a.Id == entity.Id, cancellationToken);
+                    .FirstOrDefaultAsync(a => a.Id == entity.Id, cancellationToken);
 
-            if (existingEntity == null)
-            {
-                throw new KeyNotFoundException("Entity not found");
-            }
-
-            entity.UserProfileId = existingEntity.UserProfileId;
-            entity.AssistanceCategoryId = existingEntity.AssistanceCategoryId;
+            entity.UserProfileId = existingEntity?.UserProfileId ?? entity.UserProfileId;
+            entity.AssistanceCategoryId = existingEntity?.AssistanceCategoryId ?? entity.AssistanceCategoryId;
 
             Query.Update(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return await GetByIdAsync(entity.Id, cancellationToken) ?? entity;
+            return entity;
         }
-
-
     }
 }
