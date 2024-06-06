@@ -8,7 +8,8 @@ namespace ServiceFinder.API.ViewModels.Assistance
         public Guid UserProfileId { get; set; }
         public Guid AssistanceCategoryId { get; set; }
         public string? Title { get; set; }
-        public string? CategoryName { get; set; }
+        public string? AssistanceCategoryName { get; set; }
+
         public string? Description { get; set; }
         public decimal Price { get; set; }
         public int DurationInMinutes { get; set; }
