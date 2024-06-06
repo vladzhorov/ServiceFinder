@@ -19,7 +19,7 @@ namespace ServiceFinder.BLL.Services
 
         public async virtual Task<TModel> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var entity = await _repository.GetByIdAsync(id, cancellationToken);
+            var entity = await _repository.GetByIdAsync(id, cancellationToken) ?? throw new ModelNotFoundException(id);
             var model = _mapper.Map<TModel>(entity);
             return model;
         }
