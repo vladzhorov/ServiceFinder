@@ -7,7 +7,7 @@ namespace ServiceFinder.BLL.Models
         public Guid UserProfileId { get; set; }
         public Guid AssistanceCategoryId { get; set; }
         public string? Title { get; set; }
-        public AssistanceCategory? Category { get; set; }
+        public AssistanceCategory? AssistanceCategory { get; set; }
         public string? Description { get; set; }
         public decimal Price { get; set; }
         public int DurationInMinutes { get; set; }

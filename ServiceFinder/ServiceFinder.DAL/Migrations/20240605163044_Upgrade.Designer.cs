@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ServiceFinder.DAL;
@@ -11,9 +12,11 @@ using ServiceFinder.DAL;
 namespace ServiceFinder.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240605163044_Upgrade")]
+    partial class Upgrade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,6 +60,9 @@ namespace ServiceFinder.DAL.Migrations
                     b.Property<Guid>("AssistanceCategoryId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("CategoryId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -89,7 +95,7 @@ namespace ServiceFinder.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AssistanceCategoryId");
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("UserProfileId");
 
@@ -120,14 +126,14 @@ namespace ServiceFinder.DAL.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("UserProfileId")
+                    b.Property<Guid?>("UserProfileEntityId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AssistanceId");
 
-                    b.HasIndex("UserProfileId");
+                    b.HasIndex("UserProfileEntityId");
 
                     b.ToTable("Reviews");
                 });
@@ -163,11 +169,9 @@ namespace ServiceFinder.DAL.Migrations
 
             modelBuilder.Entity("ServiceFinder.DAL.Entites.AssistanceEntity", b =>
                 {
-                    b.HasOne("ServiceFinder.DAL.Entites.AssistanceCategoryEntity", "AssistanceCategory")
+                    b.HasOne("ServiceFinder.DAL.Entites.AssistanceCategoryEntity", "Category")
                         .WithMany("Assistances")
-                        .HasForeignKey("AssistanceCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.HasOne("ServiceFinder.DAL.Entites.UserProfileEntity", "UserProfile")
                         .WithMany("Assistances")
@@ -175,7 +179,7 @@ namespace ServiceFinder.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AssistanceCategory");
+                    b.Navigation("Category");
 
                     b.Navigation("UserProfile");
                 });
@@ -188,15 +192,11 @@ namespace ServiceFinder.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ServiceFinder.DAL.Entites.UserProfileEntity", "UserProfile")
+                    b.HasOne("ServiceFinder.DAL.Entites.UserProfileEntity", null)
                         .WithMany("Reviews")
-                        .HasForeignKey("UserProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserProfileEntityId");
 
                     b.Navigation("Assistance");
-
-                    b.Navigation("UserProfile");
                 });
 
             modelBuilder.Entity("ServiceFinder.DAL.Entites.AssistanceCategoryEntity", b =>
