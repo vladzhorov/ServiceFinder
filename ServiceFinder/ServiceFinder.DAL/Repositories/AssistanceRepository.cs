@@ -45,6 +45,7 @@ namespace ServiceFinder.DAL.Repositories
 
             entity.UserProfileId = existingEntity?.UserProfileId ?? entity.UserProfileId;
             entity.AssistanceCategoryId = existingEntity?.AssistanceCategoryId ?? entity.AssistanceCategoryId;
+            entity.CreatedAt = existingEntity.CreatedAt;
 
             Query.Update(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);

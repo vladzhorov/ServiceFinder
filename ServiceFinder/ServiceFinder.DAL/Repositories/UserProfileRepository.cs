@@ -26,5 +26,16 @@ namespace ServiceFinder.DAL.Repositories
                 .Include(u => u.Reviews)
                 .ToListAsync(cancellationToken);
         }
+        public async override Task<UserProfileEntity> UpdateAsync(UserProfileEntity entity, CancellationToken cancellationToken)
+        {
+            var existingEntity = await Query.AsNoTracking()
+                .FirstOrDefaultAsync(e => e.Id == entity.Id, cancellationToken);
+
+            entity.CreatedAt = existingEntity.CreatedAt;
+
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return entity;
+        }
     }
 }
