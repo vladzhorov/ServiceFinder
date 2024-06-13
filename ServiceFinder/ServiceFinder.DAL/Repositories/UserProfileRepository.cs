@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ServiceFinder.DAL.Entites;
+﻿using ServiceFinder.DAL.Entites;
 using ServiceFinder.DAL.Interfaces;
 
 namespace ServiceFinder.DAL.Repositories
@@ -8,23 +7,6 @@ namespace ServiceFinder.DAL.Repositories
     {
         public UserProfileRepository(AppDbContext dbContext) : base(dbContext)
         {
-        }
-        public override async Task<UserProfileEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
-        {
-            return await Query
-                .Include(up => up.Assistances)
-                .ThenInclude(a => a.Reviews)
-                .Include(up => up.Reviews)
-                .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
-        }
-
-        public override async Task<List<UserProfileEntity>> GetAllAsync(CancellationToken cancellationToken)
-        {
-            return await Query
-                .Include(u => u.Assistances)
-                 .ThenInclude(a => a.Reviews)
-                .Include(u => u.Reviews)
-                .ToListAsync(cancellationToken);
         }
     }
 }
