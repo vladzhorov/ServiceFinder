@@ -17,12 +17,14 @@ namespace ServiceFinder.DAL.Repositories
                 .FirstOrDefaultAsync(ac => ac.Id == id, cancellationToken);
         }
 
-        public override async Task<List<AssistanceCategoryEntity>> GetAllAsync(CancellationToken cancellationToken)
+        public override async Task<List<AssistanceCategoryEntity>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             return await Query
                 .Include(ac => ac.Assistances)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync(cancellationToken);
-        }
 
+        }
     }
 }

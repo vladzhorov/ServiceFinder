@@ -26,9 +26,9 @@ namespace ServiceFinder.API.Controller
         }
 
         [HttpGet]
-        public async Task<List<ReviewViewModel>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<ReviewViewModel>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            var reviews = await _reviewService.GetAllAsync(cancellationToken);
+            var reviews = await _reviewService.GetAllAsync(pageNumber, pageSize, cancellationToken);
             return _mapper.Map<List<ReviewViewModel>>(reviews);
         }
 
