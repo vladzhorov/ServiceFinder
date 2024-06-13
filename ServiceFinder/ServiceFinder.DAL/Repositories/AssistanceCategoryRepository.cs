@@ -29,7 +29,7 @@ namespace ServiceFinder.DAL.Repositories
                 .FirstOrDefaultAsync(e => e.Id == entity.Id, cancellationToken);
 
 
-            entity.CreatedAt = existingEntity.CreatedAt;
+            entity.CreatedAt = existingEntity?.CreatedAt ?? entity.CreatedAt;
 
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync(cancellationToken);
