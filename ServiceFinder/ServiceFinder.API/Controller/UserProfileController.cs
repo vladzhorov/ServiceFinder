@@ -29,9 +29,9 @@ namespace ServiceFinder.API.Controller
         }
 
         [HttpGet]
-        public async Task<List<UserProfileViewModel>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<UserProfileViewModel>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            var usersProfile = await _userProfileService.GetAllAsync(cancellationToken);
+            var usersProfile = await _userProfileService.GetAllAsync(pageNumber, pageSize, cancellationToken);
             return _mapper.Map<List<UserProfileViewModel>>(usersProfile);
         }
 

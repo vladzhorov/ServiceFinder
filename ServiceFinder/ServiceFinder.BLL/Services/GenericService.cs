@@ -51,9 +51,9 @@ namespace ServiceFinder.BLL.Services
             await _repository.DeleteAsync(entity, cancellationToken);
         }
 
-        public async virtual Task<List<TModel>> GetAllAsync(CancellationToken cancellationToken)
+        public async virtual Task<List<TModel>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            var entities = await _repository.GetAllAsync(cancellationToken);
+            var entities = await _repository.GetAllAsync(pageNumber, pageSize, cancellationToken);
             var models = _mapper.Map<List<TModel>>(entities);
             return models;
         }

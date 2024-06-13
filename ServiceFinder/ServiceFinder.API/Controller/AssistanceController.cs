@@ -28,9 +28,9 @@ namespace ServiceFinder.API.Controller
         }
 
         [HttpGet]
-        public async Task<List<AssistanceViewModel>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<AssistanceViewModel>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            var assistances = await _assistanceService.GetAllAsync(cancellationToken);
+            var assistances = await _assistanceService.GetAllAsync(pageNumber, pageSize, cancellationToken);
             return _mapper.Map<List<AssistanceViewModel>>(assistances);
         }
 
