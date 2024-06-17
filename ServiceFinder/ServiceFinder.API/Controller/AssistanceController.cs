@@ -42,8 +42,6 @@ namespace ServiceFinder.API.Controller
                 Data = mappedData
             };
         }
-
-
         [HttpGet("{id}")]
         public async Task<AssistanceViewModel> GetById(Guid id, CancellationToken cancellationToken)
         {

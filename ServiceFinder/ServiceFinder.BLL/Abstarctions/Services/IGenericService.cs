@@ -9,7 +9,6 @@ namespace ServiceFinder.BLL.Abstractions.Services
         Task<TModel> UpdateAsync(Guid id, TModel model, CancellationToken cancellationToken);
         Task DeleteAsync(Guid id, CancellationToken cancellationToken);
         Task<PagedResult<TModel>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
-
     }
 }
 
