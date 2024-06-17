@@ -5,6 +5,7 @@ using ServiceFinder.API.Constants;
 using ServiceFinder.API.ViewModels.AssistanceCategory;
 using ServiceFinder.BLL.Abstarctions.Services;
 using ServiceFinder.BLL.Models;
+using ServiceFinder.DAL.PaginationObjects;
 
 namespace ServiceFinder.API.Controller
 {
@@ -30,10 +31,18 @@ namespace ServiceFinder.API.Controller
         }
 
         [HttpGet]
-        public async Task<List<AssistanceCategoryViewModel>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public async Task<PagedResult<AssistanceCategoryViewModel>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            var assistances = await _assistanceCategoryService.GetAllAsync(pageNumber, pageSize, cancellationToken);
-            return _mapper.Map<List<AssistanceCategoryViewModel>>(assistances);
+            var pagedResult = await _assistanceCategoryService.GetAllAsync(pageNumber, pageSize, cancellationToken);
+            var mappedData = _mapper.Map<List<AssistanceCategoryViewModel>>(pagedResult.Data);
+            return new PagedResult<AssistanceCategoryViewModel>
+            {
+                PageNumber = pagedResult.PageNumber,
+                PageSize = pagedResult.PageSize,
+                TotalCount = pagedResult.TotalCount,
+                TotalPages = pagedResult.TotalPages,
+                Data = mappedData
+            };
         }
 
         [HttpGet("{id}")]
