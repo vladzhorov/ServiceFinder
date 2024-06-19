@@ -13,6 +13,8 @@ namespace ServiceFinder.DAL.Repositories
         {
             return await Query
                 .Include(up => up.Assistances)
+                .ThenInclude(a => a.AssistanceCategory)
+                .Include(up => up.Assistances)
                 .ThenInclude(a => a.Reviews)
                 .Include(up => up.Reviews)
                 .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
@@ -21,6 +23,8 @@ namespace ServiceFinder.DAL.Repositories
         public override async Task<List<UserProfileEntity>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await Query
+                .Include(up => up.Assistances)
+                .ThenInclude(a => a.AssistanceCategory)
                 .Include(u => u.Assistances)
                  .ThenInclude(a => a.Reviews)
                 .Include(u => u.Reviews)

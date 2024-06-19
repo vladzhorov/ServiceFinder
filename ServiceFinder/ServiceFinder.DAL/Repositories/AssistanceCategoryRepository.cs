@@ -14,6 +14,7 @@ namespace ServiceFinder.DAL.Repositories
         {
             return await Query
                 .Include(ac => ac.Assistances)
+                .ThenInclude(a => a.UserProfile)
                 .FirstOrDefaultAsync(ac => ac.Id == id, cancellationToken);
         }
 
@@ -21,6 +22,7 @@ namespace ServiceFinder.DAL.Repositories
         {
             return await Query
                 .Include(ac => ac.Assistances)
+                .ThenInclude(a => a.UserProfile)
                 .ToListAsync(cancellationToken);
         }
 
