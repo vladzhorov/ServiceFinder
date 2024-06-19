@@ -55,15 +55,7 @@ namespace ServiceFinder.BLL.Services
         public async virtual Task<PagedResult<TModel>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             var pagedEntities = await _repository.GetAllAsync(pageNumber, pageSize, cancellationToken);
-            var models = _mapper.Map<List<TModel>>(pagedEntities.Data);
-            return new PagedResult<TModel>
-            {
-                PageNumber = pagedEntities.PageNumber,
-                PageSize = pagedEntities.PageSize,
-                TotalCount = pagedEntities.TotalCount,
-                TotalPages = pagedEntities.TotalPages,
-                Data = models
-            };
+            return _mapper.Map<PagedResult<TModel>>(pagedEntities);
         }
         protected async Task<bool> CheckIfEntityExists(Guid id, CancellationToken cancellationToken)
         {
