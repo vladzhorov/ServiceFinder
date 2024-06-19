@@ -14,6 +14,8 @@ namespace ServiceFinder.DAL.Repositories
         {
             return await Query
                 .Include(up => up.Assistances)
+                .ThenInclude(a => a.AssistanceCategory)
+                .Include(up => up.Assistances)
                 .ThenInclude(a => a.Reviews)
                 .Include(up => up.Reviews)
                 .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
@@ -21,7 +23,7 @@ namespace ServiceFinder.DAL.Repositories
 
         public override async Task<PagedResult<UserProfileEntity>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            IQueryable<UserProfileEntity> query = Query.Include(u => u.Assistances).ThenInclude(a => a.Reviews).Include(u => u.Reviews);
+            var query = Query.Include(u => u.Assistances).ThenInclude(a => a.Reviews).Include(u => u.Reviews);
             return await GetPagedResultAsync(query, pageNumber, pageSize, cancellationToken);
         }
     }

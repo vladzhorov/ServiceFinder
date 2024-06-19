@@ -15,12 +15,13 @@ namespace ServiceFinder.DAL.Repositories
         {
             return await Query
                 .Include(ac => ac.Assistances)
+                .ThenInclude(a => a.UserProfile)
                 .FirstOrDefaultAsync(ac => ac.Id == id, cancellationToken);
         }
 
         public override async Task<PagedResult<AssistanceCategoryEntity>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            IQueryable<AssistanceCategoryEntity> query = Query.Include(ac => ac.Assistances);
+            var query = Query.Include(ac => ac.Assistances);
             return await GetPagedResultAsync(query, pageNumber, pageSize, cancellationToken);
         }
     }
