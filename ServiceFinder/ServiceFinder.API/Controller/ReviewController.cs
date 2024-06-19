@@ -31,15 +31,7 @@ namespace ServiceFinder.API.Controller
         public async Task<PagedResult<ReviewViewModel>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             var pagedResult = await _reviewService.GetAllAsync(pageNumber, pageSize, cancellationToken);
-            var mappedData = _mapper.Map<List<ReviewViewModel>>(pagedResult.Data);
-            return new PagedResult<ReviewViewModel>
-            {
-                PageNumber = pagedResult.PageNumber,
-                PageSize = pagedResult.PageSize,
-                TotalCount = pagedResult.TotalCount,
-                TotalPages = pagedResult.TotalPages,
-                Data = mappedData
-            };
+            return _mapper.Map<PagedResult<ReviewViewModel>>(pagedResult);
         }
 
         [HttpGet("{id}")]

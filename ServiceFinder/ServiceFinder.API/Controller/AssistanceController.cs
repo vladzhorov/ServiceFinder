@@ -32,15 +32,7 @@ namespace ServiceFinder.API.Controller
         public async Task<PagedResult<AssistanceViewModel>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             var pagedResult = await _assistanceService.GetAllAsync(pageNumber, pageSize, cancellationToken);
-            var mappedData = _mapper.Map<List<AssistanceViewModel>>(pagedResult.Data);
-            return new PagedResult<AssistanceViewModel>
-            {
-                PageNumber = pagedResult.PageNumber,
-                PageSize = pagedResult.PageSize,
-                TotalCount = pagedResult.TotalCount,
-                TotalPages = pagedResult.TotalPages,
-                Data = mappedData
-            };
+            return _mapper.Map<PagedResult<AssistanceViewModel>>(pagedResult);
         }
         [HttpGet("{id}")]
         public async Task<AssistanceViewModel> GetById(Guid id, CancellationToken cancellationToken)
