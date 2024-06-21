@@ -5,6 +5,7 @@ using ServiceFinder.API.Constants;
 using ServiceFinder.API.ViewModels.Review;
 using ServiceFinder.BLL.Abstarctions.Services;
 using ServiceFinder.BLL.Models;
+using ServiceFinder.DAL.PaginationObjects;
 
 namespace ServiceFinder.API.Controller
 {
@@ -25,11 +26,12 @@ namespace ServiceFinder.API.Controller
             _reviewService = reviewService;
         }
 
+
         [HttpGet]
-        public async Task<List<ReviewViewModel>> GetAll(CancellationToken cancellationToken)
+        public async Task<PagedResult<ReviewViewModel>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            var reviews = await _reviewService.GetAllAsync(cancellationToken);
-            return _mapper.Map<List<ReviewViewModel>>(reviews);
+            var pagedResult = await _reviewService.GetAllAsync(pageNumber, pageSize, cancellationToken);
+            return _mapper.Map<PagedResult<ReviewViewModel>>(pagedResult);
         }
 
         [HttpGet("{id}")]

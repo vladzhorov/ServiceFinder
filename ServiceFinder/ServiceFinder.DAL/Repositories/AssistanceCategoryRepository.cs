@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServiceFinder.DAL.Entites;
 using ServiceFinder.DAL.Interfaces;
+using ServiceFinder.DAL.PaginationObjects;
 
 namespace ServiceFinder.DAL.Repositories
 {
@@ -14,21 +15,21 @@ namespace ServiceFinder.DAL.Repositories
         {
             return await Query
                 .Include(ac => ac.Assistances)
+                .ThenInclude(a => a.UserProfile)
                 .FirstOrDefaultAsync(ac => ac.Id == id, cancellationToken);
         }
 
-        public override async Task<List<AssistanceCategoryEntity>> GetAllAsync(CancellationToken cancellationToken)
+        public override async Task<PagedResult<AssistanceCategoryEntity>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            return await Query
-                .Include(ac => ac.Assistances)
-                .ToListAsync(cancellationToken);
+            var query = Query.Include(ac => ac.Assistances);
+            return await GetPagedResultAsync(query, pageNumber, pageSize, cancellationToken);
         }
+
         public async override Task<AssistanceCategoryEntity> UpdateAsync(AssistanceCategoryEntity entity, CancellationToken cancellationToken)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync(cancellationToken);
             return entity;
         }
-
     }
 }
