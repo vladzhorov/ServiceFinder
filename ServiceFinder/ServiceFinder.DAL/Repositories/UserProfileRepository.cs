@@ -31,7 +31,6 @@ namespace ServiceFinder.DAL.Repositories
             var existingEntity = await Query.AsNoTracking()
                 .FirstOrDefaultAsync(e => e.Id == entity.Id, cancellationToken);
 
-            entity.CreatedAt = existingEntity?.CreatedAt ?? entity.CreatedAt;
 
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync(cancellationToken);
