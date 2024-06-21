@@ -25,9 +25,6 @@ namespace ServiceFinder.DAL.Repositories
         }
         public async override Task<AssistanceCategoryEntity> UpdateAsync(AssistanceCategoryEntity entity, CancellationToken cancellationToken)
         {
-            var existingEntity = await Query.AsNoTracking()
-                .FirstOrDefaultAsync(e => e.Id == entity.Id, cancellationToken);
-
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync(cancellationToken);
             return entity;
