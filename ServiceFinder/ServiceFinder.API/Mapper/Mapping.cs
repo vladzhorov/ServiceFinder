@@ -4,6 +4,7 @@ using ServiceFinder.API.ViewModels.AssistanceCategory;
 using ServiceFinder.API.ViewModels.Review;
 using ServiceFinder.API.ViewModels.UserProfile;
 using ServiceFinder.BLL.Models;
+using ServiceFinder.DAL.PaginationObjects;
 
 namespace ServiceFinder.API.Mapper
 {
@@ -22,6 +23,7 @@ namespace ServiceFinder.API.Mapper
             CreateMap<UserProfile, UserProfileViewModel>().ReverseMap();
             CreateMap<CreateUserProfileViewModel, UserProfile>();
             CreateMap<UpdateUserProfileViewModel, UserProfile>();
+            CreateMap(typeof(PagedResult<>), typeof(PagedResult<>));
         }
     }
 }

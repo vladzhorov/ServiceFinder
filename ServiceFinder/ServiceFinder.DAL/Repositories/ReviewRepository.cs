@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServiceFinder.DAL.Entites;
 using ServiceFinder.DAL.Interfaces;
+using ServiceFinder.DAL.PaginationObjects;
 
 namespace ServiceFinder.DAL.Repositories
 {
@@ -10,12 +11,10 @@ namespace ServiceFinder.DAL.Repositories
         {
         }
 
-        public override async Task<List<ReviewEntity>> GetAllAsync(CancellationToken cancellationToken)
+        public override async Task<PagedResult<ReviewEntity>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            return await Query
-                .Include(r => r.Assistance)
-                .Include(r => r.UserProfile)
-                .ToListAsync(cancellationToken);
+            IQueryable<ReviewEntity> query = Query.Include(r => r.Assistance).Include(r => r.UserProfile);
+            return await GetPagedResultAsync(query, pageNumber, pageSize, cancellationToken);
         }
 
         public async override Task<ReviewEntity> AddAsync(ReviewEntity entity, CancellationToken cancellationToken)
