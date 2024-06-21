@@ -3,6 +3,7 @@ using ServiceFinder.BLL.Abstractions.Services;
 using ServiceFinder.BLL.Exceptions;
 using ServiceFinder.DAL.Entites;
 using ServiceFinder.DAL.Interfaces;
+using ServiceFinder.DAL.PaginationObjects;
 
 namespace ServiceFinder.BLL.Services
 {
@@ -51,11 +52,10 @@ namespace ServiceFinder.BLL.Services
             await _repository.DeleteAsync(entity, cancellationToken);
         }
 
-        public async virtual Task<List<TModel>> GetAllAsync(CancellationToken cancellationToken)
+        public async virtual Task<PagedResult<TModel>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            var entities = await _repository.GetAllAsync(cancellationToken);
-            var models = _mapper.Map<List<TModel>>(entities);
-            return models;
+            var pagedEntities = await _repository.GetAllAsync(pageNumber, pageSize, cancellationToken);
+            return _mapper.Map<PagedResult<TModel>>(pagedEntities);
         }
         protected async Task<bool> CheckIfEntityExists(Guid id, CancellationToken cancellationToken)
         {

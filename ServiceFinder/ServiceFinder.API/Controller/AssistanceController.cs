@@ -5,6 +5,7 @@ using ServiceFinder.API.Constants;
 using ServiceFinder.API.ViewModels.Assistance;
 using ServiceFinder.BLL.Abstarctions.Services;
 using ServiceFinder.BLL.Models;
+using ServiceFinder.DAL.PaginationObjects;
 
 namespace ServiceFinder.API.Controller
 {
@@ -28,12 +29,11 @@ namespace ServiceFinder.API.Controller
         }
 
         [HttpGet]
-        public async Task<List<AssistanceViewModel>> GetAll(CancellationToken cancellationToken)
+        public async Task<PagedResult<AssistanceViewModel>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            var assistances = await _assistanceService.GetAllAsync(cancellationToken);
-            return _mapper.Map<List<AssistanceViewModel>>(assistances);
+            var pagedResult = await _assistanceService.GetAllAsync(pageNumber, pageSize, cancellationToken);
+            return _mapper.Map<PagedResult<AssistanceViewModel>>(pagedResult);
         }
-
         [HttpGet("{id}")]
         public async Task<AssistanceViewModel> GetById(Guid id, CancellationToken cancellationToken)
         {

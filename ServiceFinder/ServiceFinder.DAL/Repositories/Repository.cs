@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServiceFinder.DAL.Entites;
 using ServiceFinder.DAL.Interfaces;
+using ServiceFinder.DAL.PaginationObjects;
 using System.Linq.Expressions;
 
 namespace ServiceFinder.DAL.Repositories
@@ -14,9 +15,28 @@ namespace ServiceFinder.DAL.Repositories
             _dbContext = dbContext;
         }
 
-        public virtual Task<List<T>> GetAllAsync(CancellationToken cancellationToken)
+        protected async Task<PagedResult<T>> GetPagedResultAsync(IQueryable<T> query, int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            return Query.ToListAsync(cancellationToken);
+            int totalCount = await query.CountAsync(cancellationToken);
+            var data = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(cancellationToken);
+
+            return new PagedResult<T>
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize),
+                Data = data
+            };
+        }
+
+        public async virtual Task<PagedResult<T>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        {
+            IQueryable<T> query = Query;
+            return await GetPagedResultAsync(query, pageNumber, pageSize, cancellationToken);
         }
 
         public virtual Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
