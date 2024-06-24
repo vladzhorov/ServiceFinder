@@ -5,7 +5,7 @@ using ServiceFinder.DAL.PaginationObjects;
 
 namespace ServiceFinder.BLL.Mapper
 {
-    internal class Mapping : Profile
+    public class Mapping : Profile
     {
         public Mapping()
         {
