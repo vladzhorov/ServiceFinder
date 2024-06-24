@@ -27,7 +27,6 @@ namespace ServiceFinder.DAL
         {
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                           .AddInterceptors(new UpdateAuditableInterceptor())
-                          .AddInterceptors(new UpdateRatingInterceptor())
                           .AddInterceptors(new SoftDeleteInterceptor());
             System.Diagnostics.Debug.WriteLine(_configuration);
         }
