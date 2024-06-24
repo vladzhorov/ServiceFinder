@@ -37,7 +37,6 @@ namespace ServiceFinder.BLL.Services
                     }
                 }
             }
-
             return assistanceCategory;
         }
 
@@ -59,7 +58,6 @@ namespace ServiceFinder.BLL.Services
                     }
                 }
             }
-
             return assistanceCategories;
         }
     }

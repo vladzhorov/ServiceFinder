@@ -27,7 +27,6 @@ namespace ServiceFinder.BLL.Services
             {
                 assistance.Rating = RatingCalculatorService.CalculateRating(assistance, x => x.Reviews);
             }
-
             return assistance;
         }
 
