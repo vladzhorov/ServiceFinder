@@ -11,7 +11,7 @@ namespace ServiceFinder.BLL.Models
         public string? Description { get; set; }
         public decimal Price { get; set; }
         public int DurationInMinutes { get; set; }
-        public float Rating { get; set; }
+        public float Rating => Reviews != null && Reviews.Any() ? Reviews.Average(r => r.Rating) : 0;
         public string? Location { get; set; }
         public ICollection<Review>? Reviews { get; set; }
         public DateTime CreatedAt { get; set; }
