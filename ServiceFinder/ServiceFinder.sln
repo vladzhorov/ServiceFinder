@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFinder.DAL", "ServiceFinder.DAL\ServiceFinder.DAL.csproj", "{8FDBD91D-A915-4EAC-9CB1-50F065B261EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceFinder.DAL", "ServiceFinder.DAL\ServiceFinder.DAL.csproj", "{8FDBD91D-A915-4EAC-9CB1-50F065B261EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFinder.BLL", "ServiceFinder.BLL\ServiceFinder.BLL.csproj", "{EAF85C0B-3C64-43DF-87C6-CEE03C2B080F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceFinder.BLL", "ServiceFinder.BLL\ServiceFinder.BLL.csproj", "{EAF85C0B-3C64-43DF-87C6-CEE03C2B080F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFinder.API", "ServiceFinder.API\ServiceFinder.API.csproj", "{4192FCB9-04DA-4F2F-BB92-57CE6AE4F090}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceFinder.API", "ServiceFinder.API\ServiceFinder.API.csproj", "{4192FCB9-04DA-4F2F-BB92-57CE6AE4F090}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFinder.UnitTest", "ServiceFinder.UnitTest\ServiceFinder.UnitTest.csproj", "{3D0F24BC-5965-4617-84CA-895DFBF04188}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFinder.IntegrationTest", "ServiceFinder.IntegrationTest\ServiceFinder.IntegrationTest.csproj", "{B991A929-97F8-4E04-B236-0D08E673569C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{4192FCB9-04DA-4F2F-BB92-57CE6AE4F090}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4192FCB9-04DA-4F2F-BB92-57CE6AE4F090}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4192FCB9-04DA-4F2F-BB92-57CE6AE4F090}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D0F24BC-5965-4617-84CA-895DFBF04188}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D0F24BC-5965-4617-84CA-895DFBF04188}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D0F24BC-5965-4617-84CA-895DFBF04188}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D0F24BC-5965-4617-84CA-895DFBF04188}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B991A929-97F8-4E04-B236-0D08E673569C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B991A929-97F8-4E04-B236-0D08E673569C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B991A929-97F8-4E04-B236-0D08E673569C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B991A929-97F8-4E04-B236-0D08E673569C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
