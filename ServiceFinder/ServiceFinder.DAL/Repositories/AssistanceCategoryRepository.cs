@@ -14,14 +14,16 @@ namespace ServiceFinder.DAL.Repositories
         public override async Task<AssistanceCategoryEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             return await Query
-                .Include(ac => ac.Assistances)
-                .ThenInclude(a => a.UserProfile)
-                .FirstOrDefaultAsync(ac => ac.Id == id, cancellationToken);
+                 .Include(ac => ac.Assistances)
+                 .ThenInclude(a => a.Reviews)
+                 .Include(ac => ac.Assistances)
+                 .ThenInclude(a => a.UserProfile)
+                 .FirstOrDefaultAsync(ac => ac.Id == id, cancellationToken);
         }
 
         public override async Task<PagedResult<AssistanceCategoryEntity>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            var query = Query.Include(ac => ac.Assistances);
+            var query = Query.Include(ac => ac.Assistances).ThenInclude(a => a.Reviews).Include(ac => ac.Assistances).ThenInclude(a => a.UserProfile);
             return await GetPagedResultAsync(query, pageNumber, pageSize, cancellationToken);
         }
     }
