@@ -47,16 +47,16 @@ namespace ServiceFinder.UnitTests
             var model = _fixture.Create<Review>();
             var entity = _mapper.Map<ReviewEntity>(model);
 
-            _assistanceRepository.GetByIdAsync(model.AssistanceId, Arg.Any<CancellationToken>())
+            _assistanceRepository.GetByIdAsync(model.AssistanceId, default)
                 .Returns(new AssistanceEntity());
-            _userProfileRepository.GetByIdAsync(model.UserProfileId, Arg.Any<CancellationToken>())
+            _userProfileRepository.GetByIdAsync(model.UserProfileId, default)
                 .Returns(new UserProfileEntity());
 
-            _reviewRepository.AddAsync(Arg.Any<ReviewEntity>(), Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult(entity));
+            _reviewRepository.AddAsync(Arg.Any<ReviewEntity>(), default)
+                .Returns(entity);
 
             // Act
-            var result = await _service.CreateAsync(model, CancellationToken.None);
+            var result = await _service.CreateAsync(model, default);
 
             // Assert
             result.Should().NotBeNull();
@@ -70,13 +70,13 @@ namespace ServiceFinder.UnitTests
             var entity = _fixture.Create<ReviewEntity>();
             var model = _mapper.Map<Review>(entity);
 
-            _reviewRepository.GetByIdAsync(entity.Id, Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult(entity));
-            _reviewRepository.UpdateAsync(Arg.Any<ReviewEntity>(), Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult(entity));
+            _reviewRepository.GetByIdAsync(entity.Id, default)
+                .Returns(entity);
+            _reviewRepository.UpdateAsync(Arg.Any<ReviewEntity>(), default)
+                .Returns(entity);
 
             // Act
-            var result = await _service.UpdateAsync(entity.Id, model, CancellationToken.None);
+            var result = await _service.UpdateAsync(entity.Id, model, default);
 
             // Assert
             result.Should().NotBeNull();
@@ -90,11 +90,11 @@ namespace ServiceFinder.UnitTests
             var entity = _fixture.Create<ReviewEntity>();
             var model = _mapper.Map<Review>(entity);
 
-            _reviewRepository.GetByIdAsync(entity.Id, Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult(entity));
+            _reviewRepository.GetByIdAsync(entity.Id, default)
+                .Returns(entity);
 
             // Act
-            var result = await _service.GetByIdAsync(entity.Id, CancellationToken.None);
+            var result = await _service.GetByIdAsync(entity.Id, default);
 
             // Assert
             result.Should().NotBeNull();
@@ -107,11 +107,11 @@ namespace ServiceFinder.UnitTests
             // Arrange
             var id = Guid.NewGuid();
 
-            _reviewRepository.GetByIdAsync(id, Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult<ReviewEntity>(null));
+            _reviewRepository.GetByIdAsync(id, default)
+                .Returns((ReviewEntity?)null);
 
             // Act
-            Func<Task> act = async () => await _service.GetByIdAsync(id, CancellationToken.None);
+            Func<Task> act = async () => await _service.GetByIdAsync(id, default);
 
             // Assert
             await act.Should().ThrowAsync<ModelNotFoundException>();
@@ -139,11 +139,11 @@ namespace ServiceFinder.UnitTests
                 TotalPages = 1
             };
 
-            _reviewRepository.GetAllAsync(1, 10, Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult(pagedEntities));
+            _reviewRepository.GetAllAsync(1, 10, default)
+                .Returns(pagedEntities);
 
             // Act
-            var result = await _service.GetAllAsync(1, 10, CancellationToken.None);
+            var result = await _service.GetAllAsync(1, 10, default);
 
             // Assert
             result.Should().NotBeNull();
@@ -156,16 +156,16 @@ namespace ServiceFinder.UnitTests
             // Arrange
             var entity = _fixture.Create<ReviewEntity>();
 
-            _reviewRepository.GetByIdAsync(entity.Id, Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult(entity));
-            _reviewRepository.DeleteAsync(entity, Arg.Any<CancellationToken>())
+            _reviewRepository.GetByIdAsync(entity.Id, default)
+                .Returns(entity);
+            _reviewRepository.DeleteAsync(entity, default)
                 .Returns(Task.CompletedTask);
 
             // Act
-            await _service.DeleteAsync(entity.Id, CancellationToken.None);
+            await _service.DeleteAsync(entity.Id, default);
 
             // Assert
-            await _reviewRepository.Received(1).DeleteAsync(entity, Arg.Any<CancellationToken>());
+            await _reviewRepository.Received(1).DeleteAsync(entity, default);
         }
 
         [Fact]
@@ -174,11 +174,11 @@ namespace ServiceFinder.UnitTests
             // Arrange
             var id = Guid.NewGuid();
 
-            _reviewRepository.GetByIdAsync(id, Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult<ReviewEntity>(null));
+            _reviewRepository.GetByIdAsync(id, default)
+                .Returns((ReviewEntity?)null);
 
             // Act
-            Func<Task> act = async () => await _service.DeleteAsync(id, CancellationToken.None);
+            Func<Task> act = async () => await _service.DeleteAsync(id, default);
 
             // Assert
             await act.Should().ThrowAsync<ModelNotFoundException>();

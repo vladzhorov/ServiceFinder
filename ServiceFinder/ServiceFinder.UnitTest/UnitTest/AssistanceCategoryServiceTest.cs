@@ -42,37 +42,35 @@ namespace ServiceFinder.UnitTest.UnitTest
         public async Task CreateAsync_CorrectModel_ReturnsCreatedModel()
         {
             // Arrange
-            var cancellationToken = new CancellationToken();
             var model = _fixture.Create<AssistanceCategory>();
             var entity = _mapper.Map<AssistanceCategoryEntity>(model);
 
-            _repository.AddAsync(Arg.Any<AssistanceCategoryEntity>(), cancellationToken)
-                .Returns(Task.FromResult(entity));
+            _repository.AddAsync(Arg.Any<AssistanceCategoryEntity>(), default)
+                .Returns(entity);
 
             // Act
-            var result = await _service.CreateAsync(model, cancellationToken);
+            var result = await _service.CreateAsync(model, default);
 
             // Assert
             result.Should().NotBeNull();
             result.Should().BeEquivalentTo(model, options => options
-                .Excluding(x => x.Id)
                 .Excluding(x => x.Assistances));
         }
+
         [Fact]
         public async Task GetAllAsync_Paged_ReturnsPagedResultOfAssistanceCategoryModels()
         {
             // Arrange
-            var cancellationToken = new CancellationToken();
             int pageNumber = 1;
             int pageSize = 10;
             var pagedEntities = _fixture.Create<PagedResult<AssistanceCategoryEntity>>();
             var pagedModels = _mapper.Map<PagedResult<AssistanceCategory>>(pagedEntities);
 
-            _repository.GetAllAsync(pageNumber, pageSize, cancellationToken)
-                .Returns(Task.FromResult(pagedEntities));
+            _repository.GetAllAsync(pageNumber, pageSize, default)
+                .Returns(pagedEntities);
 
             // Act
-            var result = await _service.GetAllAsync(pageNumber, pageSize, cancellationToken);
+            var result = await _service.GetAllAsync(pageNumber, pageSize, default);
 
             // Assert
             result.Should().NotBeNull();
@@ -83,13 +81,12 @@ namespace ServiceFinder.UnitTest.UnitTest
         public async Task GetByIdAsync_ExistingId_ReturnsCorrectModel()
         {
             // Arrange
-            var cancellationToken = CancellationToken.None;
             var id = Guid.NewGuid();
             var entity = _fixture.Build<AssistanceCategoryEntity>().With(e => e.Id, id).Create();
-            _repository.GetByIdAsync(id, cancellationToken).Returns(entity);
+            _repository.GetByIdAsync(id, default).Returns(entity);
 
             // Act
-            var result = await _service.GetByIdAsync(id, cancellationToken);
+            var result = await _service.GetByIdAsync(id, default);
 
             // Assert
             result.Should().NotBeNull();
@@ -100,28 +97,26 @@ namespace ServiceFinder.UnitTest.UnitTest
         public async Task GetByIdAsync_NonExistingId_ThrowsModelNotFoundException()
         {
             // Arrange
-            var cancellationToken = CancellationToken.None;
             var id = Guid.NewGuid();
-            _repository.GetByIdAsync(id, cancellationToken).Returns(Task.FromResult<AssistanceCategoryEntity>(null));
+            _repository.GetByIdAsync(id, default).Returns((AssistanceCategoryEntity?)null);
 
             // Act & Assert
-            await Assert.ThrowsAsync<ModelNotFoundException>(() => _service.GetByIdAsync(id, cancellationToken));
+            await Assert.ThrowsAsync<ModelNotFoundException>(() => _service.GetByIdAsync(id, default));
         }
 
         [Fact]
         public async Task UpdateAsync_ExistingId_ReturnsUpdatedModel()
         {
             // Arrange
-            var cancellationToken = CancellationToken.None;
             var id = Guid.NewGuid();
             var model = _fixture.Create<AssistanceCategory>();
             var entity = _mapper.Map<AssistanceCategoryEntity>(model);
             entity.Id = id;
-            _repository.UpdateAsync(Arg.Any<AssistanceCategoryEntity>(), cancellationToken).Returns(entity);
-            _repository.GetByIdAsync(id, cancellationToken).Returns(entity);
+            _repository.UpdateAsync(Arg.Any<AssistanceCategoryEntity>(), default).Returns(entity);
+            _repository.GetByIdAsync(id, default).Returns(entity);
 
             // Act
-            var result = await _service.UpdateAsync(id, model, cancellationToken);
+            var result = await _service.UpdateAsync(id, model, default);
 
             // Assert
             result.Should().NotBeNull();
@@ -132,42 +127,39 @@ namespace ServiceFinder.UnitTest.UnitTest
         public async Task UpdateAsync_NonExistingId_ThrowsModelNotFoundException()
         {
             // Arrange
-            var cancellationToken = CancellationToken.None;
             var id = Guid.NewGuid();
             var model = _fixture.Create<AssistanceCategory>();
 
-            _repository.GetByIdAsync(id, cancellationToken).Returns(Task.FromResult<AssistanceCategoryEntity>(null));
+            _repository.GetByIdAsync(id, default).Returns((AssistanceCategoryEntity?)null);
 
             // Act & Assert
-            await Assert.ThrowsAsync<ModelNotFoundException>(() => _service.UpdateAsync(id, model, cancellationToken));
+            await Assert.ThrowsAsync<ModelNotFoundException>(() => _service.UpdateAsync(id, model, default));
         }
 
         [Fact]
         public async Task DeleteAsync_ExistingId_DeletesSuccessfully()
         {
             // Arrange
-            var cancellationToken = CancellationToken.None;
             var id = Guid.NewGuid();
             var entity = _fixture.Build<AssistanceCategoryEntity>().With(e => e.Id, id).Create();
-            _repository.GetByIdAsync(id, cancellationToken).Returns(entity);
+            _repository.GetByIdAsync(id, default).Returns(entity);
 
             // Act
-            await _service.DeleteAsync(id, cancellationToken);
+            await _service.DeleteAsync(id, default);
 
             // Assert
-            await _repository.Received(1).DeleteAsync(entity, cancellationToken);
+            await _repository.Received(1).DeleteAsync(entity, default);
         }
 
         [Fact]
         public async Task DeleteAsync_NonExistingId_ThrowsModelNotFoundException()
         {
             // Arrange
-            var cancellationToken = CancellationToken.None;
             var id = Guid.NewGuid();
-            _repository.GetByIdAsync(id, cancellationToken).Returns(Task.FromResult<AssistanceCategoryEntity>(null));
+            _repository.GetByIdAsync(id, default).Returns((AssistanceCategoryEntity?)null);
 
             // Act & Assert
-            await Assert.ThrowsAsync<ModelNotFoundException>(() => _service.DeleteAsync(id, cancellationToken));
+            await Assert.ThrowsAsync<ModelNotFoundException>(() => _service.DeleteAsync(id, default));
         }
     }
 }

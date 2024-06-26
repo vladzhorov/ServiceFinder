@@ -12,7 +12,6 @@ using ServiceFinder.DAL.PaginationObjects;
 
 namespace ServiceFinder.UnitTest.UnitTest
 {
-
     public class UserProfileServiceTests
     {
         private readonly IFixture _fixture;
@@ -42,20 +41,18 @@ namespace ServiceFinder.UnitTest.UnitTest
         public async Task CreateAsync_CorrectModel_ReturnsCreatedModel()
         {
             // Arrange
-            var cancellationToken = new CancellationToken();
             var model = _fixture.Create<UserProfile>();
             var entity = _mapper.Map<UserProfileEntity>(model);
 
-            _repository.AddAsync(Arg.Any<UserProfileEntity>(), cancellationToken)
-                .Returns(Task.FromResult(entity));
+            _repository.AddAsync(Arg.Any<UserProfileEntity>(), default)
+                .Returns(entity);
 
             // Act
-            var result = await _service.CreateAsync(model, cancellationToken);
+            var result = await _service.CreateAsync(model, default);
 
             // Assert
             result.Should().NotBeNull();
             result.Should().BeEquivalentTo(model, options => options
-                .Excluding(x => x.Id)
                 .Excluding(x => x.Reviews)
                 .Excluding(x => x.Assistances));
         }
@@ -64,17 +61,16 @@ namespace ServiceFinder.UnitTest.UnitTest
         public async Task GetAllAsync_Paged_ReturnsPagedResultOfUserProfileModels()
         {
             // Arrange
-            var cancellationToken = new CancellationToken();
             int pageNumber = 1;
             int pageSize = 10;
             var pagedEntities = _fixture.Create<PagedResult<UserProfileEntity>>();
             var pagedModels = _mapper.Map<PagedResult<UserProfile>>(pagedEntities);
 
-            _repository.GetAllAsync(pageNumber, pageSize, cancellationToken)
-                .Returns(Task.FromResult(pagedEntities));
+            _repository.GetAllAsync(pageNumber, pageSize, default)
+                .Returns(pagedEntities);
 
             // Act
-            var result = await _service.GetAllAsync(pageNumber, pageSize, cancellationToken);
+            var result = await _service.GetAllAsync(pageNumber, pageSize, default);
 
             // Assert
             result.Should().NotBeNull();
@@ -89,10 +85,10 @@ namespace ServiceFinder.UnitTest.UnitTest
             var model = _mapper.Map<UserProfile>(entity);
 
             _repository.GetByIdAsync(entity.Id, Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult(entity));
+                .Returns(entity);
 
             // Act
-            var result = await _service.GetByIdAsync(entity.Id, CancellationToken.None);
+            var result = await _service.GetByIdAsync(entity.Id, default);
 
             // Assert
             result.Should().NotBeNull();
@@ -106,16 +102,14 @@ namespace ServiceFinder.UnitTest.UnitTest
             var id = Guid.NewGuid();
 
             _repository.GetByIdAsync(id, Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult((UserProfileEntity)null));
+                .Returns((UserProfileEntity?)null);
 
             // Act
-            Func<Task> act = async () => await _service.GetByIdAsync(id, CancellationToken.None);
+            Func<Task> act = async () => await _service.GetByIdAsync(id, default);
 
             // Assert
             await act.Should().ThrowAsync<ModelNotFoundException>();
         }
-
-
 
         [Fact]
         public async Task UpdateAsync_CorrectModel_ReturnsUpdatedModel()
@@ -125,12 +119,12 @@ namespace ServiceFinder.UnitTest.UnitTest
             var model = _mapper.Map<UserProfile>(entity);
 
             _repository.GetByIdAsync(entity.Id, Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult(entity));
+                .Returns(entity);
             _repository.UpdateAsync(Arg.Any<UserProfileEntity>(), Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult(entity));
+                .Returns(entity);
 
             // Act
-            var result = await _service.UpdateAsync(entity.Id, model, CancellationToken.None);
+            var result = await _service.UpdateAsync(entity.Id, model, default);
 
             // Assert
             result.Should().NotBeNull();
@@ -145,10 +139,10 @@ namespace ServiceFinder.UnitTest.UnitTest
             var id = Guid.NewGuid();
 
             _repository.GetByIdAsync(id, Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult<UserProfileEntity>(null));
+                .Returns((UserProfileEntity?)null);
 
             // Act
-            Func<Task> act = async () => await _service.UpdateAsync(id, model, CancellationToken.None);
+            Func<Task> act = async () => await _service.UpdateAsync(id, model, default);
 
             // Assert
             await act.Should().ThrowAsync<ModelNotFoundException>();
@@ -161,12 +155,12 @@ namespace ServiceFinder.UnitTest.UnitTest
             var entity = _fixture.Create<UserProfileEntity>();
 
             _repository.GetByIdAsync(entity.Id, Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult(entity));
+                .Returns(entity);
             _repository.DeleteAsync(entity, Arg.Any<CancellationToken>())
                 .Returns(Task.CompletedTask);
 
             // Act
-            Func<Task> act = async () => await _service.DeleteAsync(entity.Id, CancellationToken.None);
+            Func<Task> act = async () => await _service.DeleteAsync(entity.Id, default);
 
             // Assert
             await act.Should().NotThrowAsync();
@@ -179,10 +173,10 @@ namespace ServiceFinder.UnitTest.UnitTest
             var id = Guid.NewGuid();
 
             _repository.GetByIdAsync(id, Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult<UserProfileEntity>(null));
+                .Returns((UserProfileEntity?)null);
 
             // Act
-            Func<Task> act = async () => await _service.DeleteAsync(id, CancellationToken.None);
+            Func<Task> act = async () => await _service.DeleteAsync(id, default);
 
             // Assert
             await act.Should().ThrowAsync<ModelNotFoundException>();
