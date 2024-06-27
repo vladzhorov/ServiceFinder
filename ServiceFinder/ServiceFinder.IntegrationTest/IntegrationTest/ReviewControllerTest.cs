@@ -104,9 +104,9 @@ namespace ServiceFinder.IntegrationTests
             var response = await _client.GetAsync($"{ApiRoutes.Reviews}?pageNumber={pageNumber}&pageSize={pageSize}");
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<PagedResult<ReviewViewModel>>() ?? throw new InvalidOperationException();
+            var result = await response.Content.ReadFromJsonAsync<PagedResult<ReviewViewModel>>();
 
-            _testHelper.AssertPagedResult(result, pageNumber, pageSize);
+            _testHelper.AssertPagedResult(result!, pageNumber, pageSize);
         }
 
         [Fact]
@@ -115,9 +115,9 @@ namespace ServiceFinder.IntegrationTests
             var response = await _client.GetAsync($"{ApiRoutes.Reviews}/{_reviewId}");
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<ReviewViewModel>() ?? throw new InvalidOperationException();
+            var result = await response.Content.ReadFromJsonAsync<ReviewViewModel>();
 
-            _testHelper.AssertReview(result, _reviewId);
+            _testHelper.AssertReview(result!, _reviewId);
         }
 
         [Fact]
@@ -134,9 +134,9 @@ namespace ServiceFinder.IntegrationTests
             var response = await _client.PostAsJsonAsync(ApiRoutes.Reviews, createViewModel);
             response.EnsureSuccessStatusCode();
 
-            var createdReview = await response.Content.ReadFromJsonAsync<ReviewViewModel>() ?? throw new InvalidOperationException();
+            var createdReview = await response.Content.ReadFromJsonAsync<ReviewViewModel>();
 
-            _testHelper.AssertCreatedReview(createdReview, createViewModel);
+            _testHelper.AssertCreatedReview(createdReview!, createViewModel);
         }
 
         [Fact]

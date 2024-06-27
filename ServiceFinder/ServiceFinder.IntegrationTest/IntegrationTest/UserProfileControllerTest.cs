@@ -52,8 +52,8 @@ namespace ServiceFinder.IntegrationTests
             var response = await _client.GetAsync($"{ApiRoutes.UserProfiles}?pageNumber=1&pageSize=10");
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<PagedResult<UserProfileViewModel>>(content) ?? throw new InvalidOperationException();
-            _testHelper.AssertPagedResult(result, 1, 10);
+            var result = JsonConvert.DeserializeObject<PagedResult<UserProfileViewModel>>(content);
+            _testHelper.AssertPagedResult(result!, 1, 10);
         }
 
         [Fact]
@@ -62,8 +62,8 @@ namespace ServiceFinder.IntegrationTests
             var response = await _client.GetAsync($"{ApiRoutes.UserProfiles}/{_userProfileId}");
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<UserProfileViewModel>(content) ?? throw new InvalidOperationException();
-            _testHelper.AssertUserProfile(result, _userProfileId);
+            var result = JsonConvert.DeserializeObject<UserProfileViewModel>(content);
+            _testHelper.AssertUserProfile(result!, _userProfileId);
         }
 
         [Fact]
@@ -73,8 +73,8 @@ namespace ServiceFinder.IntegrationTests
             var response = await _client.PostAsJsonAsync(ApiRoutes.UserProfiles, viewModel);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<UserProfileViewModel>(content) ?? throw new InvalidOperationException();
-            _testHelper.AssertCreatedUserProfile(result, viewModel);
+            var result = JsonConvert.DeserializeObject<UserProfileViewModel>(content);
+            _testHelper.AssertCreatedUserProfile(result!, viewModel);
         }
 
         [Fact]
@@ -84,8 +84,8 @@ namespace ServiceFinder.IntegrationTests
             var response = await _client.PutAsJsonAsync($"{ApiRoutes.UserProfiles}/{_userProfileId}", viewModel);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<UserProfileViewModel>(content) ?? throw new InvalidOperationException();
-            _testHelper.AssertUpdatedUserProfile(result, _userProfileId, viewModel);
+            var result = JsonConvert.DeserializeObject<UserProfileViewModel>(content);
+            _testHelper.AssertUpdatedUserProfile(result!, _userProfileId, viewModel);
         }
 
         [Fact]

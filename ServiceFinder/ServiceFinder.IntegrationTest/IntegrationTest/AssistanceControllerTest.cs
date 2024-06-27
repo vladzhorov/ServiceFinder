@@ -90,10 +90,10 @@ namespace ServiceFinder.IntegrationTests
             var response = await _client.GetAsync($"{ApiRoutes.Assistances}?pageNumber={pageNumber}&pageSize={pageSize}");
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<PagedResult<AssistanceViewModel>>() ?? throw new InvalidOperationException();
+            var result = await response.Content.ReadFromJsonAsync<PagedResult<AssistanceViewModel>>();
 
             // Assert
-            _testHelper.AssertPagedResult(result, pageNumber, pageSize);
+            _testHelper.AssertPagedResult(result!, pageNumber, pageSize);
         }
 
         [Fact]
@@ -106,10 +106,10 @@ namespace ServiceFinder.IntegrationTests
             var response = await _client.GetAsync($"{ApiRoutes.Assistances}/{assistanceId}");
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<AssistanceViewModel>() ?? throw new InvalidOperationException();
+            var result = await response.Content.ReadFromJsonAsync<AssistanceViewModel>();
 
             // Assert
-            _testHelper.AssertAssistance(result, assistanceId);
+            _testHelper.AssertAssistance(result!, assistanceId);
         }
 
         [Fact]
@@ -131,10 +131,10 @@ namespace ServiceFinder.IntegrationTests
             var response = await _client.PostAsJsonAsync($"{ApiRoutes.Assistances}", createViewModel);
             response.EnsureSuccessStatusCode();
 
-            var createdAssistance = await response.Content.ReadFromJsonAsync<AssistanceViewModel>() ?? throw new InvalidOperationException();
+            var createdAssistance = await response.Content.ReadFromJsonAsync<AssistanceViewModel>();
 
             // Assert
-            _testHelper.AssertCreatedAssistance(createdAssistance, createViewModel);
+            _testHelper.AssertCreatedAssistance(createdAssistance!, createViewModel);
         }
 
         [Fact]
@@ -154,10 +154,10 @@ namespace ServiceFinder.IntegrationTests
             var response = await _client.PutAsJsonAsync($"{ApiRoutes.Assistances}/{_assistanceId}", updateViewModel);
             response.EnsureSuccessStatusCode();
 
-            var updatedAssistance = await response.Content.ReadFromJsonAsync<AssistanceViewModel>() ?? throw new InvalidOperationException();
+            var updatedAssistance = await response.Content.ReadFromJsonAsync<AssistanceViewModel>();
 
             // Assert
-            _testHelper.AssertUpdatedAssistance(updatedAssistance, _assistanceId, updateViewModel);
+            _testHelper.AssertUpdatedAssistance(updatedAssistance!, _assistanceId, updateViewModel);
         }
 
         [Fact]

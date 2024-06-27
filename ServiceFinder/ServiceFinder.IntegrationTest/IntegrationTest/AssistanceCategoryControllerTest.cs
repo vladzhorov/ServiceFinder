@@ -30,10 +30,10 @@ namespace ServiceFinder.IntegrationTest.IntegrationTest
             var response = await _client.GetAsync($"{ApiRoutes.AssistanceCategories}?pageNumber={pageNumber}&pageSize={pageSize}");
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<PagedResult<AssistanceCategoryViewModel>>() ?? throw new InvalidOperationException();
+            var result = await response.Content.ReadFromJsonAsync<PagedResult<AssistanceCategoryViewModel>>();
 
             // Assert
-            _testHelper.AssertPagedResult(result, pageNumber, pageSize);
+            _testHelper.AssertPagedResult(result!, pageNumber, pageSize);
         }
 
         [Fact]
@@ -46,10 +46,10 @@ namespace ServiceFinder.IntegrationTest.IntegrationTest
             var response = await _client.GetAsync($"{ApiRoutes.AssistanceCategories}/{category.Id}");
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<AssistanceCategoryViewModel>() ?? throw new InvalidOperationException();
+            var result = await response.Content.ReadFromJsonAsync<AssistanceCategoryViewModel>();
 
             // Assert
-            _testHelper.AssertAssistanceCategory(result, category.Id);
+            _testHelper.AssertAssistanceCategory(result!, category.Id);
         }
 
         [Fact]
@@ -62,10 +62,10 @@ namespace ServiceFinder.IntegrationTest.IntegrationTest
             var response = await _client.PostAsJsonAsync(ApiRoutes.AssistanceCategories, viewModel);
             response.EnsureSuccessStatusCode();
 
-            var createdCategory = await response.Content.ReadFromJsonAsync<AssistanceCategoryViewModel>() ?? throw new InvalidOperationException();
+            var createdCategory = await response.Content.ReadFromJsonAsync<AssistanceCategoryViewModel>();
 
             // Assert
-            _testHelper.AssertCreatedAssistanceCategory(createdCategory, viewModel);
+            _testHelper.AssertCreatedAssistanceCategory(createdCategory!, viewModel);
         }
 
         [Fact]
@@ -79,10 +79,10 @@ namespace ServiceFinder.IntegrationTest.IntegrationTest
             var response = await _client.PutAsJsonAsync($"{ApiRoutes.AssistanceCategories}/{category.Id}", updateViewModel);
             response.EnsureSuccessStatusCode();
 
-            var updatedCategory = await response.Content.ReadFromJsonAsync<AssistanceCategoryViewModel>() ?? throw new InvalidOperationException();
+            var updatedCategory = await response.Content.ReadFromJsonAsync<AssistanceCategoryViewModel>();
 
             // Assert
-            _testHelper.AssertUpdatedAssistanceCategory(updatedCategory, category.Id, updateViewModel);
+            _testHelper.AssertUpdatedAssistanceCategory(updatedCategory!, category.Id, updateViewModel);
         }
 
         [Fact]
