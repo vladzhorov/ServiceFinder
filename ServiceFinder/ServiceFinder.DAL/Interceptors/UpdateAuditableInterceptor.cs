@@ -36,12 +36,13 @@ namespace ServiceFinder.DAL.Interceptors
 
                     if (entry.State == EntityState.Modified)
                     {
+                        entry.Property(nameof(IAuditableEntity.CreatedAt)).IsModified = false;
                         entity.UpdatedAt = utcNow;
                     }
-
 
                 }
             }
         }
     }
 }
+

@@ -26,5 +26,12 @@ namespace ServiceFinder.DAL.Repositories
             var query = Query.Include(ac => ac.Assistances).ThenInclude(a => a.Reviews).Include(ac => ac.Assistances).ThenInclude(a => a.UserProfile);
             return await GetPagedResultAsync(query, pageNumber, pageSize, cancellationToken);
         }
+
+        public async override Task<AssistanceCategoryEntity> UpdateAsync(AssistanceCategoryEntity entity, CancellationToken cancellationToken)
+        {
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return entity;
+        }
     }
 }
