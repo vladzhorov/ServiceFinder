@@ -8,7 +8,7 @@ using ServiceFinder.DAL.PaginationObjects;
 
 namespace ServiceFinder.API.Mapper
 {
-    internal class Mapping : Profile
+    public class Mapping : Profile
     {
         public Mapping()
         {

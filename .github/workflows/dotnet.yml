@@ -40,8 +40,15 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Restore dependencies
+        run: dotnet restore ./ServiceFinder/ServiceFinder.sln
+
+      - name: Build
+        run: dotnet build ./ServiceFinder/ServiceFinder.sln --configuration Debug
+
       - name: Run unit tests
-        run: dotnet test ./ServiceFinder/ServiceFinder.sln --no-build --verbosity normal
+        run: dotnet test ./ServiceFinder/ServiceFinder.UnitTest/ServiceFinder.UnitTest.csproj --no-build --verbosity normal
+
 
   analyze:
     runs-on: ubuntu-latest
