@@ -50,9 +50,9 @@ namespace ServiceFinder.IntegrationTests
         public async Task GetAll_ShouldReturnPagedResult()
         {
             var response = await _client.GetAsync($"{ApiRoutes.UserProfiles}?pageNumber=1&pageSize=10");
-            response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<PagedResult<UserProfileViewModel>>(content);
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertPagedResult(result!, 1, 10);
         }
 
@@ -60,9 +60,9 @@ namespace ServiceFinder.IntegrationTests
         public async Task GetById_ShouldReturnUserProfile()
         {
             var response = await _client.GetAsync($"{ApiRoutes.UserProfiles}/{_userProfileId}");
-            response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<UserProfileViewModel>(content);
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertUserProfile(result!, _userProfileId);
         }
 
@@ -71,9 +71,9 @@ namespace ServiceFinder.IntegrationTests
         {
             var viewModel = UserProfileTestHelper.CreateUserProfileViewModel();
             var response = await _client.PostAsJsonAsync(ApiRoutes.UserProfiles, viewModel);
-            response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<UserProfileViewModel>(content);
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertCreatedUserProfile(result!, viewModel);
         }
 
@@ -82,9 +82,9 @@ namespace ServiceFinder.IntegrationTests
         {
             var viewModel = UserProfileTestHelper.UpdateUserProfileViewModel();
             var response = await _client.PutAsJsonAsync($"{ApiRoutes.UserProfiles}/{_userProfileId}", viewModel);
-            response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<UserProfileViewModel>(content);
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertUpdatedUserProfile(result!, _userProfileId, viewModel);
         }
 
@@ -92,6 +92,7 @@ namespace ServiceFinder.IntegrationTests
         public async Task Delete_ShouldDeleteUserProfile()
         {
             var response = await _client.DeleteAsync($"{ApiRoutes.UserProfiles}/{_userProfileId}");
+
             response.EnsureSuccessStatusCode();
             _testHelper.AssertUserProfileDeleted(_userProfileId);
         }

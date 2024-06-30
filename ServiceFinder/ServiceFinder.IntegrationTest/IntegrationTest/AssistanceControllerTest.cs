@@ -88,11 +88,10 @@ namespace ServiceFinder.IntegrationTests
 
             // Act
             var response = await _client.GetAsync($"{ApiRoutes.Assistances}?pageNumber={pageNumber}&pageSize={pageSize}");
-            response.EnsureSuccessStatusCode();
-
             var result = await response.Content.ReadFromJsonAsync<PagedResult<AssistanceViewModel>>();
 
             // Assert
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertPagedResult(result!, pageNumber, pageSize);
         }
 
@@ -104,11 +103,10 @@ namespace ServiceFinder.IntegrationTests
 
             // Act
             var response = await _client.GetAsync($"{ApiRoutes.Assistances}/{assistanceId}");
-            response.EnsureSuccessStatusCode();
-
             var result = await response.Content.ReadFromJsonAsync<AssistanceViewModel>();
 
             // Assert
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertAssistance(result!, assistanceId);
         }
 
@@ -129,11 +127,10 @@ namespace ServiceFinder.IntegrationTests
 
             // Act
             var response = await _client.PostAsJsonAsync($"{ApiRoutes.Assistances}", createViewModel);
-            response.EnsureSuccessStatusCode();
-
             var createdAssistance = await response.Content.ReadFromJsonAsync<AssistanceViewModel>();
 
             // Assert
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertCreatedAssistance(createdAssistance!, createViewModel);
         }
 
@@ -152,11 +149,10 @@ namespace ServiceFinder.IntegrationTests
 
             // Act
             var response = await _client.PutAsJsonAsync($"{ApiRoutes.Assistances}/{_assistanceId}", updateViewModel);
-            response.EnsureSuccessStatusCode();
-
             var updatedAssistance = await response.Content.ReadFromJsonAsync<AssistanceViewModel>();
 
             // Assert
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertUpdatedAssistance(updatedAssistance!, _assistanceId, updateViewModel);
         }
 
@@ -165,9 +161,9 @@ namespace ServiceFinder.IntegrationTests
         {
             // Act
             var response = await _client.DeleteAsync($"{ApiRoutes.Assistances}/{_assistanceId}");
-            response.EnsureSuccessStatusCode();
 
             // Assert
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertAssistanceDeleted(_assistanceId);
         }
     }

@@ -102,10 +102,9 @@ namespace ServiceFinder.IntegrationTests
             var pageSize = 10;
 
             var response = await _client.GetAsync($"{ApiRoutes.Reviews}?pageNumber={pageNumber}&pageSize={pageSize}");
-            response.EnsureSuccessStatusCode();
-
             var result = await response.Content.ReadFromJsonAsync<PagedResult<ReviewViewModel>>();
 
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertPagedResult(result!, pageNumber, pageSize);
         }
 
@@ -113,10 +112,9 @@ namespace ServiceFinder.IntegrationTests
         public async Task GetById_ReturnsReviewViewModel()
         {
             var response = await _client.GetAsync($"{ApiRoutes.Reviews}/{_reviewId}");
-            response.EnsureSuccessStatusCode();
-
             var result = await response.Content.ReadFromJsonAsync<ReviewViewModel>();
 
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertReview(result!, _reviewId);
         }
 
@@ -132,10 +130,9 @@ namespace ServiceFinder.IntegrationTests
             };
 
             var response = await _client.PostAsJsonAsync(ApiRoutes.Reviews, createViewModel);
-            response.EnsureSuccessStatusCode();
-
             var createdReview = await response.Content.ReadFromJsonAsync<ReviewViewModel>();
 
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertCreatedReview(createdReview!, createViewModel);
         }
 
@@ -143,8 +140,8 @@ namespace ServiceFinder.IntegrationTests
         public async Task Delete_RemovesReviewFromDatabase()
         {
             var response = await _client.DeleteAsync($"{ApiRoutes.Reviews}/{_reviewId}");
-            response.EnsureSuccessStatusCode();
 
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertReviewDeleted(_reviewId);
         }
     }

@@ -28,11 +28,10 @@ namespace ServiceFinder.IntegrationTest.IntegrationTest
 
             // Act
             var response = await _client.GetAsync($"{ApiRoutes.AssistanceCategories}?pageNumber={pageNumber}&pageSize={pageSize}");
-            response.EnsureSuccessStatusCode();
-
             var result = await response.Content.ReadFromJsonAsync<PagedResult<AssistanceCategoryViewModel>>();
 
             // Assert
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertPagedResult(result!, pageNumber, pageSize);
         }
 
@@ -44,11 +43,10 @@ namespace ServiceFinder.IntegrationTest.IntegrationTest
 
             // Act
             var response = await _client.GetAsync($"{ApiRoutes.AssistanceCategories}/{category.Id}");
-            response.EnsureSuccessStatusCode();
-
             var result = await response.Content.ReadFromJsonAsync<AssistanceCategoryViewModel>();
 
             // Assert
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertAssistanceCategory(result!, category.Id);
         }
 
@@ -60,11 +58,10 @@ namespace ServiceFinder.IntegrationTest.IntegrationTest
 
             // Act
             var response = await _client.PostAsJsonAsync(ApiRoutes.AssistanceCategories, viewModel);
-            response.EnsureSuccessStatusCode();
-
             var createdCategory = await response.Content.ReadFromJsonAsync<AssistanceCategoryViewModel>();
 
             // Assert
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertCreatedAssistanceCategory(createdCategory!, viewModel);
         }
 
@@ -77,11 +74,10 @@ namespace ServiceFinder.IntegrationTest.IntegrationTest
 
             // Act
             var response = await _client.PutAsJsonAsync($"{ApiRoutes.AssistanceCategories}/{category.Id}", updateViewModel);
-            response.EnsureSuccessStatusCode();
-
             var updatedCategory = await response.Content.ReadFromJsonAsync<AssistanceCategoryViewModel>();
 
             // Assert
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertUpdatedAssistanceCategory(updatedCategory!, category.Id, updateViewModel);
         }
 
@@ -93,9 +89,9 @@ namespace ServiceFinder.IntegrationTest.IntegrationTest
 
             // Act
             var response = await _client.DeleteAsync($"{ApiRoutes.AssistanceCategories}/{category.Id}");
-            response.EnsureSuccessStatusCode();
 
             // Assert
+            response.EnsureSuccessStatusCode();
             _testHelper.AssertCategoryDeleted(category.Id);
         }
     }
