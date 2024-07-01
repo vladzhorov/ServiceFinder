@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFinder.OrderService.Domain", "ServiceFinder.OrderService.Domain\ServiceFinder.OrderService.Domain.csproj", "{DDDBE0FE-72B7-4D7F-A490-09637FB92538}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceFinder.OrderService.Domain", "ServiceFinder.OrderService.Domain\ServiceFinder.OrderService.Domain.csproj", "{DDDBE0FE-72B7-4D7F-A490-09637FB92538}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFinder.OrderService.UnitTest", "ServiceFinder.OrderService.UnitTest\ServiceFinder.OrderService.UnitTest.csproj", "{10A7823D-44BF-43E3-9EDB-C9BD224A26F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceFinder.OrderService.API", "ServiceFinder.OrderService.API\ServiceFinder.OrderService.API.csproj", "{6D32DF83-F1C0-4D15-A813-589985810C89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFinder.OrderService.API", "ServiceFinder.OrderService.API\ServiceFinder.OrderService.API.csproj", "{6D32DF83-F1C0-4D15-A813-589985810C89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceFinder.OrderService.Application", "ServiceFinder.OrderService.Application\ServiceFinder.OrderService.Application.csproj", "{683579DB-9EC0-4388-8CB9-0F2C4BE6464A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFinder.OrderService.Application", "ServiceFinder.OrderService.Application\ServiceFinder.OrderService.Application.csproj", "{683579DB-9EC0-4388-8CB9-0F2C4BE6464A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceFinder.OrderService.Infrastructure", "ServiceFinder.OrderService.Infrastructure\ServiceFinder.OrderService.Infrastructure.csproj", "{1576F9BE-4C9C-4070-9CB4-FF375E2E7E23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFinder.OrderService.Infrastructure", "ServiceFinder.OrderService.Infrastructure\ServiceFinder.OrderService.Infrastructure.csproj", "{1576F9BE-4C9C-4070-9CB4-FF375E2E7E23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFinder.OrderService.UnitTest", "Tests\ServiceFinder.OrderService.UnitTest\ServiceFinder.OrderService.UnitTest.csproj", "{C425C2B2-E45C-4ED0-9CB4-0D1A460FBB6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,6 @@ Global
 		{DDDBE0FE-72B7-4D7F-A490-09637FB92538}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDDBE0FE-72B7-4D7F-A490-09637FB92538}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDDBE0FE-72B7-4D7F-A490-09637FB92538}.Release|Any CPU.Build.0 = Release|Any CPU
-		{10A7823D-44BF-43E3-9EDB-C9BD224A26F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10A7823D-44BF-43E3-9EDB-C9BD224A26F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10A7823D-44BF-43E3-9EDB-C9BD224A26F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10A7823D-44BF-43E3-9EDB-C9BD224A26F8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6D32DF83-F1C0-4D15-A813-589985810C89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6D32DF83-F1C0-4D15-A813-589985810C89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D32DF83-F1C0-4D15-A813-589985810C89}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{1576F9BE-4C9C-4070-9CB4-FF375E2E7E23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1576F9BE-4C9C-4070-9CB4-FF375E2E7E23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1576F9BE-4C9C-4070-9CB4-FF375E2E7E23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C425C2B2-E45C-4ED0-9CB4-0D1A460FBB6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C425C2B2-E45C-4ED0-9CB4-0D1A460FBB6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C425C2B2-E45C-4ED0-9CB4-0D1A460FBB6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C425C2B2-E45C-4ED0-9CB4-0D1A460FBB6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
