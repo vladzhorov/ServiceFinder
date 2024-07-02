@@ -1,11 +1,10 @@
 ﻿namespace ServiceFinder.OrderService.Domain.Enums
 {
-    public enum OrderStatus
+    public enum OrderRequestStatus
     {
         Pending,
-        Confirmed,
-        InProgress,
-        Completed,
+        Approved,
+        Rejected,
         Cancelled
     }
 }
