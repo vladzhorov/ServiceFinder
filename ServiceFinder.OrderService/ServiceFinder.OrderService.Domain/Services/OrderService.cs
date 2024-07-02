@@ -30,21 +30,23 @@ namespace ServiceFinder.OrderService.Domain.Services
             _domainEventDispatcher.Dispatch(new OrderStatusChangedEvent(order.Id, newStatus));
         }
 
-        public async Task CreateOrderAsync(Order order, decimal ratePerMinutes, int rateDurationMinutes, CancellationToken cancellationToken)
+        public async Task CreateOrderAsync(Order order, decimal advertisedRatePerHour, int advertisedTimeInMinutes, CancellationToken cancellationToken)
         {
             order.CreatedAt = DateTime.UtcNow;
             order.UpdatedAt = DateTime.UtcNow;
             order.Status = OrderStatus.Pending;
 
-            order.Price = CalculatePrice(ratePerMinutes, rateDurationMinutes, order.DurationInMinutes);
+            order.Price = CalculatePrice(advertisedRatePerHour, advertisedTimeInMinutes, order.DurationInMinutes);
 
             await _orderRepository.AddAsync(order, cancellationToken);
         }
 
-        private decimal CalculatePrice(decimal ratePerMinutes, int rateDurationMinutes, int durationInMinutes)
+        private decimal CalculatePrice(decimal advertisedRatePerHour, int advertisedTimeInMinutes, int actualTimeInMinutes)
         {
-            decimal ratePerMinute = ratePerMinutes / rateDurationMinutes;
-            return Math.Round(ratePerMinute * durationInMinutes, 2);
+            decimal ratePerMinute = advertisedRatePerHour / advertisedTimeInMinutes;
+            decimal totalPrice = Math.Round(ratePerMinute * actualTimeInMinutes, 2);
+
+            return totalPrice;
         }
     }
 }
