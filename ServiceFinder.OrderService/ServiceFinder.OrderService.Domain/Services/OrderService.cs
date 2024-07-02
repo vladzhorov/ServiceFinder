@@ -2,6 +2,7 @@
 using ServiceFinder.OrderService.Domain.Events;
 using ServiceFinder.OrderService.Domain.Interfaces;
 using ServiceFinder.OrderService.Domain.Models;
+using ServiceFinder.OrderService.Domain.Providers;
 using ServiceFinder.OrderService.Domain.Validators;
 
 namespace ServiceFinder.OrderService.Domain.Services
@@ -10,47 +11,45 @@ namespace ServiceFinder.OrderService.Domain.Services
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
-        public OrderService(IOrderRepository orderRepository, IDomainEventDispatcher domainEventDispatcher)
+        public OrderService(IOrderRepository orderRepository, IDomainEventDispatcher domainEventDispatcher, IDateTimeProvider dateTimeProvider)
         {
             _orderRepository = orderRepository;
             _domainEventDispatcher = domainEventDispatcher;
+            _dateTimeProvider = dateTimeProvider;
         }
 
         public async Task UpdateOrderStatusAsync(Guid orderId, OrderStatus newStatus, CancellationToken cancellationToken)
         {
+            var utcNow = _dateTimeProvider.GetDate();
             var order = await _orderRepository.GetByIdAsync(orderId, cancellationToken);
 
             OrderStatusValidator.ValidateStatusTransition(order.Status, newStatus);
 
             order.Status = newStatus;
-            order.UpdatedAt = DateTime.UtcNow;
+            order.UpdatedAt = utcNow;
 
             await _orderRepository.UpdateAsync(order, cancellationToken);
             _domainEventDispatcher.Dispatch(new OrderStatusChangedEvent(order.Id, newStatus));
         }
 
-        public async Task CreateOrderAsync(Order order, decimal baseRate, int baseDurationMinutes, CancellationToken cancellationToken)
+        public async Task CreateOrderAsync(Order order, decimal baseRatePerMinute, int baseRateDurationInMinutes, CancellationToken cancellationToken)
         {
-            order.CreatedAt = DateTime.UtcNow;
-            order.UpdatedAt = DateTime.UtcNow;
+            var utcNow = _dateTimeProvider.GetDate();
+            order.CreatedAt = utcNow;
+            order.UpdatedAt = utcNow;
             order.Status = OrderStatus.Pending;
 
-            order.Price = CalculatePrice(baseRate, baseDurationMinutes, order.DurationInMinutes);
+            order.Price = CalculatePrice(baseRatePerMinute, baseRateDurationInMinutes, order.DurationInMinutes);
 
             await _orderRepository.AddAsync(order, cancellationToken);
         }
 
-        /// <summary>
-        /// Calculates the total cost of the order based on the base rate per minute and the total duration of the service
-        /// </summary>
-        /// <param name="baseRate">Base rate per minute, specified in the announcement</param>
-        /// <param name="baseDurationMinutes">The total duration, in minutes, for which the base rate is specified</param>
-        /// <param name="totalDurationInMinutes">The actual total duration of the service, in minutes</param>
-        private decimal CalculatePrice(decimal baseRate, int baseDurationMinutes, int totalDurationInMinutes)
+        private decimal CalculatePrice(decimal baseRatePerMinute, int baseRateDurationInMinutes, int totalServiceDurationInMinutes)
         {
-            var ratePerMinute = baseRate / baseDurationMinutes;
-            var totalPrice = Math.Round(ratePerMinute * totalDurationInMinutes, 2);
+            var ratePerMinute = baseRatePerMinute / baseRateDurationInMinutes;
+            var totalPrice = Math.Round(ratePerMinute * totalServiceDurationInMinutes, 2);
 
             return totalPrice;
         }
