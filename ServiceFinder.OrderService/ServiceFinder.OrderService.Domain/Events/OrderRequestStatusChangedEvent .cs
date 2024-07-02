@@ -1,14 +1,16 @@
-﻿using ServiceFinder.OrderService.Domain.Models;
+﻿using ServiceFinder.OrderService.Domain.Enums;
 
 namespace ServiceFinder.OrderService.Domain.Events
 {
     public class OrderRequestStatusChangedEvent : IDomainEvent
     {
-        public OrderRequest OrderRequest { get; }
+        public Guid OrderRequestId { get; }
+        public OrderRequestStatus NewStatus { get; }
 
-        public OrderRequestStatusChangedEvent(OrderRequest orderRequest)
+        public OrderRequestStatusChangedEvent(Guid orderRequestId, OrderRequestStatus newStatus)
         {
-            OrderRequest = orderRequest;
+            OrderRequestId = orderRequestId;
+            NewStatus = newStatus;
         }
     }
 }
