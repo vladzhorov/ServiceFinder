@@ -1,28 +1,27 @@
 ﻿using ServiceFinder.OrderService.Domain.Enums;
+using System.Collections.Immutable;
 
 namespace ServiceFinder.OrderService.Domain.Validators
 {
     public static class OrderStatusValidator
     {
-        private static readonly Dictionary<OrderStatus, OrderStatus[]> ValidOrderStatusTransitions = new Dictionary<OrderStatus, OrderStatus[]>
-        {
-            { OrderStatus.Pending, new OrderStatus[] { OrderStatus.Confirmed, OrderStatus.Cancelled } },
-            { OrderStatus.Confirmed, new OrderStatus[] { OrderStatus.InProgress, OrderStatus.Cancelled } },
-            { OrderStatus.InProgress, new OrderStatus[] { OrderStatus.Completed, OrderStatus.Cancelled } },
-        };
+        private static readonly ImmutableDictionary<OrderStatus, ImmutableArray<OrderStatus>> ValidOrderStatusTransitions =
+                 ImmutableDictionary<OrderStatus, ImmutableArray<OrderStatus>>.Empty
+                .Add(OrderStatus.Pending, [OrderStatus.Confirmed, OrderStatus.Cancelled])
+                .Add(OrderStatus.Confirmed, [OrderStatus.InProgress, OrderStatus.Cancelled])
+                .Add(OrderStatus.InProgress, [OrderStatus.Completed, OrderStatus.Cancelled]);
 
-        private static readonly Dictionary<OrderRequestStatus, OrderRequestStatus[]> ValidOrderRequestStatusTransitions = new Dictionary<OrderRequestStatus, OrderRequestStatus[]>
-        {
-            { OrderRequestStatus.Pending, new OrderRequestStatus[] { OrderRequestStatus.Approved, OrderRequestStatus.Rejected } },
-            { OrderRequestStatus.Approved, new OrderRequestStatus[] { OrderRequestStatus.Cancelled } },
-        };
+        private static readonly ImmutableDictionary<OrderRequestStatus, ImmutableArray<OrderRequestStatus>> ValidOrderRequestStatusTransitions =
+            ImmutableDictionary<OrderRequestStatus, ImmutableArray<OrderRequestStatus>>.Empty
+                .Add(OrderRequestStatus.Pending, [OrderRequestStatus.Approved, OrderRequestStatus.Rejected])
+                .Add(OrderRequestStatus.Approved, [OrderRequestStatus.Cancelled]);
 
         public static void ValidateStatusTransition(OrderStatus currentStatus, OrderStatus newStatus)
         {
             if (currentStatus == newStatus)
                 return;
 
-            if (!ValidOrderStatusTransitions.TryGetValue(currentStatus, out var validTransitions) || Array.IndexOf(validTransitions, newStatus) == -1)
+            if (!ValidOrderStatusTransitions.TryGetValue(currentStatus, out var validTransitions) || !validTransitions.Contains(newStatus))
             {
                 throw new InvalidOperationException($"Invalid convert {currentStatus} to {newStatus}");
             }
@@ -33,7 +32,7 @@ namespace ServiceFinder.OrderService.Domain.Validators
             if (currentStatus == newStatus)
                 return;
 
-            if (!ValidOrderRequestStatusTransitions.TryGetValue(currentStatus, out var validTransitions) || Array.IndexOf(validTransitions, newStatus) == -1)
+            if (!ValidOrderRequestStatusTransitions.TryGetValue(currentStatus, out var validTransitions) || !validTransitions.Contains(newStatus))
             {
                 throw new InvalidOperationException($"Invalid convert {currentStatus} to {newStatus}");
             }
