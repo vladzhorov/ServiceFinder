@@ -30,21 +30,27 @@ namespace ServiceFinder.OrderService.Domain.Services
             _domainEventDispatcher.Dispatch(new OrderStatusChangedEvent(order.Id, newStatus));
         }
 
-        public async Task CreateOrderAsync(Order order, decimal advertisedRatePerHour, int advertisedTimeInMinutes, CancellationToken cancellationToken)
+        public async Task CreateOrderAsync(Order order, decimal baseRate, int baseDurationMinutes, CancellationToken cancellationToken)
         {
             order.CreatedAt = DateTime.UtcNow;
             order.UpdatedAt = DateTime.UtcNow;
             order.Status = OrderStatus.Pending;
 
-            order.Price = CalculatePrice(advertisedRatePerHour, advertisedTimeInMinutes, order.DurationInMinutes);
+            order.Price = CalculatePrice(baseRate, baseDurationMinutes, order.DurationInMinutes);
 
             await _orderRepository.AddAsync(order, cancellationToken);
         }
 
-        private decimal CalculatePrice(decimal advertisedRatePerHour, int advertisedTimeInMinutes, int actualTimeInMinutes)
+        /// <summary>
+        /// Calculates the total cost of the order based on the base rate per minute and the total duration of the service
+        /// </summary>
+        /// <param name="baseRate">Base bet per minute specified in the ad</param>
+        /// <param name="baseDurationMinutes">The total duration, in minutes, for which the base rate is specified</param>
+        /// <param name="totalDurationInMinutes">The actual total duration of the service, in minutes</param>
+        private decimal CalculatePrice(decimal baseRate, int baseDurationMinutes, int totalDurationInMinutes)
         {
-            decimal ratePerMinute = advertisedRatePerHour / advertisedTimeInMinutes;
-            decimal totalPrice = Math.Round(ratePerMinute * actualTimeInMinutes, 2);
+            var ratePerMinute = baseRate / baseDurationMinutes;
+            var totalPrice = Math.Round(ratePerMinute * totalDurationInMinutes, 2);
 
             return totalPrice;
         }
