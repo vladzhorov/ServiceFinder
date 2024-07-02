@@ -44,7 +44,7 @@ namespace ServiceFinder.OrderService.Domain.Services
         /// <summary>
         /// Calculates the total cost of the order based on the base rate per minute and the total duration of the service
         /// </summary>
-        /// <param name="baseRate">Base bet per minute specified in the ad</param>
+        /// <param name="baseRate">Base rate per minute, specified in the announcement</param>
         /// <param name="baseDurationMinutes">The total duration, in minutes, for which the base rate is specified</param>
         /// <param name="totalDurationInMinutes">The actual total duration of the service, in minutes</param>
         private decimal CalculatePrice(decimal baseRate, int baseDurationMinutes, int totalDurationInMinutes)
