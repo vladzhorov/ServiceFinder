@@ -6,15 +6,19 @@ namespace ServiceFinder.OrderService.Domain.Validators
     public static class OrderStatusValidator
     {
         private static readonly ImmutableDictionary<OrderStatus, ImmutableArray<OrderStatus>> ValidOrderStatusTransitions =
-                 ImmutableDictionary<OrderStatus, ImmutableArray<OrderStatus>>.Empty
-                .Add(OrderStatus.Pending, [OrderStatus.Confirmed, OrderStatus.Cancelled])
-                .Add(OrderStatus.Confirmed, [OrderStatus.InProgress, OrderStatus.Cancelled])
-                .Add(OrderStatus.InProgress, [OrderStatus.Completed, OrderStatus.Cancelled]);
+            new Dictionary<OrderStatus, OrderStatus[]>
+            {
+                { OrderStatus.Pending, new OrderStatus[] { OrderStatus.Confirmed, OrderStatus.Cancelled } },
+                { OrderStatus.Confirmed, new OrderStatus[] { OrderStatus.InProgress, OrderStatus.Cancelled } },
+                { OrderStatus.InProgress, new OrderStatus[] { OrderStatus.Completed, OrderStatus.Cancelled } }
+            }.ToImmutableDictionary(kv => kv.Key, kv => kv.Value.ToImmutableArray());
 
         private static readonly ImmutableDictionary<OrderRequestStatus, ImmutableArray<OrderRequestStatus>> ValidOrderRequestStatusTransitions =
-            ImmutableDictionary<OrderRequestStatus, ImmutableArray<OrderRequestStatus>>.Empty
-                .Add(OrderRequestStatus.Pending, [OrderRequestStatus.Approved, OrderRequestStatus.Rejected])
-                .Add(OrderRequestStatus.Approved, [OrderRequestStatus.Cancelled]);
+            new Dictionary<OrderRequestStatus, OrderRequestStatus[]>
+            {
+                { OrderRequestStatus.Pending, new OrderRequestStatus[] { OrderRequestStatus.Approved, OrderRequestStatus.Rejected } },
+                { OrderRequestStatus.Approved, new OrderRequestStatus[] { OrderRequestStatus.Cancelled } }
+            }.ToImmutableDictionary(kv => kv.Key, kv => kv.Value.ToImmutableArray());
 
         public static void ValidateStatusTransition(OrderStatus currentStatus, OrderStatus newStatus)
         {
