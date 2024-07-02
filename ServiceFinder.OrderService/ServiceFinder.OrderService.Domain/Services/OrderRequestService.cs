@@ -31,7 +31,6 @@ namespace ServiceFinder.OrderService.Domain.Services
             _domainEventDispatcher.Dispatch(new OrderRequestStatusChangedEvent(orderRequest.Id, newStatus));
         }
 
-
         public async Task CreateOrderRequestAsync(OrderRequest orderRequest, CancellationToken cancellationToken)
         {
             orderRequest.CreatedAt = DateTime.UtcNow;
