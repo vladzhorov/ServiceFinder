@@ -1,7 +1,7 @@
 ﻿using ServiceFinder.Domain.PaginationObjects;
 using ServiceFinder.OrderService.Domain.Models;
 
-namespace OrderService.Domain.Interfaces
+namespace ServiceFinder.OrderService.Domain.Interfaces
 {
     public interface IOrderRequestRepository
     {
