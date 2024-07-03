@@ -2,9 +2,8 @@
 
 namespace ServiceFinder.OrderService.Domain.Models
 {
-    public class OrderRequest
+    public class OrderRequest : BaseModel
     {
-        public Guid Id { get; set; }
         public Guid ServiceId { get; set; }
         public Guid CustomerId { get; set; }
         public int DurationInMinutes { get; set; }
