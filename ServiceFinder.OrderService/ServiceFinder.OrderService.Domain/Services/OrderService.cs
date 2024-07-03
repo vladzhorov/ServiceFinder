@@ -22,7 +22,7 @@ namespace ServiceFinder.OrderService.Domain.Services
 
         public async Task UpdateOrderStatusAsync(Guid orderId, OrderStatus newStatus, CancellationToken cancellationToken)
         {
-            var utcNow = _dateTimeProvider.GetDate();
+            var utcNow = _dateTimeProvider.UtcNow;
             var order = await _orderRepository.GetByIdAsync(orderId, cancellationToken);
 
             OrderStatusValidator.ValidateStatusTransition(order.Status, newStatus);
@@ -36,7 +36,7 @@ namespace ServiceFinder.OrderService.Domain.Services
 
         public async Task CreateOrderAsync(Order order, decimal baseRatePerMinute, int baseRateDurationInMinutes, CancellationToken cancellationToken)
         {
-            var utcNow = _dateTimeProvider.GetDate();
+            var utcNow = _dateTimeProvider.UtcNow;
             order.CreatedAt = utcNow;
             order.UpdatedAt = utcNow;
             order.Status = OrderStatus.Pending;
