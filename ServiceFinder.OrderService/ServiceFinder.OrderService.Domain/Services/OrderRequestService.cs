@@ -1,4 +1,5 @@
-﻿using ServiceFinder.OrderService.Domain.Enums;
+﻿using OrderService.Domain.Interfaces;
+using ServiceFinder.OrderService.Domain.Enums;
 using ServiceFinder.OrderService.Domain.Events;
 using ServiceFinder.OrderService.Domain.Interfaces;
 using ServiceFinder.OrderService.Domain.Models;
@@ -22,7 +23,7 @@ namespace ServiceFinder.OrderService.Domain.Services
 
         public async Task UpdateOrderRequestStatusAsync(Guid orderRequestId, OrderRequestStatus newStatus, CancellationToken cancellationToken)
         {
-            var utcNow = _dateTimeProvider.UtcNow;
+            var utcNow = _dateTimeProvider.GetDate();
 
             var orderRequest = await _orderRequestRepository.GetByIdAsync(orderRequestId, cancellationToken);
 
@@ -37,7 +38,7 @@ namespace ServiceFinder.OrderService.Domain.Services
 
         public async Task CreateOrderRequestAsync(OrderRequest orderRequest, CancellationToken cancellationToken)
         {
-            var utcNow = _dateTimeProvider.UtcNow;
+            var utcNow = _dateTimeProvider.GetDate();
             orderRequest.CreatedAt = utcNow;
             orderRequest.UpdatedAt = utcNow;
             orderRequest.Status = OrderRequestStatus.Pending;
