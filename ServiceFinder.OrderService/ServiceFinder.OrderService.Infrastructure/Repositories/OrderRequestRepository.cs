@@ -1,8 +1,7 @@
 ﻿using ServiceFinder.OrderService.Domain.Interfaces;
 using ServiceFinder.OrderService.Domain.Models;
-using ServiceFinder.OrderService.Infrastructure.Repositories;
 
-namespace ServiceFinder.OrderService.Infrastructure.Persistence.Repositories
+namespace ServiceFinder.OrderService.Infrastructure.Repositories
 {
     public class OrderRequestRepository : Repository<OrderRequest>, IOrderRequestRepository
     {
