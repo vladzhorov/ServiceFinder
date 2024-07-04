@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using ServiceFinder.OrderService.Domain.Interfaces;
+using ServiceFinder.OrderService.Infrastructure.Repositories;
 
 namespace ServiceFinder.OrderService.Infrastructure
 {
@@ -18,9 +20,8 @@ namespace ServiceFinder.OrderService.Infrastructure
                 options.UseNpgsql(dbOptions.ConnectionString);
             });
 
-            // services.AddScoped<IOrderRepository, OrderRepository>();
-            //  services.AddScoped<IOrderRequestRepository, OrderRequestRepository>();
-
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderRequestRepository, OrderRequestRepository>();
         }
     }
 }
