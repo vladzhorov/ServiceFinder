@@ -33,10 +33,10 @@ namespace ServiceFinder.OrderService.Infrastructure.Repositories
             };
         }
 
-        public async virtual Task<PagedResult<T>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public virtual Task<PagedResult<T>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             IQueryable<T> query = Query;
-            return await GetPagedResultAsync(query, pageNumber, pageSize, cancellationToken);
+            return GetPagedResultAsync(query, pageNumber, pageSize, cancellationToken);
         }
 
         public virtual Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -67,9 +67,9 @@ namespace ServiceFinder.OrderService.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async virtual Task<IEnumerable<T>> GetByPredicateAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
+        public virtual Task<IEnumerable<T>> GetByPredicate(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
         {
-            return await Query.Where(predicate).ToListAsync(cancellationToken);
+            return Query.Where(predicate).ToList(cancellationToken);
         }
     }
 }
