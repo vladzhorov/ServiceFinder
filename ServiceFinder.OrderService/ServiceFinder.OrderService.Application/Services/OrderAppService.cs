@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using ServiceFinder.OrderService.Application.DTOs;
+using ServiceFinder.OrderService.Application.Interfaces;
 using ServiceFinder.OrderService.Domain.Enums;
 using ServiceFinder.OrderService.Domain.Interfaces;
 using ServiceFinder.OrderService.Domain.Models;
 using ServiceFinder.OrderService.Domain.Services;
 
-public class OrderAppService
+public class OrderAppService : IOrderAppService
 {
     private readonly OrderService _orderService;
     private readonly IOrderRepository _orderRepository;
