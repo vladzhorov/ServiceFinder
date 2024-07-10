@@ -15,13 +15,13 @@ namespace ServiceFinder.OrderService.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        protected async Task<PagedResult<T>> GetPagedResultAsync(IQueryable<T> query, int pageNumber, int pageSize, CancellationToken cancellationToken)
+        protected PagedResult<T> GetPagedResultAsync(IQueryable<T> query, int pageNumber, int pageSize)
         {
-            int totalCount = await query.CountAsync(cancellationToken);
-            var data = await query
+            int totalCount = query.Count();
+            var data = query
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .ToListAsync(cancellationToken);
+                .ToList();
 
             return new PagedResult<T>
             {
@@ -33,10 +33,10 @@ namespace ServiceFinder.OrderService.Infrastructure.Repositories
             };
         }
 
-        public virtual Task<PagedResult<T>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public virtual PagedResult<T> GetAll(int pageNumber, int pageSize)
         {
             IQueryable<T> query = Query;
-            return GetPagedResultAsync(query, pageNumber, pageSize, cancellationToken);
+            return GetPagedResultAsync(query, pageNumber, pageSize);
         }
 
         public virtual Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -67,9 +67,9 @@ namespace ServiceFinder.OrderService.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public virtual Task<IEnumerable<T>> GetByPredicate(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
+        public virtual IEnumerable<T> GetByPredicate(Expression<Func<T, bool>> predicate)
         {
-            return Query.Where(predicate).ToList(cancellationToken);
+            return Query.Where(predicate).ToList();
         }
     }
 }
