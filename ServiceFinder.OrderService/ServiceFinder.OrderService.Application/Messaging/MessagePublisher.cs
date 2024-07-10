@@ -1,11 +1,9 @@
-﻿using Microsoft.Extensions.Options;
-using RabbitMQ.Client;
-using System;
+﻿using RabbitMQ.Client;
 using System.Text;
 
 namespace ServiceFinder.OrderService.Application.Messaging
 {
-    public class MessagePublisher : IDisposable
+    public class MessagePublisher : IMessagePublisher
     {
         private readonly IConnection _connection;
         private readonly IModel _channel;
@@ -13,22 +11,13 @@ namespace ServiceFinder.OrderService.Application.Messaging
         private readonly string _queueName;
         private readonly string _routingKey;
 
-        public MessagePublisher(IOptions<RabbitMQConfiguration> options)
+        public MessagePublisher(IConnection connection, IModel channel, string exchangeName, string queueName, string routingKey)
         {
-            var configuration = options.Value;
-
-            var factory = new ConnectionFactory()
-            {
-                HostName = configuration.HostName,
-                UserName = configuration.UserName,
-                Password = configuration.Password
-            };
-
-            _connection = factory.CreateConnection();
-            _channel = _connection.CreateModel();
-            _exchangeName = configuration.ExchangeName;
-            _queueName = configuration.QueueName;
-            _routingKey = configuration.RoutingKey;
+            _connection = connection;
+            _channel = channel;
+            _exchangeName = exchangeName;
+            _queueName = queueName;
+            _routingKey = routingKey;
 
             _channel.ExchangeDeclare(exchange: _exchangeName, type: "direct");
 
