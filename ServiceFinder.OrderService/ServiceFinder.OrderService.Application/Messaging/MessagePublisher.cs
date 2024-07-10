@@ -1,21 +1,29 @@
-﻿using RabbitMQ.Client;
+﻿using Microsoft.Extensions.Configuration;
+using RabbitMQ.Client;
 using System.Text;
 
 namespace ServiceFinder.OrderService.Application.Messaging
 {
     public class MessagePublisher : IDisposable
     {
-        private readonly string _hostname;
-        private readonly string _queueName;
         private readonly IConnection _connection;
         private readonly IModel _channel;
+        private readonly string _queueName;
 
-        public MessagePublisher(string hostname, string queueName)
+        public MessagePublisher(IConfiguration configuration)
         {
-            _hostname = hostname;
-            _queueName = queueName;
+            var hostname = configuration["RabbitMQ:HostName"];
+            var username = configuration["RabbitMQ:UserName"];
+            var password = configuration["RabbitMQ:Password"];
+            _queueName = configuration["RabbitMQ:QueueName"];
 
-            var factory = new ConnectionFactory() { HostName = _hostname };
+            var factory = new ConnectionFactory()
+            {
+                HostName = hostname,
+                UserName = username,
+                Password = password
+            };
+
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
             _channel.QueueDeclare(queue: _queueName,
