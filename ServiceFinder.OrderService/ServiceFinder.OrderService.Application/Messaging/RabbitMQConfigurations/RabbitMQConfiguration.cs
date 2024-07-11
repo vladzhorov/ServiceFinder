@@ -4,6 +4,6 @@
     {
         public RabbitMQConnectionConfiguration? Connection { get; set; }
         public RabbitMQExchangeConfiguration? Exchange { get; set; }
-        public RabbitMQQueueConfiguration? Queue { get; set; }
+        public RabbitMQQueueConfiguration? MessageQueue { get; set; }
     }
 }
