@@ -27,9 +27,9 @@ namespace ServiceFinder.OrderService.Application
             return _mapper.Map<OrderRequestDto>(orderRequest);
         }
 
-        public async Task UpdateOrderRequestStatusAsync(Guid orderRequestId, OrderRequestStatus newStatus, CancellationToken cancellationToken)
+        public Task UpdateOrderRequestStatusAsync(Guid orderRequestId, OrderRequestStatus newStatus, CancellationToken cancellationToken)
         {
-            await _orderRequestService.UpdateOrderRequestStatusAsync(orderRequestId, newStatus, cancellationToken);
+            return _orderRequestService.UpdateOrderRequestStatusAsync(orderRequestId, newStatus, cancellationToken);
         }
 
         public async Task<OrderRequestDto> GetOrderRequestByIdAsync(Guid id, CancellationToken cancellationToken)

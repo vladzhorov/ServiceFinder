@@ -26,9 +26,9 @@ public class OrderAppService : IOrderAppService
         return _mapper.Map<OrderDto>(order);
     }
 
-    public async Task UpdateOrderStatusAsync(Guid orderId, OrderStatus newStatus, CancellationToken cancellationToken)
+    public Task UpdateOrderStatusAsync(Guid orderId, OrderStatus newStatus, CancellationToken cancellationToken)
     {
-        await _orderService.UpdateOrderStatusAsync(orderId, newStatus, cancellationToken);
+        return _orderService.UpdateOrderStatusAsync(orderId, newStatus, cancellationToken);
     }
 
     public async Task<OrderDto> GetOrderByIdAsync(Guid id, CancellationToken cancellationToken)
