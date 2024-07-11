@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
+using ServiceFinder.OrderService.Application.Constants;
 using ServiceFinder.OrderService.Application.EventHandlers;
 using ServiceFinder.OrderService.Application.Interfaces;
 using ServiceFinder.OrderService.Application.Messaging;
@@ -13,7 +14,7 @@ namespace ServiceFinder.OrderService.Application
     {
         public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<RabbitMQConfiguration>(options => configuration.GetSection("RabbitMQ").Bind(options));
+            services.Configure<RabbitMQConfiguration>(options => configuration.GetSection(RabbitMQConfigurationConstants.RabbitMQSection).Bind(options));
             services.AddSingleton(provider =>
             {
                 var options = provider.GetRequiredService<IOptions<RabbitMQConfiguration>>().Value;
@@ -27,14 +28,14 @@ namespace ServiceFinder.OrderService.Application
                 var channel = connection.CreateModel();
 
                 channel.ExchangeDeclare(exchange: options.Exchange!.Name, type: options.Exchange.Type);
-                channel.QueueDeclare(queue: options.Queue!.Name,
+                channel.QueueDeclare(queue: options.MessageQueue!.Name,
                                      durable: false,
                                      exclusive: false,
                                      autoDelete: false,
                                      arguments: null);
-                channel.QueueBind(queue: options.Queue.Name,
+                channel.QueueBind(queue: options.MessageQueue.Name,
                                   exchange: options.Exchange.Name,
-                                  routingKey: options.Queue.RoutingKey);
+                                  routingKey: options.MessageQueue.RoutingKey);
 
                 return channel;
             });
