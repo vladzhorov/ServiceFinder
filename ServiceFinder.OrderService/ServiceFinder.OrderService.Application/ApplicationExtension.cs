@@ -41,14 +41,14 @@ namespace ServiceFinder.OrderService.Application
             });
 
             services.AddScoped<IMessagePublisher, MessagePublisher>();
+            services.AddScoped<IOrderRequestStatusChangedEventHandler, OrderRequestStatusChangedEventHandler>();
+            services.AddScoped<IOrderStatusChangedEventHandler, OrderStatusChangedEventHandler>();
         }
 
         public static void AddApplication(this IServiceCollection services)
         {
             services.AddScoped<IOrderAppService, OrderAppService>();
             services.AddScoped<IOrderRequestAppService, OrderRequestAppService>();
-            services.AddScoped<OrderRequestStatusChangedEventHandler>();
-            services.AddScoped<OrderStatusChangedEventHandler>();
         }
     }
 }
