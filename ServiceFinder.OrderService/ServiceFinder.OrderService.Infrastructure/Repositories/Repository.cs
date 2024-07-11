@@ -15,7 +15,7 @@ namespace ServiceFinder.OrderService.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        protected PagedResult<T> GetPagedResultAsync(IQueryable<T> query, int pageNumber, int pageSize)
+        protected Task<PagedResult<T>> GetPagedResultAsync(IQueryable<T> query, int pageNumber, int pageSize)
         {
             int totalCount = query.Count();
             var data = query
@@ -23,17 +23,17 @@ namespace ServiceFinder.OrderService.Infrastructure.Repositories
                 .Take(pageSize)
                 .ToList();
 
-            return new PagedResult<T>
+            return Task.FromResult(new PagedResult<T>
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
                 TotalCount = totalCount,
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize),
                 Data = data
-            };
+            });
         }
 
-        public virtual PagedResult<T> GetAll(int pageNumber, int pageSize)
+        public Task<PagedResult<T>> GetAllAsync(int pageNumber, int pageSize)
         {
             IQueryable<T> query = Query;
             return GetPagedResultAsync(query, pageNumber, pageSize);
@@ -67,9 +67,9 @@ namespace ServiceFinder.OrderService.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public virtual IEnumerable<T> GetByPredicate(Expression<Func<T, bool>> predicate)
+        public Task<IEnumerable<T>> GetByPredicateAsync(Expression<Func<T, bool>> predicate)
         {
-            return Query.Where(predicate).ToList();
+            return Task.FromResult(Query.Where(predicate).ToList().AsEnumerable());
         }
     }
 }
