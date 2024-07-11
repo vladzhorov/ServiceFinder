@@ -6,9 +6,9 @@ namespace ServiceFinder.OrderService.Application.EventHandlers
 {
     public class OrderStatusChangedEventHandler
     {
-        private readonly MessagePublisher _publisher;
+        private readonly IMessagePublisher _publisher;
 
-        public OrderStatusChangedEventHandler(MessagePublisher publisher)
+        public OrderStatusChangedEventHandler(IMessagePublisher publisher)
         {
             _publisher = publisher;
         }
