@@ -8,11 +8,8 @@ namespace ServiceFinder.OrderService.Application.Mapper
     {
         public OrderMappingProfile()
         {
-            CreateMap<Order, OrderDto>();
-            CreateMap<OrderDto, Order>();
-
-            CreateMap<OrderRequest, OrderRequestDto>();
-            CreateMap<OrderRequestDto, OrderRequest>();
+            CreateMap<Order, OrderDto>().ReverseMap();
+            CreateMap<OrderRequest, OrderRequestDto>().ReverseMap();
         }
     }
 }
