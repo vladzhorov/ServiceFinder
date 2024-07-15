@@ -54,17 +54,13 @@ namespace ServiceFinder.OrderService.Infrastructure
                 return channel;
             });
 
-            services.AddScoped<IMessagePublisher>(provider =>
-            {
-                var options = provider.GetRequiredService<IOptions<RabbitMQConfiguration>>().Value;
-                var channel = provider.GetRequiredService<IModel>();
-                return new MessagePublisher(channel, options.Exchange!.Name, options.MessageQueue!.RoutingKey);
-            });
-
+            services.AddScoped<IMessagePublisher, MessagePublisher>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderRequestRepository, OrderRequestRepository>();
             services.AddScoped<IDateTimeProvider, DateTimeProvider>();
             services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
+            services.AddScoped<Domain.Services.OrderService>();
+            services.AddScoped<OrderRequestService>();
 
         }
     }
