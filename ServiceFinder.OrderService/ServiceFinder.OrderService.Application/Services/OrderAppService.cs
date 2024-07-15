@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ServiceFinder.OrderService.Application.DTOs;
+using ServiceFinder.Domain.PaginationObjects;
 using ServiceFinder.OrderService.Application.Interfaces;
 using ServiceFinder.OrderService.Domain.Enums;
 using ServiceFinder.OrderService.Domain.Interfaces;
@@ -35,5 +35,17 @@ public class OrderAppService : IOrderAppService
     {
         var order = await _orderRepository.GetByIdAsync(id, cancellationToken);
         return _mapper.Map<OrderDto>(order);
+    }
+    public Task<PagedResult<OrderDto>> GetAllOrderAsync(int pageNumber, int pageSize)
+    {
+        var pagedEntitiesTask = _orderRepository.GetAllAsync(pageNumber, pageSize);
+
+        return pagedEntitiesTask.ContinueWith(task =>
+        {
+            var pagedEntities = task.Result;
+
+            var mappedResult = _mapper.Map<PagedResult<OrderDto>>(pagedEntities);
+            return mappedResult;
+        });
     }
 }
