@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ServiceFinder.OrderService.Infrastructure;
@@ -12,11 +11,9 @@ using ServiceFinder.OrderService.Infrastructure;
 namespace ServiceFinder.OrderService.Infrastructure.Migrations
 {
     [DbContext(typeof(OrderDbContext))]
-    [Migration("20240703120441_Initial")]
-    partial class Initial
+    partial class OrderDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,6 +33,10 @@ namespace ServiceFinder.OrderService.Infrastructure.Migrations
 
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("DurationInMinutes")
                         .HasColumnType("integer");
@@ -71,6 +72,9 @@ namespace ServiceFinder.OrderService.Infrastructure.Migrations
 
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
 
                     b.Property<int>("DurationInMinutes")
                         .HasColumnType("integer");
