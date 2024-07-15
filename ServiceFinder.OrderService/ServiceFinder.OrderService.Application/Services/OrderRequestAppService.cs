@@ -3,6 +3,7 @@ using ServiceFinder.Domain.PaginationObjects;
 using ServiceFinder.OrderService.Application.DTOs;
 using ServiceFinder.OrderService.Application.Interfaces;
 using ServiceFinder.OrderService.Domain.Enums;
+using ServiceFinder.OrderService.Domain.Exceptions;
 using ServiceFinder.OrderService.Domain.Interfaces;
 using ServiceFinder.OrderService.Domain.Models;
 using ServiceFinder.OrderService.Domain.Services;
@@ -35,7 +36,7 @@ namespace ServiceFinder.OrderService.Application
 
         public async Task<OrderRequestDto> GetOrderRequestByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var orderRequest = await _orderRequestRepository.GetByIdAsync(id, cancellationToken);
+            var orderRequest = await _orderRequestRepository.GetByIdAsync(id, cancellationToken) ?? throw new ModelNotFoundException(id);
             return _mapper.Map<OrderRequestDto>(orderRequest);
         }
         public Task<PagedResult<OrderRequestDto>> GetAllOrderRequestAsync(int pageNumber, int pageSize)

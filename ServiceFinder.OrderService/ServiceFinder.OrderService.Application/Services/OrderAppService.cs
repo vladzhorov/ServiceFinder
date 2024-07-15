@@ -2,6 +2,7 @@
 using ServiceFinder.Domain.PaginationObjects;
 using ServiceFinder.OrderService.Application.Interfaces;
 using ServiceFinder.OrderService.Domain.Enums;
+using ServiceFinder.OrderService.Domain.Exceptions;
 using ServiceFinder.OrderService.Domain.Interfaces;
 using ServiceFinder.OrderService.Domain.Models;
 using ServiceFinder.OrderService.Domain.Services;
@@ -33,7 +34,7 @@ public class OrderAppService : IOrderAppService
 
     public async Task<OrderDto> GetOrderByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        var order = await _orderRepository.GetByIdAsync(id, cancellationToken);
+        var order = await _orderRepository.GetByIdAsync(id, cancellationToken) ?? throw new ModelNotFoundException(id);
         return _mapper.Map<OrderDto>(order);
     }
     public Task<PagedResult<OrderDto>> GetAllOrderAsync(int pageNumber, int pageSize)

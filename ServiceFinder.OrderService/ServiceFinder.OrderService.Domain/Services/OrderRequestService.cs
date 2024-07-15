@@ -1,5 +1,6 @@
 ﻿using ServiceFinder.OrderService.Domain.Enums;
 using ServiceFinder.OrderService.Domain.Events;
+using ServiceFinder.OrderService.Domain.Exceptions;
 using ServiceFinder.OrderService.Domain.Interfaces;
 using ServiceFinder.OrderService.Domain.Models;
 using ServiceFinder.OrderService.Domain.Providers;
@@ -26,6 +27,10 @@ namespace ServiceFinder.OrderService.Domain.Services
 
             var orderRequest = await _orderRequestRepository.GetByIdAsync(orderRequestId, cancellationToken);
 
+            if (orderRequest == null)
+            {
+                throw new ModelNotFoundException(orderRequestId);
+            }
             OrderStatusValidator.ValidateStatusTransition(orderRequest.Status, newStatus);
 
             orderRequest.Status = newStatus;

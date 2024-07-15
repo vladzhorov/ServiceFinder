@@ -1,5 +1,6 @@
 ﻿using ServiceFinder.OrderService.Domain.Enums;
 using ServiceFinder.OrderService.Domain.Events;
+using ServiceFinder.OrderService.Domain.Exceptions;
 using ServiceFinder.OrderService.Domain.Interfaces;
 using ServiceFinder.OrderService.Domain.Models;
 using ServiceFinder.OrderService.Domain.Providers;
@@ -25,6 +26,10 @@ namespace ServiceFinder.OrderService.Domain.Services
             var utcNow = _dateTimeProvider.UtcNow;
             var order = await _orderRepository.GetByIdAsync(orderId, cancellationToken);
 
+            if (order == null)
+            {
+                throw new ModelNotFoundException(orderId);
+            }
             OrderStatusValidator.ValidateStatusTransition(order.Status, newStatus);
 
             order.Status = newStatus;
