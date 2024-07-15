@@ -1,6 +1,6 @@
 ﻿using ServiceFinder.OrderService.Application.Interfaces;
-using ServiceFinder.OrderService.Application.Messaging;
 using ServiceFinder.OrderService.Domain.Events;
+using ServiceFinder.OrderService.Domain.Messaging;
 using System.Text.Json;
 
 namespace ServiceFinder.OrderService.Application.EventHandlers
