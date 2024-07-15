@@ -1,4 +1,6 @@
-﻿using RabbitMQ.Client;
+﻿using Microsoft.Extensions.Options;
+using RabbitMQ.Client;
+using ServiceFinder.OrderService.Domain.Messaging.RabbitMQConfigurations;
 using System.Text;
 
 namespace ServiceFinder.OrderService.Domain.Messaging
@@ -9,11 +11,12 @@ namespace ServiceFinder.OrderService.Domain.Messaging
         private readonly string _exchangeName;
         private readonly string _routingKey;
 
-        public MessagePublisher(IModel channel, string exchangeName, string routingKey)
+        public MessagePublisher(IModel channel, IOptions<RabbitMQConfiguration> config)
         {
             _channel = channel;
-            _exchangeName = exchangeName;
-            _routingKey = routingKey;
+            var configuration = config.Value;
+            _exchangeName = configuration.Exchange!.Name;
+            _routingKey = configuration.MessageQueue!.RoutingKey;
         }
 
         public void Publish(string message)
@@ -25,6 +28,7 @@ namespace ServiceFinder.OrderService.Domain.Messaging
                                  body: body);
             Console.WriteLine($" [x] Sent {message}");
         }
+
         public void Dispose()
         {
             _channel.Close();
