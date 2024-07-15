@@ -7,20 +7,20 @@ using ServiceFinder.OrderService.Application;
 using ServiceFinder.OrderService.Application.Mapper;
 using ServiceFinder.OrderService.Infrastructure;
 using System.Globalization;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var configuration = new ConfigurationBuilder()
-    .SetBasePath(builder.Environment.ContentRootPath)
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .Build();
-
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderViewModelValidator>();
 builder.Services.AddApplication();
-builder.Services.AddInfrastructure(configuration);
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(OrderMappingProfile), typeof(OrderViewModelMappingProfile));
 ValidatorOptions.Global.LanguageManager = new LanguageManager
 {
