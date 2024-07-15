@@ -1,4 +1,4 @@
-﻿namespace ServiceFinder.Domain.PaginationObjects
+﻿namespace ServiceFinder.Domain.PaginationModels
 {
     public class PagedResult<T>
     {

@@ -1,4 +1,4 @@
-﻿using ServiceFinder.Domain.PaginationObjects;
+﻿using ServiceFinder.Domain.PaginationModels;
 using ServiceFinder.OrderService.Application.DTOs;
 using ServiceFinder.OrderService.Domain.Enums;
 
