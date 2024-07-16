@@ -44,9 +44,9 @@ namespace ServiceFinder.OrderService.API.Controllers
         }
 
         [HttpGet]
-        public async Task<PagedResult<OrderRequestViewModel>> GetAll(int pageNumber, int pageSize)
+        public async Task<PagedResult<OrderRequestViewModel>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            var pagedResult = await _orderRequestAppService.GetAllOrderRequestAsync(pageNumber, pageSize);
+            var pagedResult = await _orderRequestAppService.GetAllOrderRequestAsync(pageNumber, pageSize, cancellationToken);
             return _mapper.Map<PagedResult<OrderRequestViewModel>>(pagedResult);
         }
 
