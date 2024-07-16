@@ -8,7 +8,6 @@ using ServiceFinder.OrderService.Domain.Interfaces;
 using ServiceFinder.OrderService.Domain.Messaging;
 using ServiceFinder.OrderService.Domain.Messaging.RabbitMQConfigurations;
 using ServiceFinder.OrderService.Domain.Providers;
-using ServiceFinder.OrderService.Domain.Services;
 using ServiceFinder.OrderService.Infrastructure.Repositories;
 
 namespace ServiceFinder.OrderService.Infrastructure
@@ -58,10 +57,6 @@ namespace ServiceFinder.OrderService.Infrastructure
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderRequestRepository, OrderRequestRepository>();
             services.AddScoped<IDateTimeProvider, DateTimeProvider>();
-            services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
-            services.AddScoped<Domain.Services.OrderService>();
-            services.AddScoped<OrderRequestService>();
-
         }
     }
 }
