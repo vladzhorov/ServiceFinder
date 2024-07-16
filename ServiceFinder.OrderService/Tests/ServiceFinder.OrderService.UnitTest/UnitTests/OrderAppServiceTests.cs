@@ -5,6 +5,7 @@ using NSubstitute;
 using ServiceFinder.Domain.PaginationModels;
 using ServiceFinder.OrderService.Application.Mapper;
 using ServiceFinder.OrderService.Domain.Enums;
+using ServiceFinder.OrderService.Domain.Events;
 using ServiceFinder.OrderService.Domain.Exceptions;
 using ServiceFinder.OrderService.Domain.Interfaces;
 using ServiceFinder.OrderService.Domain.Models;
@@ -19,6 +20,7 @@ public class OrderAppServiceTests
     private readonly OrderService _orderService;
     private readonly OrderAppService _orderAppService;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IDomainEventDispatcher _domainEventDispatcher;
 
     public OrderAppServiceTests()
     {
@@ -26,6 +28,7 @@ public class OrderAppServiceTests
 
         _orderRepository = Substitute.For<IOrderRepository>();
         _dateTimeProvider = Substitute.For<IDateTimeProvider>();
+        _domainEventDispatcher = Substitute.For<IDomainEventDispatcher>();
 
         var config = new MapperConfiguration(cfg =>
         {
@@ -33,9 +36,10 @@ public class OrderAppServiceTests
         });
         _mapper = config.CreateMapper();
 
-        _orderService = Substitute.For<OrderService>(_orderRepository, Substitute.For<IDomainEventDispatcher>(), _dateTimeProvider);
+        _orderService = Substitute.For<OrderService>(_orderRepository, _domainEventDispatcher, _dateTimeProvider);
         _orderAppService = new OrderAppService(_orderService, _orderRepository, _mapper);
     }
+
 
     [Fact]
     public async Task CreateOrderAsync_CorrectModel_ReturnsCreatedModel()
@@ -67,15 +71,19 @@ public class OrderAppServiceTests
         var orderDto = _fixture.Create<OrderDto>();
         var order = _mapper.Map<Order>(orderDto);
         var newStatus = _fixture.Create<OrderStatus>();
+        var domainEventDispatcher = Substitute.For<IDomainEventDispatcher>();
 
-        _orderRepository.GetByIdAsync(order.Id, default)
-            .Returns(order);
+        var orderService = new OrderService(_orderRepository, domainEventDispatcher, _dateTimeProvider);
+        var orderAppService = new OrderAppService(orderService, _orderRepository, _mapper);
+
+        _orderRepository.GetByIdAsync(order.Id, default).Returns(order);
 
         // Act
-        await _orderAppService.UpdateOrderStatusAsync(order.Id, newStatus, default);
+        await orderAppService.UpdateOrderStatusAsync(order.Id, newStatus, default);
 
         // Assert
         await _orderService.Received().UpdateOrderStatusAsync(order.Id, newStatus, default);
+        domainEventDispatcher.Received(1).Dispatch(Arg.Is<OrderStatusChangedEvent>(e => e.OrderId == order.Id && e.NewStatus == newStatus));
     }
 
     [Fact]
