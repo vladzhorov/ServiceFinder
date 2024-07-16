@@ -8,6 +8,6 @@ namespace ServiceFinder.OrderService.Application.Interfaces
         Task<OrderDto> CreateOrderAsync(OrderDto orderDTO, decimal baseRatePerMinute, int baseRateDurationInMinutes, CancellationToken cancellationToken);
         Task UpdateOrderStatusAsync(Guid orderId, OrderStatus newStatus, CancellationToken cancellationToken);
         Task<OrderDto> GetOrderByIdAsync(Guid id, CancellationToken cancellationToken);
-        Task<PagedResult<OrderDto>> GetAllOrderAsync(int pageNumber, int pageSize);
+        Task<PagedResult<OrderDto>> GetAllOrderAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
     }
 }

@@ -15,7 +15,7 @@ namespace ServiceFinder.OrderService.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        protected Task<PagedResult<T>> GetPagedResultAsync(IQueryable<T> query, int pageNumber, int pageSize)
+        protected Task<PagedResult<T>> GetPagedResultAsync(IQueryable<T> query, int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             int totalCount = query.Count();
             var data = query
@@ -33,10 +33,10 @@ namespace ServiceFinder.OrderService.Infrastructure.Repositories
             });
         }
 
-        public Task<PagedResult<T>> GetAllAsync(int pageNumber, int pageSize)
+        public Task<PagedResult<T>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             IQueryable<T> query = Query;
-            return GetPagedResultAsync(query, pageNumber, pageSize);
+            return GetPagedResultAsync(query, pageNumber, pageSize, cancellationToken);
         }
 
         public virtual Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken)

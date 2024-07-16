@@ -39,9 +39,9 @@ namespace ServiceFinder.OrderService.Application
             var orderRequest = await _orderRequestRepository.GetByIdAsync(id, cancellationToken) ?? throw new ModelNotFoundException(id);
             return _mapper.Map<OrderRequestDto>(orderRequest);
         }
-        public async Task<PagedResult<OrderRequestDto>> GetAllOrderRequestAsync(int pageNumber, int pageSize)
+        public async Task<PagedResult<OrderRequestDto>> GetAllOrderRequestAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            var pagedEntities = await _orderRequestRepository.GetAllAsync(pageNumber, pageSize);
+            var pagedEntities = await _orderRequestRepository.GetAllAsync(pageNumber, pageSize, cancellationToken);
             var mappedResult = _mapper.Map<PagedResult<OrderRequestDto>>(pagedEntities);
             return mappedResult;
         }

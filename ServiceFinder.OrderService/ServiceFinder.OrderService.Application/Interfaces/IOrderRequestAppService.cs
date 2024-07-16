@@ -9,6 +9,6 @@ namespace ServiceFinder.OrderService.Application.Interfaces
         Task<OrderRequestDto> CreateOrderRequestAsync(OrderRequestDto orderRequestDTO, CancellationToken cancellationToken);
         Task UpdateOrderRequestStatusAsync(Guid orderRequestId, OrderRequestStatus newStatus, CancellationToken cancellationToken);
         Task<OrderRequestDto> GetOrderRequestByIdAsync(Guid id, CancellationToken cancellationToken);
-        Task<PagedResult<OrderRequestDto>> GetAllOrderRequestAsync(int pageNumber, int pageSize);
+        Task<PagedResult<OrderRequestDto>> GetAllOrderRequestAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
     }
 }

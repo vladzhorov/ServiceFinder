@@ -37,9 +37,9 @@ public class OrderAppService : IOrderAppService
         var order = await _orderRepository.GetByIdAsync(id, cancellationToken) ?? throw new ModelNotFoundException(id);
         return _mapper.Map<OrderDto>(order);
     }
-    public async Task<PagedResult<OrderDto>> GetAllOrderAsync(int pageNumber, int pageSize)
+    public async Task<PagedResult<OrderDto>> GetAllOrderAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
-        var pagedEntities = await _orderRepository.GetAllAsync(pageNumber, pageSize);
+        var pagedEntities = await _orderRepository.GetAllAsync(pageNumber, pageSize, cancellationToken);
         var mappedResult = _mapper.Map<PagedResult<OrderDto>>(pagedEntities);
         return mappedResult;
     }
