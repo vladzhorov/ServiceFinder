@@ -1,4 +1,4 @@
-﻿namespace ServiceFinder.OrderService.Application.Messaging
+﻿namespace ServiceFinder.OrderService.Domain.Messaging
 {
     public interface IMessagePublisher : IDisposable
     {

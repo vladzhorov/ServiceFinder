@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ServiceFinder.Domain.PaginationModels;
 using ServiceFinder.OrderService.Application.DTOs;
 using ServiceFinder.OrderService.Domain.Models;
 
@@ -10,6 +11,7 @@ namespace ServiceFinder.OrderService.Application.Mapper
         {
             CreateMap<Order, OrderDto>().ReverseMap();
             CreateMap<OrderRequest, OrderRequestDto>().ReverseMap();
+            CreateMap(typeof(PagedResult<>), typeof(PagedResult<>));
         }
     }
 }
