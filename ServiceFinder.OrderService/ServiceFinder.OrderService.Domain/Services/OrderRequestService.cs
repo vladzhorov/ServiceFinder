@@ -8,7 +8,7 @@ using ServiceFinder.OrderService.Domain.Validators;
 
 namespace ServiceFinder.OrderService.Domain.Services
 {
-    public class OrderRequestService
+    public class OrderRequestService : IOrderRequestService
     {
         private readonly IOrderRequestRepository _orderRequestRepository;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
