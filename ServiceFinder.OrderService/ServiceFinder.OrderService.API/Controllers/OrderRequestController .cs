@@ -2,7 +2,7 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using ServiceFinder.API.ViewModels.OrderRequest;
-using ServiceFinder.Domain.PaginationObjects;
+using ServiceFinder.Domain.PaginationModels;
 using ServiceFinder.OrderService.API.Constants;
 using ServiceFinder.OrderService.Application.DTOs;
 using ServiceFinder.OrderService.Application.Interfaces;

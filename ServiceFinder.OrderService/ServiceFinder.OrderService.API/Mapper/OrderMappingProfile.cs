@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using ServiceFinder.API.ViewModels.OrderRequest;
-using ServiceFinder.Domain.PaginationObjects;
+using ServiceFinder.Domain.PaginationModels;
 using ServiceFinder.OrderService.API.ViewModels.Order;
 using ServiceFinder.OrderService.Application.DTOs;
 
