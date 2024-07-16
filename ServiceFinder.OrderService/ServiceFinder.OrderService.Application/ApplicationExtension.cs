@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ServiceFinder.OrderService.Application.EventHandlers;
 using ServiceFinder.OrderService.Application.Interfaces;
-using ServiceFinder.OrderService.Domain.Interfaces;
-using ServiceFinder.OrderService.Domain.Services;
 
 namespace ServiceFinder.OrderService.Application
 {
@@ -14,9 +12,6 @@ namespace ServiceFinder.OrderService.Application
             services.AddScoped<IOrderStatusChangedEventHandler, OrderStatusChangedEventHandler>();
             services.AddScoped<IOrderAppService, OrderAppService>();
             services.AddScoped<IOrderRequestAppService, OrderRequestAppService>();
-            services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
-            services.AddScoped<IOrderService, Domain.Services.OrderService>();
-            services.AddScoped<IOrderRequestService, OrderRequestService>();
         }
     }
 }
