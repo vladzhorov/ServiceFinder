@@ -1,4 +1,4 @@
-﻿using ServiceFinder.Domain.PaginationObjects;
+﻿using ServiceFinder.Domain.PaginationModels;
 using ServiceFinder.OrderService.Domain.Models;
 
 namespace ServiceFinder.OrderService.Domain.Interfaces

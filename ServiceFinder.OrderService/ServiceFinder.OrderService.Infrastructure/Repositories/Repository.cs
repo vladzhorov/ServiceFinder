@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ServiceFinder.Domain.PaginationObjects;
+using ServiceFinder.Domain.PaginationModels;
 using ServiceFinder.OrderService.Domain.Interfaces;
 using ServiceFinder.OrderService.Domain.Models;
 using System.Linq.Expressions;
