@@ -2,8 +2,8 @@
 {
     public enum NotificationType
     {
-        OrderCreated,
-        OrderUpdated,
-        OrderCanceled
+        OrderCreated = 0,
+        OrderUpdated = 1,
+        OrderCanceled = 2
     }
 }
