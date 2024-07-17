@@ -16,8 +16,8 @@ public class OrderAppServiceTests
 {
     private readonly IFixture _fixture;
     private readonly IOrderRepository _orderRepository;
+    private readonly IOrderService _orderService;
     private readonly IMapper _mapper;
-    private readonly OrderService _orderService;
     private readonly OrderAppService _orderAppService;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IDomainEventDispatcher _domainEventDispatcher;
@@ -36,10 +36,9 @@ public class OrderAppServiceTests
         });
         _mapper = config.CreateMapper();
 
-        _orderService = Substitute.For<OrderService>(_orderRepository, _domainEventDispatcher, _dateTimeProvider);
+        _orderService = new OrderService(_orderRepository, _domainEventDispatcher, _dateTimeProvider);
         _orderAppService = new OrderAppService(_orderService, _orderRepository, _mapper);
     }
-
 
     [Fact]
     public async Task CreateOrderAsync_CorrectModel_ReturnsCreatedModel()
@@ -53,6 +52,9 @@ public class OrderAppServiceTests
         var baseRatePerMinute = 10.0m;
         var baseRateDurationInMinutes = 60;
         var expectedPrice = Math.Round((baseRatePerMinute / baseRateDurationInMinutes) * order.DurationInMinutes, 2);
+
+        _orderRepository.AddAsync(Arg.Any<Order>(), Arg.Any<CancellationToken>())
+            .Returns(order);
 
         // Act
         var result = await _orderAppService.CreateOrderAsync(orderDto, baseRatePerMinute, baseRateDurationInMinutes, default);
@@ -71,19 +73,20 @@ public class OrderAppServiceTests
         var orderDto = _fixture.Create<OrderDto>();
         var order = _mapper.Map<Order>(orderDto);
         var newStatus = _fixture.Create<OrderStatus>();
-        var domainEventDispatcher = Substitute.For<IDomainEventDispatcher>();
 
-        var orderService = new OrderService(_orderRepository, domainEventDispatcher, _dateTimeProvider);
-        var orderAppService = new OrderAppService(orderService, _orderRepository, _mapper);
+        _orderRepository.GetByIdAsync(order.Id, default)
+            .Returns(order);
 
-        _orderRepository.GetByIdAsync(order.Id, default).Returns(order);
+        _orderRepository.UpdateAsync(order, Arg.Any<CancellationToken>())
+            .Returns(order);
 
         // Act
-        await orderAppService.UpdateOrderStatusAsync(order.Id, newStatus, default);
+        await _orderAppService.UpdateOrderStatusAsync(order.Id, newStatus, default);
 
         // Assert
-        await _orderService.Received().UpdateOrderStatusAsync(order.Id, newStatus, default);
-        domainEventDispatcher.Received(1).Dispatch(Arg.Is<OrderStatusChangedEvent>(e => e.OrderId == order.Id && e.NewStatus == newStatus));
+        await _orderRepository.Received().GetByIdAsync(order.Id, default);
+        await _orderRepository.Received().UpdateAsync(order, default);
+        _domainEventDispatcher.Received().Dispatch(Arg.Is<OrderStatusChangedEvent>(e => e.OrderId == order.Id && e.NewStatus == newStatus));
     }
 
     [Fact]
@@ -119,14 +122,14 @@ public class OrderAppServiceTests
         // Assert
         await act.Should().ThrowAsync<ModelNotFoundException>();
     }
+
     [Fact]
-    public async Task GetAllAsync_Paged_ReturnsPagedResultOfUserProfileModels()
+    public async Task GetAllOrderAsync_ReturnsPagedResult()
     {
         // Arrange
-        int pageNumber = 1;
-        int pageSize = 10;
+        var pageNumber = 1;
+        var pageSize = 10;
         var pagedEntities = _fixture.Create<PagedResult<Order>>();
-        var pagedModels = _mapper.Map<PagedResult<OrderDto>>(pagedEntities);
 
         _orderRepository.GetAllAsync(pageNumber, pageSize, default)
             .Returns(pagedEntities);
@@ -136,6 +139,8 @@ public class OrderAppServiceTests
 
         // Assert
         result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(pagedModels);
+        result.Should().BeEquivalentTo(_mapper.Map<PagedResult<OrderDto>>(pagedEntities));
     }
 }
+
+
