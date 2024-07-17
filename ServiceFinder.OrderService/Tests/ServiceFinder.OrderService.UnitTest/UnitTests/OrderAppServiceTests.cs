@@ -36,7 +36,7 @@ public class OrderAppServiceTests
         });
         _mapper = config.CreateMapper();
 
-        _orderService = new OrderService(_orderRepository, _domainEventDispatcher, _dateTimeProvider);
+        _orderService = Substitute.For<OrderService>(_orderRepository, _domainEventDispatcher, _dateTimeProvider);
         _orderAppService = new OrderAppService(_orderService, _orderRepository, _mapper);
     }
 
