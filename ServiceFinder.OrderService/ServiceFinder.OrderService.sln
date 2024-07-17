@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceFinder.OrderService.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceFinder.OrderService.Infrastructure", "ServiceFinder.OrderService.Infrastructure\ServiceFinder.OrderService.Infrastructure.csproj", "{1576F9BE-4C9C-4070-9CB4-FF375E2E7E23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFinder.OrderService.UnitTest", "Tests\ServiceFinder.OrderService.UnitTest\ServiceFinder.OrderService.UnitTest.csproj", "{C425C2B2-E45C-4ED0-9CB4-0D1A460FBB6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceFinder.OrderService.UnitTest", "Tests\ServiceFinder.OrderService.UnitTest\ServiceFinder.OrderService.UnitTest.csproj", "{C425C2B2-E45C-4ED0-9CB4-0D1A460FBB6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
