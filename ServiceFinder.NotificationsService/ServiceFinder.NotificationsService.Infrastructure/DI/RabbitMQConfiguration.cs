@@ -1,14 +1,19 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ServiceFinder.NotificationService.Domain.Interfaces;
+using ServiceFinder.NotificationService.Infrastructure.RabbitMQ;
+using ServiceFinder.NotificationService.Infrastructure.Services;
+using ServiceFinder.NotificationsService.Domain.Settings;
 using ServiceFinder.NotificationsService.Infrastructure.Constants;
 
-namespace ServiceFinder.NotificationService.Infrastructure.RabbitMQ
+namespace ServiceFinder.NotificationService.Infrastructure.DI
 {
     public static class RabbitMQConfiguration
     {
         public static IServiceCollection AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddTransient<IEmailSender, EmailSender>();
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<NotificationConsumer>();
@@ -36,6 +41,15 @@ namespace ServiceFinder.NotificationService.Infrastructure.RabbitMQ
                     });
                 });
             });
+            return services;
+        }
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<EmailSettings>(options =>
+               configuration.GetSection("Email").Bind(options));
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddRabbitMQ(configuration);
+
             return services;
         }
     }
