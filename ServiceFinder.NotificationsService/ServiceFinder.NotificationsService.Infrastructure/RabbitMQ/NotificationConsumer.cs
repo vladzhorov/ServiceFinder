@@ -15,14 +15,14 @@ namespace ServiceFinder.NotificationService.Infrastructure.RabbitMQ
             _notificationService = notificationService;
         }
 
-        public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
+        public Task Consume(ConsumeContext<OrderCreatedEvent> context)
         {
-            await _notificationService.SendNotificationAsync(context.Message);
+            return _notificationService.SendNotificationAsync(context.Message);
         }
 
-        public async Task Consume(ConsumeContext<OrderUpdatedEvent> context)
+        public Task Consume(ConsumeContext<OrderUpdatedEvent> context)
         {
-            await _notificationService.SendNotificationAsync(context.Message);
+            return _notificationService.SendNotificationAsync(context.Message);
         }
     }
 }
