@@ -15,10 +15,19 @@ namespace ServiceFinder.NotificationService.Infrastructure.RabbitMQ
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
-                    cfg.Host(configuration[RabbitMqConstants.Host], h =>
+                    var host = configuration[RabbitMqConstants.Host];
+                    var username = configuration[RabbitMqConstants.Username];
+                    var password = configuration[RabbitMqConstants.Password];
+
+                    if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                     {
-                        h.Username(configuration[RabbitMqConstants.Username]);
-                        h.Password(configuration[RabbitMqConstants.Password]);
+                        throw new ArgumentNullException("RabbitMQ configuration values cannot be null or empty.");
+                    }
+
+                    cfg.Host(host, h =>
+                    {
+                        h.Username(username);
+                        h.Password(password);
                     });
 
                     cfg.ReceiveEndpoint(RabbitMqConstants.NotificationQueue, e =>
@@ -27,8 +36,6 @@ namespace ServiceFinder.NotificationService.Infrastructure.RabbitMQ
                     });
                 });
             });
-
-            services.AddMassTransitHostedService();
             return services;
         }
     }
