@@ -12,27 +12,35 @@ namespace ServiceFinder.NotificationService.Application.Services
 
         public NotificationService(IEmailSender emailSender, IEventBus eventBus)
         {
-            _emailSender = emailSender;
-            _eventBus = eventBus;
+            _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
+            _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
         }
 
         public async Task SendNotificationAsync(OrderCreatedEvent orderCreatedEvent)
         {
+            if (orderCreatedEvent.Email == null)
+            {
+                throw new ArgumentNullException(nameof(orderCreatedEvent.Email), "Email cannot be null.");
+            }
+
             var subject = "Order Created";
             var body = $"Your order with ID {orderCreatedEvent.OrderId} was created at {orderCreatedEvent.CreatedAt}.";
             await _emailSender.SendEmailAsync(orderCreatedEvent.Email, subject, body);
 
-            // Publish event for further processing
             await _eventBus.PublishAsync(orderCreatedEvent);
         }
 
         public async Task SendNotificationAsync(OrderUpdatedEvent orderUpdatedEvent)
         {
+            if (orderUpdatedEvent.Email == null)
+            {
+                throw new ArgumentNullException(nameof(orderUpdatedEvent.Email), "Email cannot be null.");
+            }
+
             var subject = "Order Updated";
             var body = $"Your order with ID {orderUpdatedEvent.OrderId} was updated at {orderUpdatedEvent.UpdatedAt}.";
             await _emailSender.SendEmailAsync(orderUpdatedEvent.Email, subject, body);
 
-            // Publish event for further processing
             await _eventBus.PublishAsync(orderUpdatedEvent);
         }
     }
