@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ServiceFinder.NotificationsService.Domain\ServiceFinder.NotificationsService.Domain.csproj" />
+    <ProjectReference Include="..\ServiceFinder.NotificationsService.Infrastructure\ServiceFinder.NotificationsService.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
