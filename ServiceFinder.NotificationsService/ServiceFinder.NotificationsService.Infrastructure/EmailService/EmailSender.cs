@@ -1,5 +1,4 @@
-﻿// Infrastructure/Services/EmailSender.cs
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using ServiceFinder.NotificationService.Domain.Interfaces;
 using ServiceFinder.NotificationsService.Domain.Settings;
 using System.Net;
@@ -23,13 +22,13 @@ namespace ServiceFinder.NotificationService.Infrastructure.Services
             };
         }
 
-        public async Task SendEmailAsync(string email, string subject, string message)
+        public Task SendEmailAsync(string email, string subject, string message)
         {
-            var mailMessage = new MailMessage(_emailSettings.SenderEmail, email, subject, message)
+            var mailMessage = new MailMessage(_emailSettings.SenderEmail!, email, subject, message)
             {
                 IsBodyHtml = true
             };
-            await _smtpClient.SendMailAsync(mailMessage);
+            return _smtpClient.SendMailAsync(mailMessage);
         }
     }
 }
