@@ -5,13 +5,13 @@ VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceFinder.NotificationsService.UnitTest", "ServiceFinder.NotificationsService.UnitTest\ServiceFinder.NotificationsService.UnitTest.csproj", "{29E2A450-A01F-49F7-9469-0CE051C4EDCD}"
 EndProject
-
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFinder.NotificationsService.Domain", "ServiceFinder.NotificationsService.Domain\ServiceFinder.NotificationsService.Domain.csproj", "{36695A60-2BC0-4AC4-B5B7-2C9BEFFA1F68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceFinder.NotificationsService.Domain", "ServiceFinder.NotificationsService.Domain\ServiceFinder.NotificationsService.Domain.csproj", "{36695A60-2BC0-4AC4-B5B7-2C9BEFFA1F68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFinder.NotificationsService.Infrastructure", "ServiceFinder.NotificationsService.Infrastructure\ServiceFinder.NotificationsService.Infrastructure.csproj", "{37146DE4-8EA8-4597-9C71-CE5744C85BFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceFinder.NotificationsService.Infrastructure", "ServiceFinder.NotificationsService.Infrastructure\ServiceFinder.NotificationsService.Infrastructure.csproj", "{37146DE4-8EA8-4597-9C71-CE5744C85BFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFinder.NotificationsService.Application", "ServiceFinder.NotificationsService.Application\ServiceFinder.NotificationsService.Application.csproj", "{245D7F7F-C111-4339-83A8-D9DF69615813}"
-
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceFinder.NotificationsService.Application", "ServiceFinder.NotificationsService.Application\ServiceFinder.NotificationsService.Application.csproj", "{245D7F7F-C111-4339-83A8-D9DF69615813}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFinder.NotificationsService", "ServiceFinder.NotificationsService\ServiceFinder.NotificationsService.csproj", "{2AB891C0-B28E-4754-9ACF-5DDEC16EECAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +35,10 @@ Global
 		{245D7F7F-C111-4339-83A8-D9DF69615813}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{245D7F7F-C111-4339-83A8-D9DF69615813}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{245D7F7F-C111-4339-83A8-D9DF69615813}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AB891C0-B28E-4754-9ACF-5DDEC16EECAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AB891C0-B28E-4754-9ACF-5DDEC16EECAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AB891C0-B28E-4754-9ACF-5DDEC16EECAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AB891C0-B28E-4754-9ACF-5DDEC16EECAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
