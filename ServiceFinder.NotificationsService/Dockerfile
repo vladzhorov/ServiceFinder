@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-
 WORKDIR /app
+EXPOSE 5003
 
 
 COPY ./ServiceFinder.NotificationsService/ServiceFinder.NotificationService/ServiceFinder.NotificationService.csproj /app/ServiceFinder.NotificationService/
