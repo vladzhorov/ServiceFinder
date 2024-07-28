@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace ServiceFinder.NotificationService.Application.BackgroundServices
+namespace ServiceFinder.NotificationService.Application.Services
 {
     public class NotificationListener : BackgroundService
     {
@@ -15,11 +15,13 @@ namespace ServiceFinder.NotificationService.Application.BackgroundServices
             _logger = logger;
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Starting RabbitMQ message listener.");
 
-            return _busControl.StartAsync(stoppingToken);
+            await _busControl.StartAsync(stoppingToken);
+
+            await Task.Delay(Timeout.Infinite, stoppingToken);
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
