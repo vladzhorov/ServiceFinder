@@ -1,0 +1,6 @@
+@ServiceFinder.OrderService.API_HostAddress = http://localhost:5034
+
+GET {{ServiceFinder.OrderService.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
