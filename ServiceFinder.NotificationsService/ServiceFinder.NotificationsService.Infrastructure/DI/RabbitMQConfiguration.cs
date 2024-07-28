@@ -1,56 +1,56 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using ServiceFinder.NotificationService.Application.Consumers;
 using ServiceFinder.NotificationService.Domain.Interfaces;
-using ServiceFinder.NotificationService.Infrastructure.RabbitMQ;
 using ServiceFinder.NotificationService.Infrastructure.Services;
 using ServiceFinder.NotificationsService.Domain.Settings;
+using ServiceFinder.NotificationsService.Infrastructure;
 using ServiceFinder.NotificationsService.Infrastructure.Constants;
 
 namespace ServiceFinder.NotificationService.Infrastructure.DI
 {
     public static class RabbitMQConfiguration
     {
-        public static IServiceCollection AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
+        private static void AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<IEmailSender, EmailSender>();
-            services.AddMassTransit(x =>
+            services.Configure<RabbitMqSettings>(options =>
+                configuration.GetSection(RabbitMqConstants.RabbitMQ).Bind(options));
+
+            services.AddSingleton(serviceProvider =>
+                serviceProvider.GetRequiredService<IOptions<RabbitMqSettings>>().Value);
+
+            services.AddMassTransit(busConfiguration =>
             {
-                x.AddConsumer<NotificationConsumer>();
+                busConfiguration.SetKebabCaseEndpointNameFormatter();
 
-                x.UsingRabbitMq((context, cfg) =>
+                busConfiguration.AddConsumer<OrderStatusChangedEventConsumer>();
+                busConfiguration.AddConsumer<OrderRequestStatusChangedEventConsumer>();
+
+                busConfiguration.UsingRabbitMq((context, cfg) =>
                 {
-                    var host = configuration[RabbitMqConstants.Host];
-                    var username = configuration[RabbitMqConstants.Username];
-                    var password = configuration[RabbitMqConstants.Password];
+                    var settings = context.GetRequiredService<RabbitMqSettings>();
 
-                    if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                    cfg.Host(new Uri(settings.Host), hostConfigure =>
                     {
-                        throw new ArgumentNullException("RabbitMQ configuration values cannot be null or empty.");
-                    }
-
-                    cfg.Host(host, h =>
-                    {
-                        h.Username(username);
-                        h.Password(password);
+                        hostConfigure.Username(settings.Username);
+                        hostConfigure.Password(settings.Password);
                     });
 
-                    cfg.ReceiveEndpoint(RabbitMqConstants.NotificationQueue, e =>
-                    {
-                        e.ConfigureConsumer<NotificationConsumer>(context);
-                    });
+                    cfg.ConfigureEndpoints(context);
                 });
             });
-            return services;
         }
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+
+        public static void AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<EmailSettings>(options =>
-               configuration.GetSection("Email").Bind(options));
-            services.AddTransient<IEmailSender, EmailSender>();
-            services.AddRabbitMQ(configuration);
+               configuration.GetSection(RabbitMqConstants.EmailSettings).Bind(options));
 
-            return services;
+            services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddRabbitMQ(configuration);
         }
     }
 }
