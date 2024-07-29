@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using ServiceFinder.NotificationService.Domain.Interfaces;
-using ServiceFinder.NotificationsService.Domain.Events;
+using ServiceFinder.NotificationsService.Domain.Models;
 
 namespace ServiceFinder.NotificationsService.Application.EventHandlers
 {
