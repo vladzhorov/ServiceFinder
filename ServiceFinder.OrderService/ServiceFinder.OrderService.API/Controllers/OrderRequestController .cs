@@ -2,11 +2,11 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using ServiceFinder.API.ViewModels.OrderRequest;
-using ServiceFinder.Domain.PaginationObjects;
+using ServiceFinder.Domain.PaginationModels;
 using ServiceFinder.OrderService.API.Constants;
 using ServiceFinder.OrderService.Application.DTOs;
 using ServiceFinder.OrderService.Application.Interfaces;
-using ServiceFinder.OrderService.Domain.Enums;
+using ServiceFinder.Shared.Enums;
 
 namespace ServiceFinder.OrderService.API.Controllers
 {
@@ -51,9 +51,9 @@ namespace ServiceFinder.OrderService.API.Controllers
         }
 
         [HttpPut(ApiRoutes.Status)]
-        public async Task<OrderRequestViewModel> UpdateStatus(Guid id, OrderRequestStatus newStatus, CancellationToken cancellationToken)
+        public async Task<OrderRequestViewModel> UpdateStatus(Guid id, OrderRequestStatus newStatus, string email, CancellationToken cancellationToken)
         {
-            await _orderRequestAppService.UpdateOrderRequestStatusAsync(id, newStatus, cancellationToken);
+            await _orderRequestAppService.UpdateOrderRequestStatusAsync(id, newStatus, email, cancellationToken);
             var updatedOrder = await _orderRequestAppService.GetOrderRequestByIdAsync(id, cancellationToken);
             return _mapper.Map<OrderRequestViewModel>(updatedOrder);
         }
