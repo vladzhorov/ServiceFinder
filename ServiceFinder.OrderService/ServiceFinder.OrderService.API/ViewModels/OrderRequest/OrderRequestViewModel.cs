@@ -1,4 +1,5 @@
-﻿using ServiceFinder.OrderService.Domain.Enums;
+﻿
+using ServiceFinder.Shared.Enums;
 
 namespace ServiceFinder.API.ViewModels.OrderRequest
 {
