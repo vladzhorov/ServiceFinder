@@ -6,7 +6,7 @@ namespace ServiceFinder.NotificationsService.Domain.Validation
 {
     public static class NotificationValidator
     {
-        public static void Validate(Notification notification)
+        public static void Validate(SendEmailCommand notification)
         {
             if (notification == null)
                 throw new NotificationException("Notification cannot be null.");
