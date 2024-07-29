@@ -1,4 +1,5 @@
-﻿namespace ServiceFinder.NotificationsService.Domain.Settings
+﻿
+namespace ServiceFinder.NotificationsService.Domain.Settings
 {
     public class EmailSettings
     {
