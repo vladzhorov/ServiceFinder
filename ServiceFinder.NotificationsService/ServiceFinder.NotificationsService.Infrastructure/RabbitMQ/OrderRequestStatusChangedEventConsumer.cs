@@ -1,6 +1,6 @@
 ﻿using MassTransit;
 using MediatR;
-using ServiceFinder.NotificationsService.Domain.Events;
+using ServiceFinder.NotificationsService.Domain.Models;
 using ServiceFinder.Shared.Events;
 
 namespace ServiceFinder.NotificationService.Application.Consumers

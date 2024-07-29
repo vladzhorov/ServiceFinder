@@ -1,6 +1,6 @@
 ﻿using MassTransit;
 using MediatR;
-using ServiceFinder.NotificationsService.Domain.Events;
+using ServiceFinder.NotificationsService.Domain.Models;
 using ServiceFinder.Shared.Events;
 
 namespace ServiceFinder.NotificationService.Application.Consumers
@@ -19,7 +19,7 @@ namespace ServiceFinder.NotificationService.Application.Consumers
         {
             try
             {
-                await _mediator.Send(new SendEmailCommand(context.Message.Email!, "Order Created", $"Your order with ID {context.Message.OrderId} was created"));
+                await _mediator.Send(new SendEmailCommand(context.Message.Email!, "Order Updated", $"Your order with ID {context.Message.OrderId} was updated"));
             }
             catch (Exception ex)
             {

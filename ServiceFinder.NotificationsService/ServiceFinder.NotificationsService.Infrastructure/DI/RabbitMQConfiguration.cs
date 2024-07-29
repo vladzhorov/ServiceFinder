@@ -6,8 +6,8 @@ using ServiceFinder.NotificationService.Application.Consumers;
 using ServiceFinder.NotificationService.Domain.Interfaces;
 using ServiceFinder.NotificationService.Infrastructure.Services;
 using ServiceFinder.NotificationsService.Domain.Settings;
-using ServiceFinder.NotificationsService.Infrastructure;
 using ServiceFinder.NotificationsService.Infrastructure.Constants;
+using ServiceFinder.NotificationsService.Infrastructure.RabbitMQ;
 
 namespace ServiceFinder.NotificationService.Infrastructure.DI
 {
