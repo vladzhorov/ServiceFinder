@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ServiceFinder.NotificationService.Application.Services;
 using ServiceFinder.NotificationsService.Application.EventHandlers;
-using ServiceFinder.NotificationsService.Domain.Interfaces;
 
 namespace ServiceFinder.NotificationService.Application.DI
 {
@@ -9,10 +9,8 @@ namespace ServiceFinder.NotificationService.Application.DI
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<OrderRequestStatusChangedEventHandler>());
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<OrderStatusChangedEventHandler>());
-            services.AddTransient<INotificationService, Services.NotificationService>();
-
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<SendEmailCommandHandler>());
+            services.AddHostedService<NotificationListener>();
             return services;
         }
     }
