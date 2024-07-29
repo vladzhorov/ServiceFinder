@@ -1,5 +1,4 @@
 using Serilog;
-using ServiceFinder.NotificationService.Application.BackgroundServices;
 using ServiceFinder.NotificationService.Application.DI;
 using ServiceFinder.NotificationService.Infrastructure.DI;
 
@@ -42,7 +41,6 @@ namespace ServiceFinder.NotificationService
                 {
                     services.AddInfrastructureServices(configuration);
                     services.AddApplicationServices(configuration);
-                    services.AddHostedService<NotificationListener>();
                 });
 
     }
