@@ -1,27 +1,33 @@
-﻿using ServiceFinder.OrderService.Domain.Enums;
-using ServiceFinder.OrderService.Domain.Events;
+﻿using MediatR;
 using ServiceFinder.OrderService.Domain.Exceptions;
 using ServiceFinder.OrderService.Domain.Interfaces;
 using ServiceFinder.OrderService.Domain.Models;
 using ServiceFinder.OrderService.Domain.Providers;
 using ServiceFinder.OrderService.Domain.Validators;
+using ServiceFinder.Shared.Enums;
+using ServiceFinder.Shared.Events;
 
 namespace ServiceFinder.OrderService.Domain.Services
 {
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IDomainEventDispatcher _domainEventDispatcher;
+        private readonly IMediator _mediator;
         private readonly IDateTimeProvider _dateTimeProvider;
+        private readonly IUserProfileService _userProfileService;
 
-        public OrderService(IOrderRepository orderRepository, IDomainEventDispatcher domainEventDispatcher, IDateTimeProvider dateTimeProvider)
+        public OrderService(IOrderRepository orderRepository,
+                            IMediator mediator,
+                            IDateTimeProvider dateTimeProvider,
+                            IUserProfileService userProfileService)
         {
             _orderRepository = orderRepository;
-            _domainEventDispatcher = domainEventDispatcher;
+            _mediator = mediator;
             _dateTimeProvider = dateTimeProvider;
+            _userProfileService = userProfileService;
         }
 
-        public async Task UpdateOrderStatusAsync(Guid orderId, OrderStatus newStatus, CancellationToken cancellationToken)
+        public async Task UpdateOrderStatusAsync(Guid orderId, OrderStatus newStatus, string email, CancellationToken cancellationToken)
         {
             var utcNow = _dateTimeProvider.UtcNow;
             var order = await _orderRepository.GetByIdAsync(orderId, cancellationToken);
@@ -30,17 +36,28 @@ namespace ServiceFinder.OrderService.Domain.Services
             {
                 throw new ModelNotFoundException(orderId);
             }
+
             OrderStatusValidator.ValidateStatusTransition(order.Status, newStatus);
 
             order.Status = newStatus;
             order.UpdatedAt = utcNow;
 
             await _orderRepository.UpdateAsync(order, cancellationToken);
-            _domainEventDispatcher.Dispatch(new OrderStatusChangedEvent(order.Id, newStatus));
+
+            var domainEvent = new OrderStatusChangedEvent(order.Id, newStatus, email);
+            await _mediator.Publish(domainEvent, cancellationToken);
         }
 
         public async Task CreateOrderAsync(Order order, decimal baseRatePerMinute, int baseRateDurationInMinutes, CancellationToken cancellationToken)
         {
+            var userProfile = await _userProfileService.GetUserProfileAsync(order.CustomerId);
+            var assistance = await _userProfileService.GetAssistanceAsync(order.ServiceId);
+
+            if (userProfile == null || assistance == null)
+            {
+                throw new ModelNotFoundException("UserProfile or Assistance not found.");
+            }
+
             var utcNow = _dateTimeProvider.UtcNow;
             order.CreatedAt = utcNow;
             order.UpdatedAt = utcNow;
