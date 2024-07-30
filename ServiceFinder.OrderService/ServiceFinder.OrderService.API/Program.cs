@@ -5,6 +5,7 @@ using ServiceFinder.OrderService.API.Mapper;
 using ServiceFinder.OrderService.API.Middleware;
 using ServiceFinder.OrderService.Application;
 using ServiceFinder.OrderService.Application.Mapper;
+using ServiceFinder.OrderService.Domain;
 using ServiceFinder.OrderService.Infrastructure;
 using System.Globalization;
 using System.Text.Json.Serialization;

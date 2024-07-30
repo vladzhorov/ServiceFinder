@@ -6,16 +6,15 @@ using ServiceFinder.OrderService.Domain.Enums;
 using ServiceFinder.OrderService.Domain.Exceptions;
 using ServiceFinder.OrderService.Domain.Interfaces;
 using ServiceFinder.OrderService.Domain.Models;
-using ServiceFinder.OrderService.Domain.Services;
 namespace ServiceFinder.OrderService.Application
 {
     public class OrderRequestAppService : IOrderRequestAppService
     {
-        private readonly OrderRequestService _orderRequestService;
+        private readonly IOrderRequestService _orderRequestService;
         private readonly IOrderRequestRepository _orderRequestRepository;
         private readonly IMapper _mapper;
 
-        public OrderRequestAppService(OrderRequestService orderRequestService, IOrderRequestRepository orderRequestRepository, IMapper mapper)
+        public OrderRequestAppService(IOrderRequestService orderRequestService, IOrderRequestRepository orderRequestRepository, IMapper mapper)
         {
             _orderRequestService = orderRequestService;
             _orderRequestRepository = orderRequestRepository;
