@@ -1,4 +1,4 @@
-﻿using ServiceFinder.OrderService.Domain.Enums;
+﻿using ServiceFinder.Shared.Enums;
 
 namespace ServiceFinder.OrderService.Domain.Models
 {
@@ -9,7 +9,5 @@ namespace ServiceFinder.OrderService.Domain.Models
         public int DurationInMinutes { get; set; }
         public string? Description { get; set; }
         public OrderRequestStatus Status { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
     }
 }
