@@ -1,9 +1,9 @@
-﻿using ServiceFinder.OrderService.Domain.Events;
+﻿using ServiceFinder.Shared.Events;
 
 namespace ServiceFinder.OrderService.Application.Interfaces
 {
     public interface IOrderStatusChangedEventHandler
     {
-        void Handle(OrderStatusChangedEvent domainEvent);
+        Task HandleAsync(OrderStatusChangedEvent domainEvent);
     }
 }

@@ -3,9 +3,10 @@ using FluentValidation.Resources;
 using ServiceFinder.API.Validators;
 using ServiceFinder.OrderService.API.Mapper;
 using ServiceFinder.OrderService.API.Middleware;
-using ServiceFinder.OrderService.Application;
+using ServiceFinder.OrderService.Application.DI;
 using ServiceFinder.OrderService.Application.Mapper;
-using ServiceFinder.OrderService.Infrastructure;
+using ServiceFinder.OrderService.Domain.DI;
+using ServiceFinder.OrderService.Infrastructure.DI;
 using System.Globalization;
 using System.Text.Json.Serialization;
 

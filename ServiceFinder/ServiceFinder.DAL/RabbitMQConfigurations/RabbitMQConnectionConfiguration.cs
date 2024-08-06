@@ -1,4 +1,4 @@
-﻿namespace ServiceFinder.OrderService.Domain.Messaging.RabbitMQConfigurations
+﻿namespace ServiceFinder.DAL.RabbitMQConfigurations
 {
     public class RabbitMQConnectionConfiguration
     {
