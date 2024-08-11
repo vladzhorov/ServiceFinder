@@ -1,4 +1,4 @@
-﻿using ServiceFinder.OrderService.Domain.Enums;
+﻿using ServiceFinder.Shared.Enums;
 using System.Collections.Immutable;
 
 namespace ServiceFinder.OrderService.Domain.Validators

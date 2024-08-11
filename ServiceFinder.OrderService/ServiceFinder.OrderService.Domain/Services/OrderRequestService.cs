@@ -1,27 +1,28 @@
-﻿using ServiceFinder.OrderService.Domain.Enums;
-using ServiceFinder.OrderService.Domain.Events;
+﻿using MediatR;
 using ServiceFinder.OrderService.Domain.Exceptions;
 using ServiceFinder.OrderService.Domain.Interfaces;
 using ServiceFinder.OrderService.Domain.Models;
 using ServiceFinder.OrderService.Domain.Providers;
 using ServiceFinder.OrderService.Domain.Validators;
+using ServiceFinder.Shared.Enums;
+using ServiceFinder.Shared.Events;
 
 namespace ServiceFinder.OrderService.Domain.Services
 {
     public class OrderRequestService : IOrderRequestService
     {
         private readonly IOrderRequestRepository _orderRequestRepository;
-        private readonly IDomainEventDispatcher _domainEventDispatcher;
+        private readonly IMediator _mediator;
         private readonly IDateTimeProvider _dateTimeProvider;
 
-        public OrderRequestService(IOrderRequestRepository orderRequestRepository, IDomainEventDispatcher domainEventDispatcher, IDateTimeProvider dateTimeProvider)
+        public OrderRequestService(IOrderRequestRepository orderRequestRepository, IMediator mediator, IDateTimeProvider dateTimeProvider)
         {
             _orderRequestRepository = orderRequestRepository;
-            _domainEventDispatcher = domainEventDispatcher;
+            _mediator = mediator;
             _dateTimeProvider = dateTimeProvider;
         }
 
-        public async Task UpdateOrderRequestStatusAsync(Guid orderRequestId, OrderRequestStatus newStatus, CancellationToken cancellationToken)
+        public async Task UpdateOrderRequestStatusAsync(Guid orderRequestId, OrderRequestStatus newStatus, string email, CancellationToken cancellationToken)
         {
             var utcNow = _dateTimeProvider.UtcNow;
 
@@ -37,7 +38,9 @@ namespace ServiceFinder.OrderService.Domain.Services
             orderRequest.UpdatedAt = utcNow;
 
             await _orderRequestRepository.UpdateAsync(orderRequest, cancellationToken);
-            _domainEventDispatcher.Dispatch(new OrderRequestStatusChangedEvent(orderRequest.Id, newStatus));
+
+            var domainEvent = new OrderRequestStatusChangedEvent(orderRequest.Id, newStatus, email);
+            await _mediator.Publish(domainEvent, cancellationToken);
         }
 
         public async Task CreateOrderRequestAsync(OrderRequest orderRequest, CancellationToken cancellationToken)

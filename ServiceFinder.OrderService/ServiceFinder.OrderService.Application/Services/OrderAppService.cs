@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using ServiceFinder.Domain.PaginationModels;
 using ServiceFinder.OrderService.Application.Interfaces;
-using ServiceFinder.OrderService.Domain.Enums;
 using ServiceFinder.OrderService.Domain.Exceptions;
 using ServiceFinder.OrderService.Domain.Interfaces;
 using ServiceFinder.OrderService.Domain.Models;
+using ServiceFinder.Shared.Enums;
 
 public class OrderAppService : IOrderAppService
 {
@@ -26,9 +26,9 @@ public class OrderAppService : IOrderAppService
         return _mapper.Map<OrderDto>(order);
     }
 
-    public Task UpdateOrderStatusAsync(Guid orderId, OrderStatus newStatus, CancellationToken cancellationToken)
+    public Task UpdateOrderStatusAsync(Guid orderId, OrderStatus newStatus, string email, CancellationToken cancellationToken)
     {
-        return _orderService.UpdateOrderStatusAsync(orderId, newStatus, cancellationToken);
+        return _orderService.UpdateOrderStatusAsync(orderId, newStatus, email, cancellationToken);
     }
 
     public async Task<OrderDto> GetOrderByIdAsync(Guid id, CancellationToken cancellationToken)

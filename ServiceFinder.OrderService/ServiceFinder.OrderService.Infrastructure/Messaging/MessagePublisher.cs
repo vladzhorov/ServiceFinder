@@ -1,37 +1,21 @@
-﻿using Microsoft.Extensions.Options;
-using RabbitMQ.Client;
-using ServiceFinder.OrderService.Domain.Messaging.RabbitMQConfigurations;
-using System.Text;
+﻿using MassTransit;
+using ServiceFinder.OrderService.Domain.Messaging;
 
-namespace ServiceFinder.OrderService.Domain.Messaging
+namespace ServiceFinder.OrderService.Infrastructure.Messaging
 {
     public class MessagePublisher : IMessagePublisher
     {
-        private readonly IModel _channel;
-        private readonly string _exchangeName;
-        private readonly string _routingKey;
 
-        public MessagePublisher(IModel channel, IOptions<RabbitMQConfiguration> config)
+        private readonly IPublishEndpoint _publishEndpoint;
+
+        public MessagePublisher(IPublishEndpoint publishEndpoint)
         {
-            _channel = channel;
-            var configuration = config.Value;
-            _exchangeName = configuration.Exchange!.Name;
-            _routingKey = configuration.MessageQueue!.RoutingKey;
+            _publishEndpoint = publishEndpoint;
         }
-
-        public void Publish(string message)
+        public Task PublishAsync<T>(T message)
+            where T : class
         {
-            var body = Encoding.UTF8.GetBytes(message);
-            _channel.BasicPublish(exchange: _exchangeName,
-                                 routingKey: _routingKey,
-                                 basicProperties: null,
-                                 body: body);
-            Console.WriteLine($" [x] Sent {message}");
-        }
-
-        public void Dispose()
-        {
-            _channel.Close();
+            return _publishEndpoint.Publish(message);
         }
     }
 }

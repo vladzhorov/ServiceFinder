@@ -1,4 +1,4 @@
-﻿namespace ServiceFinder.OrderService.Domain.Enums
+﻿namespace ServiceFinder.Shared.Enums
 {
     public enum OrderStatus
     {

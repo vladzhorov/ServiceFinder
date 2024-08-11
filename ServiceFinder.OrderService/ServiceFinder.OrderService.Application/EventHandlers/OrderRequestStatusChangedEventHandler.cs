@@ -1,11 +1,10 @@
-﻿using ServiceFinder.OrderService.Application.Interfaces;
-using ServiceFinder.OrderService.Domain.Events;
+﻿using MediatR;
 using ServiceFinder.OrderService.Domain.Messaging;
-using System.Text.Json;
+using ServiceFinder.Shared.Events;
 
 namespace ServiceFinder.OrderService.Application.EventHandlers
 {
-    public class OrderRequestStatusChangedEventHandler : IOrderRequestStatusChangedEventHandler
+    public class OrderRequestStatusChangedEventHandler : INotificationHandler<OrderRequestStatusChangedEvent>
     {
         private readonly IMessagePublisher _publisher;
 
@@ -14,10 +13,9 @@ namespace ServiceFinder.OrderService.Application.EventHandlers
             _publisher = publisher;
         }
 
-        public void Handle(OrderRequestStatusChangedEvent domainEvent)
+        public async Task Handle(OrderRequestStatusChangedEvent notification, CancellationToken cancellationToken)
         {
-            var message = JsonSerializer.Serialize(domainEvent);
-            _publisher.Publish(message);
+            await _publisher.PublishAsync(notification);
         }
     }
 }

@@ -35,7 +35,6 @@ namespace ServiceFinder.OrderService.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("DurationInMinutes")
