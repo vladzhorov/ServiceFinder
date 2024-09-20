@@ -1,0 +1,6 @@
+# @ServiceFinder.Auth_HostAddress = http://localhost:5206
+
+# GET {{ServiceFinder.Auth_HostAddress}}/weatherforecast/
+# Accept: application/json
+
+# ###

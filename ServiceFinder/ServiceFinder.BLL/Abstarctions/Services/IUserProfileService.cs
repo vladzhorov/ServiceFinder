@@ -5,5 +5,6 @@ namespace ServiceFinder.BLL.Abstarctions.Services
 {
     public interface IUserProfileService : IGenericService<UserProfile>
     {
+        // float CalculateUserProfileRating(UserProfile userProfile);
     }
 }
