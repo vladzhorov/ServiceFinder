@@ -1,0 +1,124 @@
+/* Основной контейнер */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  background: #f7f9fc; /* Светлый фоновый цвет для контраста */
+}
+
+/* Информация о помощи */
+.assistanceInfo {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.assistanceInfo h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.assistanceInfo p {
+  margin: 10px 0;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Секция отзывов */
+.reviewsSection {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.reviewsSection h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.reviewsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.reviewItem {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 15px 0;
+  color: #555;
+}
+
+.reviewItem:last-child {
+  border-bottom: none;
+}
+
+.reviewItem p {
+  margin: 5px 0;
+}
+
+/* Контейнер для форм */
+.formsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Панели для форм */
+.panel {
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  position: relative; /* Для абсолютного позиционирования иконок */
+}
+
+.toggleButton {
+  background: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 15px;
+  padding: 15px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  transition: background 0.3s ease;
+}
+
+.toggleButton:hover {
+  background: #0056b3;
+}
+
+.toggleButton::after {
+  content: '';
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.3s ease;
+}
+
+.panel.open .toggleButton::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.panel.open .formPanel {
+  display: block;
+}
+
+.formPanel {
+  padding: 20px;
+  display: none; /* По умолчанию скрыто */
+  flex-direction: column;
+  gap: 15px;
+}

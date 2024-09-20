@@ -1,0 +1,32 @@
+.catalog {
+  padding: 20px;
+}
+
+.category-list, .assistance-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.category-item, .assistance-item {
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.category-item:hover, .assistance-item:hover {
+  background-color: #f0f0f0;
+}
+
+.category-details {
+  padding: 20px;
+  background-color: #fff;
+}
+
+.category-header {
+  margin-bottom: 20px;
+}
+
+.back-button {
+  margin-bottom: 20px;
+}

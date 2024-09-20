@@ -1,8 +1,7 @@
+version: '3.8'
 
-  version: '3.8'
-
-  services:
-   db:
+services:
+  db:
     image: postgres:15
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
@@ -22,7 +21,7 @@
     ports:
       - "5432:5432"
 
-   rabbitmq:
+  rabbitmq:
     container_name: "rabbitmq"
     image: rabbitmq:3-management-alpine
     restart: always
@@ -34,7 +33,7 @@
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     ports:
-      - "5672:5672" # Rabbitmq instance
+      - "5672:5672" # RabbitMQ instance
       - "15672:15672" # Web interface
     networks:
       - app_net
@@ -44,7 +43,7 @@
       timeout: 30s
       retries: 3
 
-   user_service:
+  user_service:
     build:
       context: .
       dockerfile: ServiceFinder/Dockerfile
@@ -65,7 +64,7 @@
     ports:
       - "5002:5002"
 
-   order_service:
+  order_service:
     build:
       context: .
       dockerfile: ServiceFinder.OrderService/Dockerfile
@@ -85,7 +84,8 @@
       - app_net
     ports:
       - "5001:5001"
-   notification_service:
+
+  notification_service:
     build:
       context: .
       dockerfile: ServiceFinder.NotificationsService/Dockerfile
@@ -95,7 +95,6 @@
       RabbitMQ__HostName: rabbit
       RabbitMQ__UserName: user
       RabbitMQ__Password: password
-     
     depends_on:
       db:
         condition: service_healthy
@@ -105,10 +104,35 @@
       - app_net
     ports:
       - "5003:5003"
-  networks:
-   app_net:
+
+  # auth_service:  
+  #   build:
+  #     context: .
+  #     dockerfile: ServiceFinder.Auth/Dockerfile
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: Development
+  #     ASPNETCORE_HTTP_PORTS: "5004"
+  #     DatabaseOptions__ConnectionString: Host=db;Port=5432;Database=AuthService;UserId=postgres;Password=root;Pooling=true;
+  #     Auth0__Domain: dev-tid4otyvbf52wozg.us.auth0.com
+  #     Auth0__ClientId: mxRpXRk7fE9yxArp8nhg8PXWPxcZkZ9y
+  #     Auth0__ClientSecret: NGZpG_4QW1FbpYnDWMrSg2mWm3j_l9w5aUEB1mkFdw0t-p5Bh6yxK2qbw4kxx4DR
+  #     Auth0__Audience: https://auth/api
+  #     UserProfileService__Url: http://user_service:5002/api/userprofiles
+
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #     rabbitmq:
+  #       condition: service_healthy
+  #   networks:
+  #     - app_net
+  #   ports:
+  #     - "5004:5004"
+
+networks:
+  app_net:
     driver: bridge
 
-  volumes:
-   db_data:
-   rabbitmq_data:
+volumes:
+  db_data:
+  rabbitmq_data:

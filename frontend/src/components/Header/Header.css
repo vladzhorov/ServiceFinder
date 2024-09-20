@@ -1,0 +1,121 @@
+/* src/components/Header.css */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: #333;
+  color: white;
+}
+
+.header .logo {
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+}
+
+.header-search {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 5px;
+  overflow: hidden;
+  flex: 1;
+  margin: 0 20px;
+}
+
+.search-input {
+  border: none;
+  padding: 5px 10px;
+  width: 100%;
+  font-size: 16px;
+}
+
+.search-icon {
+  padding: 5px;
+  background: #ff6f61;
+  color: white;
+}
+
+.header-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.header-button {
+  background: none;
+  border: none;
+  color: white;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+}
+
+.profile-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.profile-name {
+  margin-right: 10px;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 500px;
+  margin: auto;
+}
+
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.categories-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+}
+
+.category-icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.category-name {
+  font-size: 18px;
+}
